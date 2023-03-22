@@ -27,6 +27,8 @@ public class Main {
         lezgiRusDictionary.parse("D:/projects/GafarganBot/src/main/resources/lezgi_rus_dict_babakhanov.json");
 
         Map<Long, String> chatLang = new HashMap<>();
+        Map<String, String> clickButtonsLezgi = new HashMap<>();
+        Map<String, String> clickButtonsRus = new HashMap<>();
 
 // Подписка на обновления
         bot.setUpdatesListener(updates -> {
@@ -41,16 +43,39 @@ public class Main {
                     if (data.equals("/rus_lezgi")) {
                         // Send a response message
                         bot.execute(new SendMessage(chatId, "Выбран Русско-Лезгинский словарь.\n\n" +
-                                                          "Вводите слово на русском языке."));
+                                "Вводите слово на русском языке."));
                         bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
                         chatLang.put(chatId, "/RUS_LEZGI");
 
                     } else if (data.equals("/lezgi_rus")) {
                         bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь.\n\n" +
-                                                             "Введите слово на лезгинском языке.\n" +
-                                                            "Символ «I» (палочка: кI, тI, пI...) вводите через латинкую букву «i»."));
+                                "Введите слово на лезгинском языке.\n" +
+                                "Символ «I» (палочка: кI, тI, пI...) вводите через латинкую букву «i»."));
                         bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
                         chatLang.put(chatId, "/LEZGI_RUS");
+                    }
+
+
+                    else if (clickButtonsLezgi.containsKey(data) && "/lezgi_rus".equals(clickButtonsLezgi.get(data))) {
+
+                        List<String> translations = lezgiRusDictionary.map.get(data.toUpperCase());
+                        String msgStr = convertToHtml(translations);
+                        var sendMessage = new SendMessage(chatId, msgStr);
+                        sendMessage.parseMode(ParseMode.HTML);
+                        bot.execute(new SendMessage(chatId, data + "\n\n"));
+                        bot.execute(sendMessage);
+                        bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+                    }
+
+                    else if (clickButtonsRus.containsKey(data) && "/rus_lezgi".equals(clickButtonsRus.get(data))) {
+
+                        List<String> translations = rusLezgiDictionary.map.get(data.toUpperCase());
+                        String msgStr = convertToHtml(translations);
+                        var sendMessage = new SendMessage(chatId, msgStr);
+                        sendMessage.parseMode(ParseMode.HTML);
+                        bot.execute(new SendMessage(chatId, data + "\n\n"));
+                        bot.execute(sendMessage);
+                        bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
                     }
                 }
 
@@ -113,29 +138,126 @@ public class Main {
                         && !("/START".equals(userMessage))
                         && !("/LEZGI_RUS".equals(userMessage))
                         && !("/RUS_LEZGI".equals(userMessage))) {
+
                     StringBuilder options = new StringBuilder("Ничего не нашлось, возможно вы имели ввиду:\n\n");
+                    List<String> temp = new ArrayList<>();
                     for (String keys : lezgiRusDictionary.map.keySet()) {
-                        if (similarity(keys, userMessage) > 0.700) {
-                            options.append(keys.toLowerCase());
-                            options.append("\n");
+                        if (similarity(keys, userMessage) >= 0.5) {
+                            temp.add(keys.toLowerCase());
                         }
                     }
 
-                    bot.execute(new SendMessage(chatId, options.toString()));
+                     //    Сортируем
+                    double count = 0.0001;
+                    Map<Double, String> sortedMap = new TreeMap<>(Comparator.reverseOrder());
+                    for (int i = 0; i < temp.size(); i++) {
+                        double keys = (similarity(temp.get(i), userMessage));
+                        keys += count;
+                        sortedMap.put(keys, temp.get(i));
+                        count += 0.0001;
+                    }
+
+                    /* чистим коллекцию чтобы добавить в отсортированном порядке */
+                    temp.clear();
+
+                    for (Double key : sortedMap.keySet()) {
+                        String value = sortedMap.get(key);
+                        temp.add(value);
+                        /* Если количество слов превышает 8, то прерываем цикл */
+                        if (temp.size() > 7) {
+                            break;
+                        }
+                    }
+
+
+                    List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+
+                    for (String words : temp) {
+                        List<InlineKeyboardButton> tempList = new ArrayList<>();
+                        tempList.add(new InlineKeyboardButton(words).callbackData(words));
+                        buttons.add(tempList);
+                        // сохраняем "words"
+                        clickButtonsLezgi.put(words, "/lezgi_rus");
+                    }
+
+                    InlineKeyboardButton[][] inlineKeyboardButton = new InlineKeyboardButton[buttons.size()][1];
+                    // Добавляем кнопки
+                    for (int i = 0; i < inlineKeyboardButton.length; i++) {
+                        for (int j = 0; j < inlineKeyboardButton[i].length; j++) {
+                            inlineKeyboardButton[i][j] = buttons.get(i).get(j);
+                        }
+                    }
+                    InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardButton);
+                    // Выводим кнопки
+                    if (clickButtonsLezgi.size() > 0 && temp.size() > 0) {
+
+                        bot.execute(new SendMessage(chatId, "Ничего не нашлось, возможно вы имели ввиду:\n")
+                                .replyMarkup(inlineKeyboard));
+                    } else {
+                        bot.execute(new SendMessage(chatId, "Ничего не нашлось. Повторите запрос"));
+                    }
                 }
+
                 else if (chatLang.get(chatId).equals("/RUS_LEZGI")
                         && !("/START".equals(userMessage))
                         && !("/LEZGI_RUS".equals(userMessage))
                         && !("/RUS_LEZGI".equals(userMessage))) {
                     StringBuilder options = new StringBuilder("Ничего не нашлось, возможно вы имели ввиду:\n\n");
+                    List<String> temp = new ArrayList<>();
                     for (String keys : rusLezgiDictionary.map.keySet()) {
-                        if (similarity(keys, userMessage) > 0.700) {
-                            options.append(keys.toLowerCase());
-                            options.append("\n");
+                        if (similarity(keys, userMessage) >= 0.5) {
+                            temp.add(keys.toLowerCase());
                         }
                     }
 
-                    bot.execute(new SendMessage(chatId, options.toString()));
+                    //    Сортируем
+                    double count = 0.0001;
+                    Map<Double, String> sortedMap = new TreeMap<>(Comparator.reverseOrder());
+                    for (int i = 0; i < temp.size(); i++) {
+                        double keys = (similarity(temp.get(i), userMessage));
+                        keys += count;
+                        sortedMap.put(keys, temp.get(i));
+                        count += 0.0001;
+                    }
+
+                    /* чистим коллекцию чтобы добавить в отсортированном порядке */
+                    temp.clear();
+
+                    for (Double key : sortedMap.keySet()) {
+                        String value = sortedMap.get(key);
+                        temp.add(value);
+                        /* Если количество слов превышает 8, то прерываем цикл */
+                        if (temp.size() > 7) {
+                            break;
+                        }
+                    }
+
+
+                    List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+
+                    for (String words : temp) {
+                        List<InlineKeyboardButton> tempList = new ArrayList<>();
+                        tempList.add(new InlineKeyboardButton(words).callbackData(words));
+                        buttons.add(tempList);
+                        // сохраняем "words"
+                        clickButtonsRus.put(words, "/rus_lezgi");
+                    }
+
+                    InlineKeyboardButton[][] inlineKeyboardButton = new InlineKeyboardButton[buttons.size()][1];
+                    // Добавляем кнопки
+                    for (int i = 0; i < inlineKeyboardButton.length; i++) {
+                        for (int j = 0; j < inlineKeyboardButton[i].length; j++) {
+                            inlineKeyboardButton[i][j] = buttons.get(i).get(j);
+                        }
+                    }
+                    InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardButton);
+                    // Выводим кнопки
+                    if (clickButtonsRus.size() > 0 && temp.size() > 0) {
+                        bot.execute(new SendMessage(chatId, "Ничего не нашлось, возможно вы имели ввиду:\n")
+                                .replyMarkup(inlineKeyboard));
+                    } else {
+                        bot.execute(new SendMessage(chatId, "Ничего не нашлось. Повторите запрос"));
+                    }
                 }
             }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;

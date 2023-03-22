@@ -26,7 +26,7 @@ public class StringSimilarity {
         s1 = s1.toLowerCase();
         s2 = s2.toLowerCase();
 
-        int[] costs = new int[s2.length() + 1]; //
+        int[] costs = new int[s2.length() + 1];
 
         for (int i = 0; i <= s1.length(); i++) {
             int lastValue = i;
