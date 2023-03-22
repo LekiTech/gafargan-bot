@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        TelegramBot bot = new TelegramBot("");
+        TelegramBot bot = new TelegramBot("5664347820:AAGEZQcSEoRkdQqcxRbcIKo0vIe2Lymqh3c");
 
         ParsedDictionary rusLezgiDictionary = new ParsedDictionary();
         rusLezgiDictionary.parse("D:/projects/GafarganBot/src/main/resources/rus_lezgi_dict_hajiyev.json");
@@ -139,133 +139,63 @@ public class Main {
                         && !("/LEZGI_RUS".equals(userMessage))
                         && !("/RUS_LEZGI".equals(userMessage))) {
 
-                    StringBuilder options = new StringBuilder("Ничего не нашлось, возможно вы имели ввиду:\n\n");
-                    List<String> temp = new ArrayList<>();
-                    for (String keys : lezgiRusDictionary.map.keySet()) {
-                        if (similarity(keys, userMessage) >= 0.5) {
-                            temp.add(keys.toLowerCase());
-                        }
-                    }
-
-                     //    Сортируем
-                    double count = 0.0001;
-                    Map<Double, String> sortedMap = new TreeMap<>(Comparator.reverseOrder());
-                    for (int i = 0; i < temp.size(); i++) {
-                        double keys = (similarity(temp.get(i), userMessage));
-                        keys += count;
-                        sortedMap.put(keys, temp.get(i));
-                        count += 0.0001;
-                    }
-
-                    /* чистим коллекцию чтобы добавить в отсортированном порядке */
-                    temp.clear();
-
-                    for (Double key : sortedMap.keySet()) {
-                        String value = sortedMap.get(key);
-                        temp.add(value);
-                        /* Если количество слов превышает 8, то прерываем цикл */
-                        if (temp.size() > 7) {
-                            break;
-                        }
-                    }
-
-
-                    List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-
-                    for (String words : temp) {
-                        List<InlineKeyboardButton> tempList = new ArrayList<>();
-                        tempList.add(new InlineKeyboardButton(words).callbackData(words));
-                        buttons.add(tempList);
-                        // сохраняем "words"
-                        clickButtonsLezgi.put(words, "/lezgi_rus");
-                    }
-
-                    InlineKeyboardButton[][] inlineKeyboardButton = new InlineKeyboardButton[buttons.size()][1];
-                    // Добавляем кнопки
-                    for (int i = 0; i < inlineKeyboardButton.length; i++) {
-                        for (int j = 0; j < inlineKeyboardButton[i].length; j++) {
-                            inlineKeyboardButton[i][j] = buttons.get(i).get(j);
-                        }
-                    }
-                    InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardButton);
-                    // Выводим кнопки
-                    if (clickButtonsLezgi.size() > 0 && temp.size() > 0) {
-
-                        bot.execute(new SendMessage(chatId, "Ничего не нашлось, возможно вы имели ввиду:\n")
-                                .replyMarkup(inlineKeyboard));
-                    } else {
-                        bot.execute(new SendMessage(chatId, "Ничего не нашлось. Повторите запрос"));
-                    }
+                    sendAnswerToUser(bot, lezgiRusDictionary, clickButtonsLezgi, chatId, userMessage, "/lezgi_rus");
                 }
 
                 else if (chatLang.get(chatId).equals("/RUS_LEZGI")
                         && !("/START".equals(userMessage))
                         && !("/LEZGI_RUS".equals(userMessage))
                         && !("/RUS_LEZGI".equals(userMessage))) {
-                    StringBuilder options = new StringBuilder("Ничего не нашлось, возможно вы имели ввиду:\n\n");
-                    List<String> temp = new ArrayList<>();
-                    for (String keys : rusLezgiDictionary.map.keySet()) {
-                        if (similarity(keys, userMessage) >= 0.5) {
-                            temp.add(keys.toLowerCase());
-                        }
-                    }
-
-                    //    Сортируем
-                    double count = 0.0001;
-                    Map<Double, String> sortedMap = new TreeMap<>(Comparator.reverseOrder());
-                    for (int i = 0; i < temp.size(); i++) {
-                        double keys = (similarity(temp.get(i), userMessage));
-                        keys += count;
-                        sortedMap.put(keys, temp.get(i));
-                        count += 0.0001;
-                    }
-
-                    /* чистим коллекцию чтобы добавить в отсортированном порядке */
-                    temp.clear();
-
-                    for (Double key : sortedMap.keySet()) {
-                        String value = sortedMap.get(key);
-                        temp.add(value);
-                        /* Если количество слов превышает 8, то прерываем цикл */
-                        if (temp.size() > 7) {
-                            break;
-                        }
-                    }
-
-
-                    List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-
-                    for (String words : temp) {
-                        List<InlineKeyboardButton> tempList = new ArrayList<>();
-                        tempList.add(new InlineKeyboardButton(words).callbackData(words));
-                        buttons.add(tempList);
-                        // сохраняем "words"
-                        clickButtonsRus.put(words, "/rus_lezgi");
-                    }
-
-                    InlineKeyboardButton[][] inlineKeyboardButton = new InlineKeyboardButton[buttons.size()][1];
-                    // Добавляем кнопки
-                    for (int i = 0; i < inlineKeyboardButton.length; i++) {
-                        for (int j = 0; j < inlineKeyboardButton[i].length; j++) {
-                            inlineKeyboardButton[i][j] = buttons.get(i).get(j);
-                        }
-                    }
-                    InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardButton);
-                    // Выводим кнопки
-                    if (clickButtonsRus.size() > 0 && temp.size() > 0) {
-                        bot.execute(new SendMessage(chatId, "Ничего не нашлось, возможно вы имели ввиду:\n")
-                                .replyMarkup(inlineKeyboard));
-                    } else {
-                        bot.execute(new SendMessage(chatId, "Ничего не нашлось. Повторите запрос"));
-                    }
+                    sendAnswerToUser(bot, rusLezgiDictionary, clickButtonsRus, chatId, userMessage, "/rus_lezgi");
                 }
             }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }
 
+    private static void sendAnswerToUser(TelegramBot bot, ParsedDictionary dictionary,
+                                         Map<String, String> clickButtons, long chatId, String userMessage, String language) {
+        record WordSim(String word, Double sim){}
+
+        List<WordSim> temp = new ArrayList<>();
+        for (String word : dictionary.map.keySet()) {
+            double sim = similarity(word, userMessage);
+            if (sim >= 0.5) {
+                temp.add(new WordSim(word.toLowerCase().replaceAll("i", "I"), sim));
+            }
+        }
+        //    Сортируем
+        temp.sort(Comparator.comparing(WordSim::sim).reversed());
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+
+        for (var wordSim : temp.subList(0, Math.min(7, temp.size()))) {
+            List<InlineKeyboardButton> tempList = new ArrayList<>();
+            tempList.add(new InlineKeyboardButton(wordSim.word).callbackData(wordSim.word));
+            buttons.add(tempList);
+            // сохраняем "words"
+            clickButtons.put(wordSim.word, language);
+        }
+
+        InlineKeyboardButton[][] inlineKeyboardButton = new InlineKeyboardButton[buttons.size()][1];
+        // Добавляем кнопки
+        for (int i = 0; i < inlineKeyboardButton.length; i++) {
+            for (int j = 0; j < inlineKeyboardButton[i].length; j++) {
+                inlineKeyboardButton[i][j] = buttons.get(i).get(j);
+            }
+        }
+        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardButton);
+        // Выводим кнопки
+        if (clickButtons.size() > 0 && temp.size() > 0) {
+
+            bot.execute(new SendMessage(chatId, "Ничего не нашлось, возможно вы имели ввиду:\n")
+                    .replyMarkup(inlineKeyboard));
+        } else {
+            bot.execute(new SendMessage(chatId, "Ничего не нашлось. Повторите запрос"));
+        }
+    }
+
     private static String convertToHtml(List<String> translations) {
-        String msgStr = String.join("\n", translations).replaceAll(">", ">>>")
+        String msgStr = String.join("\n\n", translations).replaceAll(">", ">>>")
                 .replaceAll("<", "<i>")
                 .replaceAll(">>>", "</i>")
                 .replaceAll("\\{", "<b>")

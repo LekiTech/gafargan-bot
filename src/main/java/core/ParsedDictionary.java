@@ -34,34 +34,16 @@ public class ParsedDictionary {
             for (String definition : word.getDefinitions()) {
                 tempList.add(definition);
             }
-            map.put(word.getSpelling(), tempList);
-            // tempList.clear();
+            if (map.containsKey(word.getSpelling())) {
+//                List<String> list = map.get(word.getSpelling());
+//                list.addAll(tempList);
+//                map.put(word.getSpelling(), list);
+                map.get(word.getSpelling()).addAll(tempList);
+            } else {
+                map.put(word.getSpelling(), tempList);
+            }
         }
     }
-
-//    public static void main(String[] args) throws IOException {
-//
-//        Gson gson = new Gson();
-//
-//        // Читаем JSON из файла
-//        String json = readJsonFromFile("D:/projects/GafarganBot/src/main/resources/rus_lezgi_dict_hajiyev.json");
-//
-//        // Парсим его
-//        Dictionary dictionary = gson.fromJson(json, Dictionary.class);
-//
-//        // Печатаем словарь
-//        List<Word> words = dictionary.getDictionary();
-//
-//        // урус гафар
-//        for (Word word : words) {
-//            System.out.println(word.getSpelling());
-//
-//            //лезги гафар
-//            for (String definition : word.getDefinitions()) {
-//                System.out.println(definition);
-//            }
-//        }
-//    }
 
     private static String readJsonFromFile(String fileName) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
