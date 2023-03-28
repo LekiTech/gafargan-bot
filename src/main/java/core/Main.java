@@ -27,166 +27,165 @@ public class Main {
         TelegramBot bot = new TelegramBot("");
 
         ParsedDictionary rusLezgiDict = new ParsedDictionary();
-        rusLezgiDict.parse("D:/projects/GafarganBot/src/main/resources/rus_lezgi_dict_hajiyev.json");
+        rusLezgiDict.parse("src/main/resources/rus_lezgi_dict_hajiyev.json");
         ParsedDictionary lezgiRusDictBabakhanov = new ParsedDictionary();
-        lezgiRusDictBabakhanov.parse("D:/projects/GafarganBot/src/main/resources/lezgi_rus_dict_babakhanov.json");
+        lezgiRusDictBabakhanov.parse("src/main/resources/lezgi_rus_dict_babakhanov.json");
         ParsedDictionary lezgiRusDictTalibovHajiyev = new ParsedDictionary();
-        lezgiRusDictTalibovHajiyev.parse("D:/projects/GafarganBot/src/main/resources/lezgi_rus_dict_talibov_hajiyev.json");
+        lezgiRusDictTalibovHajiyev.parse("src/main/resources/lezgi_rus_dict_talibov_hajiyev.json");
 
         Map<Long, String> chatLanguage = new HashMap<>();
         Map<String, String> clickButtLezgiBabakhanov = new HashMap<>();
         Map<String, String> clickButtLezgiTalibovHajiyev = new HashMap<>();
         Map<String, String> clickButtonsRus = new HashMap<>();
 
-// Подписка на обновления
         bot.setUpdatesListener(updates -> {
-            for (var update : updates) {
-                /* Обработка buttons */
-                if (update.callbackQuery() != null) {
-                    CallbackQuery callbackQuery = update.callbackQuery();
-                    Message buttonMessage = callbackQuery.message();
-                    long chatId = buttonMessage.chat().id();
-                    String data = callbackQuery.data();
-
-                    if (RUS_LEZGI.equals(data)) {
-                        // Send a response message
-                        bot.execute(new SendMessage(chatId, "Выбран Русско-Лезгинский словарь\uD83D\uDCD5(Гаджиев М.М.)\n\n" +
-                                "Вводите слово на русском языке."));
-                        bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+            try {
+                for (var update : updates) {
+                    /* Обработка buttons */
+                    if (update.callbackQuery() != null) {
+                        CallbackQuery callbackQuery = update.callbackQuery();
+                        Message buttonMessage = callbackQuery.message();
+                        long chatId = buttonMessage.chat().id();
+                        String data = callbackQuery.data();
+                        if (RUS_LEZGI.equals(data)) {
+                            bot.execute(new SendMessage(chatId, "Выбран Русско-Лезгинский словарь\uD83D\uDCD5(Гаджиев М.М.)\n\n"
+                                    + "Вводите слово на русском языке."));
+                            bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+                            chatLanguage.put(chatId, RUS_LEZGI);
+                        } else if (LEZGI_RUS_BABAKHANOV.equals(data)) {
+                            bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD7(Бабаханов М.Б.)\n\n"
+                                    + "Буквы с палочкой (пI, цI, кI ...) пишите через латинскую «i» или единицу «1», например:\n"
+                                    + "кiвал или к1вал\n\n"
+                                    + "Введите слово на лезгинском языке"));
+                            bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+                            chatLanguage.put(chatId, LEZGI_RUS_BABAKHANOV);
+                        } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(data)) {
+                            bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD9(Талибов Б., Гаджиев М.)\n\n"
+                                    + "Буквы с палочкой (пI, цI, кI ...) пишите через латинскую «i» или единицу «1»:\n"
+                                    + "кiвал - к1вал\n\n"
+                                    + "Введите слово на лезгинском языке"));
+                            bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+                            chatLanguage.put(chatId, LEZGI_RUS_TALIBOV_HAJIYEV);
+                        } else if (clickButtLezgiBabakhanov.containsKey(data) && LEZGI_RUS_BABAKHANOV.equals(clickButtLezgiBabakhanov.get(data))) {
+                            sendAnswerFromButtons(bot, lezgiRusDictBabakhanov, callbackQuery, chatId, data);
+                        } else if (clickButtLezgiTalibovHajiyev.containsKey(data) && LEZGI_RUS_TALIBOV_HAJIYEV.equals(clickButtLezgiTalibovHajiyev.get(data))) {
+                            sendAnswerFromButtons(bot, lezgiRusDictTalibovHajiyev, callbackQuery, chatId, data);
+                        } else if (clickButtonsRus.containsKey(data) && RUS_LEZGI.equals(clickButtonsRus.get(data))) {
+                            sendAnswerFromButtons(bot, rusLezgiDict, callbackQuery, chatId, data);
+                        }
+                    }
+                    var message = update.message();
+                    if (message == null) {
+                        continue;
+                    }
+                    long chatId = message.chat().id();
+                    String textMsg = message.text();
+                    if (textMsg == null) {
+                        continue;
+                    }
+                    /* Обработка команд */
+                    String userMessage = textMsg.toLowerCase().replaceAll("1", "i");
+                    if (START.equals(userMessage)) {
+                        var sendMessage = new SendMessage(chatId, "Ас-саляму алейкум\uD83D\uDC4B\uD83C\uDFFC\n\n" +
+                                "Вун атуй, рагъ атуй!\nДобро пожаловать!");
+                        sendMessage.parseMode(ParseMode.HTML);
+                        bot.execute(sendMessage);
+                        /* Create the inline keyboard */
+                        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
+                                new InlineKeyboardButton[][]{
+                                        {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD7(Бабаханов М.Б.)")
+                                                .callbackData(LEZGI_RUS_BABAKHANOV)},
+                                        {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD9(Талибов Б., Гаджиев М.)")
+                                                .callbackData(LEZGI_RUS_TALIBOV_HAJIYEV)},
+                                        {new InlineKeyboardButton("Русско-Лезгинский\uD83D\uDCD5(Гаджиев М.М.)")
+                                                .callbackData(RUS_LEZGI)}
+                                });
+                        bot.execute(new SendMessage(chatId, "Выберите словарь\uD83D\uDCDA:")
+                                .replyMarkup(inlineKeyboard));
+                    } else if (INFO.equals(userMessage)) {
+                        String txt = "Разработчик: Артур Магомедов.\n\n"
+                                + "Бот-словарь, переводит слова с Лезгинского языка на русский и наоборот. "
+                                + "Также бот умеет находить слова, если пользователь вводит их с орфографическими ошибками.\n\n"
+                                + "Используемые словари:\n"
+                                + "- Лезгинско-русский словарь (Б.Талибов, М.Гаджиев)\n"
+                                + "- Русско-лезгинский словарь (М.М.Гаджиев)\n"
+                                + "- Лезгинско-русский словарь (Бабаханов М.Б.)";
+                        bot.execute(new SendMessage(chatId, txt));
+                    } else if (RUS_LEZGI.equals(userMessage)) {
                         chatLanguage.put(chatId, RUS_LEZGI);
-                    } else if (LEZGI_RUS_BABAKHANOV.equals(data)) {
-                        bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD7(Бабаханов М.Б.)\n\n"
-                                + "Буквы с палочкой (пI, цI, кI ...) пишите через латинскую «i» или единицу «1»:\n"
-                                + "кiвал - к1вал\n\n"
-                                + "Введите слово на лезгинском языке"));
-                        bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+                        bot.execute(new SendMessage(chatId, "Выбран Русско-Лезгинский словарь\uD83D\uDCD5(Гаджиев М.М.)\n\n"
+                                + "Введите слово на русском языке."));
+                    } else if (LEZGI_RUS_BABAKHANOV.equals(userMessage)) {
                         chatLanguage.put(chatId, LEZGI_RUS_BABAKHANOV);
-                    } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(data)) {
-                        bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD9(Талибов Б., Гаджиев М.)\n\n"
-                                + "Буквы с палочкой (пI, цI, кI ...) пишите через латинскую «i» или единицу «1»:\n"
-                                + "кiвал - к1вал\n\n"
-                                + "Введите слово на лезгинском языке"));
-                        bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+                        bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD7(Бабаханов М.Б.)\n\n"
+                                + "Введите слово на лезгинском языке.\n"
+                                + "Символ «I» (палочка: кI, тI, пI...) вводите через латинкую букву «i»."));
+                    } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage)) {
                         chatLanguage.put(chatId, LEZGI_RUS_TALIBOV_HAJIYEV);
-                    } else if (clickButtLezgiBabakhanov.containsKey(data) && LEZGI_RUS_BABAKHANOV.equals(clickButtLezgiBabakhanov.get(data))) {
-                        sendAnswerFromButtons(bot, lezgiRusDictBabakhanov, callbackQuery, chatId, data);
-                    } else if (clickButtLezgiTalibovHajiyev.containsKey(data) && LEZGI_RUS_TALIBOV_HAJIYEV.equals(clickButtLezgiTalibovHajiyev.get(data))) {
-                        sendAnswerFromButtons(bot, lezgiRusDictTalibovHajiyev, callbackQuery, chatId, data);
-                    } else if (clickButtonsRus.containsKey(data) && RUS_LEZGI.equals(clickButtonsRus.get(data))) {
-                        sendAnswerFromButtons(bot, rusLezgiDict, callbackQuery, chatId, data);
+                        bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD9(Талибов Б., Гаджиев М.)\n\n"
+                                + "Введите слово на лезгинском языке.\n"
+                                + "Символ «I» (палочка: кI, тI, пI...) вводите через латинкую букву «i»."));
+                    }
+
+                    if (RUS_LEZGI.equals(chatLanguage.get(chatId))
+                            && (rusLezgiDict.map.containsKey(userMessage))) {
+                        sendAnswerFromDictionary(bot, rusLezgiDict, chatId, userMessage);
+                    } else if (LEZGI_RUS_BABAKHANOV.equals(chatLanguage.get(chatId))
+                            && (lezgiRusDictBabakhanov.map.containsKey(userMessage))) {
+                        sendAnswerFromDictionary(bot, lezgiRusDictBabakhanov, chatId, userMessage);
+                    } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(chatLanguage.get(chatId))
+                            && (lezgiRusDictTalibovHajiyev.map.containsKey(userMessage))) {
+                        sendAnswerFromDictionary(bot, lezgiRusDictTalibovHajiyev, chatId, userMessage);
+                    } else if (LEZGI_RUS_BABAKHANOV.equals(chatLanguage.get(chatId))
+                            && !(START.equals(userMessage))
+                            && !(LEZGI_RUS_BABAKHANOV.equals(userMessage))
+                            && !(LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage))
+                            && !(INFO.equals(userMessage))
+                            && !(RUS_LEZGI.equals(userMessage))) {
+                        sendAnswerToUser(bot, lezgiRusDictBabakhanov, clickButtLezgiBabakhanov, chatId, userMessage, LEZGI_RUS_BABAKHANOV);
+                    } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(chatLanguage.get(chatId))
+                            && !(START.equals(userMessage))
+                            && !(LEZGI_RUS_BABAKHANOV.equals(userMessage))
+                            && !(LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage))
+                            && !(INFO.equals(userMessage))
+                            && !(RUS_LEZGI.equals(userMessage))) {
+                        sendAnswerToUser(bot, lezgiRusDictTalibovHajiyev, clickButtLezgiTalibovHajiyev, chatId, userMessage, LEZGI_RUS_TALIBOV_HAJIYEV);
+                    } else if (RUS_LEZGI.equals(chatLanguage.get(chatId))
+                            && !(START.equals(userMessage))
+                            && !(LEZGI_RUS_BABAKHANOV.equals(userMessage))
+                            && !(LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage))
+                            && !(INFO.equals(userMessage))
+                            && !(RUS_LEZGI.equals(userMessage))) {
+                        sendAnswerToUser(bot, rusLezgiDict, clickButtonsRus, chatId, userMessage, RUS_LEZGI);
+                        /*  Когда ни один словарь не выбран */
+                    } else if (chatLanguage.isEmpty()
+                            && !START.equals(userMessage)
+                            && !INFO.equals(userMessage)
+                            && !RUS_LEZGI.equals(userMessage)
+                            && !LEZGI_RUS_BABAKHANOV.equals(userMessage)
+                            && !LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage)) {
+                        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
+                                new InlineKeyboardButton[][]{
+                                        {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD7(Бабаханов М.Б.)")
+                                                .callbackData(LEZGI_RUS_BABAKHANOV)},
+                                        {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD9(Талибов Б., Гаджиев М.)")
+                                                .callbackData(LEZGI_RUS_TALIBOV_HAJIYEV)},
+                                        {new InlineKeyboardButton("Русско-Лезгинский\uD83D\uDCD5(Гаджиев М.М.)")
+                                                .callbackData(RUS_LEZGI)}
+                                });
+                        bot.execute(new SendMessage(chatId, "Пожалуйста, выберите словарь\uD83D\uDCDA:")
+                                .replyMarkup(inlineKeyboard));
                     }
                 }
-                var message = update.message(); // Получаем сообщение
-                if (message == null) {
-                    continue;
-                }
-                long chatId = message.chat().id(); // Получаем ID пользователя
-                String textMsg = message.text();
-                if (textMsg == null) {
-                    continue;
-                }
-                /* Обработка команд */
-                String userMessage = textMsg.toLowerCase().replaceAll("1", "i");
-                if (START.equals(userMessage)) {
-                    var sendMessage = new SendMessage(chatId, "Ас-саляму алейкум\uD83D\uDC4B\uD83C\uDFFC\n\n" +
-                            "Вун атуй, рагъ атуй!\nДобро пожаловать!");
-                    sendMessage.parseMode(ParseMode.HTML);
-                    bot.execute(sendMessage);
-                    /* Create the inline keyboard */
-                    InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
-                            new InlineKeyboardButton[][]{
-                                    {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD7(Бабаханов М.Б.)").callbackData(LEZGI_RUS_BABAKHANOV)},
-                                    {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD9(Талибов Б., Гаджиев М.)").callbackData(LEZGI_RUS_TALIBOV_HAJIYEV)},
-                                    {new InlineKeyboardButton("Русско-Лезгинский\uD83D\uDCD5(Гаджиев М.М.)").callbackData(RUS_LEZGI)}
-                            });
-                    bot.execute(new SendMessage(chatId, "Выберите словарь\uD83D\uDCDA:")
-                            .replyMarkup(inlineKeyboard));
-                } else if (INFO.equals(userMessage)) {
-                    String txt = "Разработчик: Артур Магомедов.\n" +
-                            "\n" +
-                            "Бот-словарь, переводит слова с Лезгинского языка на русский и наоборот. Также бот умеет находить слова, если пользователь вводит их с орфографическими ошибками.\n" +
-                            "\n" +
-                            "Используемые словари:\n" +
-                            "- Лезгинско-русский словарь (Б.Талибов, М.Гаджиев);\n" +
-                            "- Русско-лезгинский (М.М.Гаджиев);\n" +
-                            "- Лезгинско-русский словарь (Бабаханов М.Б.)";
-
-                    bot.execute(new SendMessage(chatId, txt));
-                } else if (RUS_LEZGI.equals(userMessage)) {
-                    chatLanguage.put(chatId, RUS_LEZGI);
-                    bot.execute(new SendMessage(chatId, "Выбран Русско-Лезгинский словарь\uD83D\uDCD5(Гаджиев М.М.)\n" +
-                            "\nВведите слово на русском языке."));
-                } else if (LEZGI_RUS_BABAKHANOV.equals(userMessage)) {
-                    chatLanguage.put(chatId, LEZGI_RUS_BABAKHANOV);
-                    bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD7(Бабаханов М.Б.)\n\n" +
-                            "Введите слово на лезгинском языке.\n" +
-                            "Символ «I» (палочка: кI, тI, пI...) вводите через латинкую букву «i»."));
-                } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage)) {
-                    chatLanguage.put(chatId, LEZGI_RUS_TALIBOV_HAJIYEV);
-                    bot.execute(new SendMessage(chatId, "Выбран Лезгинско-Русский словарь\uD83D\uDCD9(Талибов Б., Гаджиев М.)\n\n" +
-                            "Введите слово на лезгинском языке.\n" +
-                            "Символ «I» (палочка: кI, тI, пI...) вводите через латинкую букву «i»."));
-                }
-
-//                if (chatLanguage.get(chatId) == null) {
-//                    continue;
-//                }
-                if (RUS_LEZGI.equals(chatLanguage.get(chatId))
-                        && (rusLezgiDict.map.containsKey(userMessage))) {
-                    sendAnswerFromDictionary(bot, rusLezgiDict, chatId, userMessage);
-                } else if (LEZGI_RUS_BABAKHANOV.equals(chatLanguage.get(chatId))
-                        && (lezgiRusDictBabakhanov.map.containsKey(userMessage))) {
-                    sendAnswerFromDictionary(bot, lezgiRusDictBabakhanov, chatId, userMessage);
-                } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(chatLanguage.get(chatId))
-                        && (lezgiRusDictTalibovHajiyev.map.containsKey(userMessage))) {
-                    sendAnswerFromDictionary(bot, lezgiRusDictTalibovHajiyev, chatId, userMessage);
-                } else if (LEZGI_RUS_BABAKHANOV.equals(chatLanguage.get(chatId))
-                        && !(START.equals(userMessage))
-                        && !(LEZGI_RUS_BABAKHANOV.equals(userMessage))
-                        && !(LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage))
-                        && !(INFO.equals(userMessage))
-                        && !(RUS_LEZGI.equals(userMessage))) {
-                    sendAnswerToUser(bot, lezgiRusDictBabakhanov, clickButtLezgiBabakhanov, chatId, userMessage, LEZGI_RUS_BABAKHANOV);
-                } else if (LEZGI_RUS_TALIBOV_HAJIYEV.equals(chatLanguage.get(chatId))
-                        && !(START.equals(userMessage))
-                        && !(LEZGI_RUS_BABAKHANOV.equals(userMessage))
-                        && !(LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage))
-                        && !(INFO.equals(userMessage))
-                        && !(RUS_LEZGI.equals(userMessage))) {
-                    sendAnswerToUser(bot, lezgiRusDictTalibovHajiyev, clickButtLezgiTalibovHajiyev, chatId, userMessage, LEZGI_RUS_TALIBOV_HAJIYEV);
-                } else if (RUS_LEZGI.equals(chatLanguage.get(chatId))
-                        && !(START.equals(userMessage))
-                        && !(LEZGI_RUS_BABAKHANOV.equals(userMessage))
-                        && !(LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage))
-                        && !(INFO.equals(userMessage))
-                        && !(RUS_LEZGI.equals(userMessage))) {
-                    sendAnswerToUser(bot, rusLezgiDict, clickButtonsRus, chatId, userMessage, RUS_LEZGI);
-                    /*  Когда ни один словарь не выбран */
-                } else if (chatLanguage.isEmpty()
-                        && !START.equals(userMessage)
-                        && !INFO.equals(userMessage)
-                        && !RUS_LEZGI.equals(userMessage)
-                        && !LEZGI_RUS_BABAKHANOV.equals(userMessage)
-                        && !LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage)) {
-                    /*
-                        Добавить кнопки выбора словаря
-                     */
-                    InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
-                            new InlineKeyboardButton[][]{
-                                    {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD7(Бабаханов М.Б.)").callbackData(LEZGI_RUS_BABAKHANOV)},
-                                    {new InlineKeyboardButton("Лезгинско-Русский\uD83D\uDCD9(Талибов Б., Гаджиев М.)").callbackData(LEZGI_RUS_TALIBOV_HAJIYEV)},
-                                    {new InlineKeyboardButton("Русско-Лезгинский\uD83D\uDCD5(Гаджиев М.М.)").callbackData(RUS_LEZGI)}
-                            });
-                    bot.execute(new SendMessage(chatId, "Пожалуйста, выберите словарь\uD83D\uDCDA:")
-                            .replyMarkup(inlineKeyboard));
-                }
+            } catch (Exception e) {
+                System.out.println(e);
             }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }
 
-    private static void sendAnswerFromDictionary(TelegramBot bot, ParsedDictionary dictionary,
-                                                 long chatId, String userMessage) {
+    private static void sendAnswerFromDictionary(TelegramBot bot, ParsedDictionary dictionary, long chatId,
+                                                 String userMessage) {
         List<String> translations = dictionary.map.get(userMessage);
         String msgStr = convertToHtml(translations);
         var sendMessage = new SendMessage(chatId, msgStr);
@@ -194,8 +193,8 @@ public class Main {
         bot.execute(sendMessage);
     }
 
-    private static void sendAnswerFromButtons(TelegramBot bot, ParsedDictionary dictionary,
-                                              CallbackQuery callbackQuery, long chatId, String data) {
+    private static void sendAnswerFromButtons(TelegramBot bot, ParsedDictionary dictionary, CallbackQuery callbackQuery,
+                                              long chatId, String data) {
         List<String> translations = dictionary.map.get(data.toLowerCase());
         String msgStr = convertToHtml(translations);
         var sendMessage = new SendMessage(chatId, msgStr);

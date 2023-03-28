@@ -17,27 +17,21 @@ public class ParsedDictionary {
     public void parse(String dictionaryPath) throws IOException {
         Gson gson = new Gson();
 
-        // Читаем JSON из файла
+        /* Читаем JSON из файла */
         String json = readJsonFromFile(dictionaryPath);
 
-        // Парсим его
+        /* Парсим его */
         Dictionary dictionary = gson.fromJson(json, Dictionary.class);
 
-        // Печатаем словарь
+        /* Печатаем словарь */
         List<Word> words = dictionary.getDictionary();
 
-        // урус гафар
         for (Word word : words) {
             List<String> definitionsList = new ArrayList<>();
-            //      map.put(word.getSpelling(), null);
-            //лезги гафар
             for (String definition : word.getDefinitions()) {
                 definitionsList.add(definition);
             }
             if (map.containsKey(word.getSpelling().toLowerCase())) {
-//                List<String> list = map.get(word.getSpelling());
-//                list.addAll(definitionsList);
-//                map.put(word.getSpelling(), list);
                 map.get(word.getSpelling().toLowerCase()).addAll(definitionsList);
             } else {
                 map.put(word.getSpelling().toLowerCase(), definitionsList);
