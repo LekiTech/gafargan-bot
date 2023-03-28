@@ -28,19 +28,19 @@ public class ParsedDictionary {
 
         // урус гафар
         for (Word word : words) {
-            List<String> tempList = new ArrayList<>();
+            List<String> definitionsList = new ArrayList<>();
             //      map.put(word.getSpelling(), null);
             //лезги гафар
             for (String definition : word.getDefinitions()) {
-                tempList.add(definition);
+                definitionsList.add(definition);
             }
-            if (map.containsKey(word.getSpelling())) {
+            if (map.containsKey(word.getSpelling().toLowerCase())) {
 //                List<String> list = map.get(word.getSpelling());
-//                list.addAll(tempList);
+//                list.addAll(definitionsList);
 //                map.put(word.getSpelling(), list);
-                map.get(word.getSpelling()).addAll(tempList);
+                map.get(word.getSpelling().toLowerCase()).addAll(definitionsList);
             } else {
-                map.put(word.getSpelling(), tempList);
+                map.put(word.getSpelling().toLowerCase(), definitionsList);
             }
         }
     }
