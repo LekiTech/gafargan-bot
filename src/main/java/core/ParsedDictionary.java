@@ -16,16 +16,12 @@ public class ParsedDictionary {
 
     public void parse(String dictionaryPath) throws IOException {
         Gson gson = new Gson();
-
         /* Читаем JSON из файла */
         String json = readJsonFromFile(dictionaryPath);
-
         /* Парсим его */
         Dictionary dictionary = gson.fromJson(json, Dictionary.class);
-
         /* Печатаем словарь */
         List<Word> words = dictionary.getDictionary();
-
         for (Word word : words) {
             List<String> definitionsList = new ArrayList<>();
             for (String definition : word.getDefinitions()) {
