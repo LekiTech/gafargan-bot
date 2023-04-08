@@ -7,6 +7,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.*;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
 import java.util.*;
@@ -21,8 +22,14 @@ public class Main {
     private final static String INFO = "/info";
 
     public static void main(String[] args) throws IOException {
-
-        TelegramBot bot = new TelegramBot("5664347820:AAHDCB3D9j_APb3y3LXzqfFAw20srCu8f5c");
+        Dotenv dotenv = null;
+        dotenv = Dotenv.configure().load();
+        var token = dotenv.get("TELEGRAM_API_TOKEN");
+        if (token == null) {
+            System.err.println("Telegram token not found");
+            return;
+        }
+        TelegramBot bot = new TelegramBot(token);
 
         ParsedDictionary rusLezgiDict = new ParsedDictionary();
         rusLezgiDict.parse("src/main/resources/rus_lezgi_dict_hajiyev.json");
@@ -84,7 +91,7 @@ public class Main {
                                 }
                         );
                         keypad.resizeKeyboard(true);
-                        bot.execute(new SendMessage(chatId, "Выберите словарь\uD83D\uDCDA:").replyMarkup(keypad));
+                        bot.execute(new SendMessage(chatId, "\uD83D\uDCDAВыберите словарь:").replyMarkup(keypad));
                     } else if (INFO.equals(userMessage)) {
                         String txt = "Разработчик\uD83D\uDC68\uD83C\uDFFB\u200D\uD83D\uDCBB: Артур Магомедов.\n\n"
                                 + "Бот-словарь\uD83D\uDCDA, переводит слова с Лезгинского языка на русский и наоборот. "
@@ -130,7 +137,7 @@ public class Main {
                             && !RUS_LEZGI.equals(userMessage)
                             && !LEZGI_RUS_BABAKHANOV.equals(userMessage)
                             && !LEZGI_RUS_TALIBOV_HAJIYEV.equals(userMessage)) {
-                        bot.execute(new SendMessage(chatId, "Пожалуйста, выберите словарь\uD83D\uDCDA:"));
+                        bot.execute(new SendMessage(chatId, "Пожалуйста, сначала выберите словарь\uD83D\uDCDA"));
                     }
                 }
             } catch (Exception e) {
@@ -142,20 +149,22 @@ public class Main {
 
     private static void sendAnswerFromDictionary(TelegramBot bot, ParsedDictionary dictionary, long chatId,
                                                  String userMessage) {
-        List<String> translations = dictionary.map.get(userMessage);
+        List<String> temp = dictionary.map.get(userMessage);
+        var translations = temp.subList(0, Math.min(7, temp.size()));
         String msgStr = convertToHtml(translations);
         var sendMessage = new SendMessage(chatId, msgStr);
         sendMessage.parseMode(ParseMode.HTML);
         bot.execute(sendMessage);
     }
 
-    private static void sendAnswerFromButtons(TelegramBot bot, ParsedDictionary dictionary, CallbackQuery callbackQuery,
-                                              long chatId, String data) {
-        List<String> translations = dictionary.map.get(data.toLowerCase());
+    protected static void sendAnswerFromButtons(TelegramBot bot, ParsedDictionary dictionary, CallbackQuery callbackQuery,
+                                                long chatId, String data) {
+        List<String> temp = dictionary.map.get(data.toLowerCase());
+        var translations = temp.subList(0, Math.min(7, temp.size()));
         String msgStr = convertToHtml(translations);
         var sendMessage = new SendMessage(chatId, msgStr);
         sendMessage.parseMode(ParseMode.HTML);
-        bot.execute(new SendMessage(chatId, data.toUpperCase() + "\uD83D\uDC47\uD83C\uDFFC:"));
+        bot.execute(new SendMessage(chatId, data.toUpperCase() + "⬇️:"));
         bot.execute(sendMessage);
         bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
     }
