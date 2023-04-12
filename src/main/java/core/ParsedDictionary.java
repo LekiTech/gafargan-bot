@@ -2,9 +2,8 @@ package core;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +13,11 @@ public class ParsedDictionary {
 
     public Map<String, List<String>> map = new HashMap<>();
 
-    public void parse(String dictionaryPath) throws IOException {
+    public void parse(String fileName) throws IOException {
         Gson gson = new Gson();
         /* Читаем JSON из файла */
-        String json = readJsonFromFile(dictionaryPath);
+        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
+        String json = readJsonFromFile(is);
         /* Парсим его */
         Dictionary dictionary = gson.fromJson(json, Dictionary.class);
         /* Печатаем словарь */
@@ -35,8 +35,10 @@ public class ParsedDictionary {
         }
     }
 
-    private static String readJsonFromFile(String fileName) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+    private static String readJsonFromFile(InputStream is) throws IOException {
+        try (InputStreamReader streamReader =
+                     new InputStreamReader(is, StandardCharsets.UTF_8);
+             BufferedReader reader = new BufferedReader(streamReader)) {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {

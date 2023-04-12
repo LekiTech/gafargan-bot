@@ -22,6 +22,7 @@ public class Main {
     private final static String INFO = "/info";
 
     public static void main(String[] args) throws IOException {
+        System.out.println("Starting the bot...");
         Dotenv dotenv = null;
         dotenv = Dotenv.configure().load();
         var token = dotenv.get("TELEGRAM_API_TOKEN");
@@ -32,11 +33,11 @@ public class Main {
         TelegramBot bot = new TelegramBot(token);
 
         ParsedDictionary rusLezgiDict = new ParsedDictionary();
-        rusLezgiDict.parse("src/main/resources/rus_lezgi_dict_hajiyev.json");
+        rusLezgiDict.parse("rus_lezgi_dict_hajiyev.json");
         ParsedDictionary lezgiRusDictBabakhanov = new ParsedDictionary();
-        lezgiRusDictBabakhanov.parse("src/main/resources/lezgi_rus_dict_babakhanov.json");
+        lezgiRusDictBabakhanov.parse("lezgi_rus_dict_babakhanov.json");
         ParsedDictionary lezgiRusDictTalibovHajiyev = new ParsedDictionary();
-        lezgiRusDictTalibovHajiyev.parse("src/main/resources/lezgi_rus_dict_talibov_hajiyev.json");
+        lezgiRusDictTalibovHajiyev.parse("lezgi_rus_dict_talibov_hajiyev.json");
 
         Map<Long, String> dictionaryLanguage = new HashMap<>();
         Map<String, String> clickButtLezgiBabakhanov = new HashMap<>();
