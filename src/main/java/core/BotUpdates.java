@@ -26,7 +26,8 @@ public class BotUpdates {
         DictionaryParser dictionaryParser = new DictionaryParser();
         lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
         rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));
-        listOfExample = Examples.getAll(List.of(lezgiRusDictionary, rusLezgiDictionary));
+        var examples = new Examples();
+        listOfExample = examples.getAll(List.of(lezgiRusDictionary, rusLezgiDictionary));
         bot.setUpdatesListener(updates -> {
             try {
                 for (var update : updates) {

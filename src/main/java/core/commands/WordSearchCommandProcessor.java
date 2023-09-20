@@ -192,7 +192,7 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
                 + inputMessage.substring(1)
                 + "</i> ⤵️️️\n\n");
         String wordToFind = "\\b" + Pattern.quote(inputMessage) + "\\b";
-        Pattern pattern = Pattern.compile(wordToFind);
+        Pattern pattern = Pattern.compile(wordToFind, Pattern.UNICODE_CHARACTER_CLASS);
         int numberOfExamplesFound = 0;
         for (Example examples : listOfExample) {
             Matcher matcher = pattern.matcher(examples.getRaw());

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Examples {
 
-    public static List<Example> getAll(List<DictionaryRepository> listOfDictionary) {
+    public List<Example> getAll(List<DictionaryRepository> listOfDictionary) {
         List<Example> examples = new ArrayList<>();
         for (DictionaryRepository dictionaryRepository : listOfDictionary) {
             for (List<ExpressionDetails> expressionDetails : dictionaryRepository.getFullDictionary().values()) {
