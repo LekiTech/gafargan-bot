@@ -62,7 +62,7 @@ public class SendResponseFromButtonCommandProcessor implements ChatCommandProces
             spelling = spell[0];
         }
         outputMessage.append("<i>").append(spelling.substring(0, 1).toUpperCase()).append(spelling.substring(1)
-                .replaceAll("[i1lӏ|]", "I")).append("</i>⤵️\n\n");
+                .replaceAll("[i1lӏ|]", "I")).append("</i> ⤵️\n\n");
         List<ExpressionDetails> expressionDetails = dictionary.getDefinitions(spelling);
         for (ExpressionDetails details : expressionDetails) {
             if (details.getExamples() != null) {

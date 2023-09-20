@@ -129,17 +129,17 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
                                            List<ExpressionDetails> expressionDetails, ExpressionDetails details) {
         if (expressionDetails.size() > 1) {
             outputMessage.append(details.getInflection() != null ?
-                    "<i>" + amountOfValues + ". " + userMessage + " (" + details.getInflection() + ")</i>⤵️\n\n"
-                    : "<i>" + amountOfValues + ". " + userMessage + "️</i>⤵️️\n\n");
+                    "<i>" + amountOfValues + ". " + userMessage + " (" + details.getInflection() + ")</i> ⤵️\n\n"
+                    : "<i>" + amountOfValues + ". " + userMessage + "️</i> ⤵️️\n\n");
         } else {
             outputMessage.append(details.getInflection() != null ?
-                    "<i>" + userMessage + " (" + details.getInflection() + ")</i>⤵️\n\n"
-                    : "<i>" + userMessage + "</i>⤵️\n\n");
+                    "<i>" + userMessage + " (" + details.getInflection() + ")</i> ⤵️\n\n"
+                    : "<i>" + userMessage + "</i> ⤵️\n\n");
         }
     }
 
     private void sendOnlyExamples(long chatId, String userMessage, StringBuilder outputMessage, ExpressionDetails details) {
-        outputMessage.append("<i>").append(userMessage).append("️</i>⤵️\n\n");
+        outputMessage.append("<i>").append(userMessage).append("️</i> ⤵️\n\n");
         details.getExamples().forEach(example -> {
             outputMessage.append("   - ").append(example.getRaw()
                     .replaceAll("<", "[")
@@ -190,7 +190,7 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
         StringBuilder outputMessage = new StringBuilder("<i>"
                 + inputMessage.substring(0, 1).toUpperCase()
                 + inputMessage.substring(1)
-                + "</i>⤵️️️\n\n");
+                + "</i> ⤵️️️\n\n");
         String wordToFind = "\\b" + Pattern.quote(inputMessage) + "\\b";
         Pattern pattern = Pattern.compile(wordToFind);
         int numberOfExamplesFound = 0;
