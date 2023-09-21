@@ -4,7 +4,6 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.DataStorage;
 
 import static core.BotUpdates.selectedLanguage;
 
@@ -24,6 +23,5 @@ public class RusLezgiDictionaryCommandProcessor implements ChatCommandProcessor 
         String normalized = "\uD83D\uDCD6Урус-лезги гафарган\n\n<b><i>✏Урус чIалал кхьихь</i></b>️"
                 .replaceAll("\\p{Mn}", "");
         bot.execute(new SendMessage(chatId, normalized).parseMode(ParseMode.HTML));
-        DataStorage.instance().createUser(chatId);
     }
 }

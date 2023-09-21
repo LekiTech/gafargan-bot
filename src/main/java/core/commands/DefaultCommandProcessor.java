@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
+import core.DataStorage;
 import core.KeypadCreator;
 
 public class DefaultCommandProcessor implements ChatCommandProcessor {
@@ -24,5 +25,6 @@ public class DefaultCommandProcessor implements ChatCommandProcessor {
         ReplyKeyboardMarkup keypad = keypadCreator.createMenuForDictionarySelection();
         bot.execute(new SendMessage(chatId, "<b>Вуна гафарган хкягънавач.\n\n"
                 + "Гафарган хкягъа\uD83D\uDC47\uD83C\uDFFC</b>").parseMode(ParseMode.HTML).replyMarkup(keypad));
+        DataStorage.instance().createUser(chatId);
     }
 }
