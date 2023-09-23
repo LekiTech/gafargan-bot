@@ -46,6 +46,14 @@ public class BotUpdates {
             } catch (Exception e) {
                 System.err.println(e);
             }
+            Runtime.getRuntime().gc();
+//            MemoryMXBean memBean = ManagementFactory.getMemoryMXBean() ;
+//            MemoryUsage heapMemoryUsage = memBean.getHeapMemoryUsage();
+//            System.out.println("Committed memory: " + heapMemoryUsage.getCommitted()); // given memory to JVM by OS ( may fail to reach getMax, if there isn't more memory)
+//            System.out.println("Used memory: " + heapMemoryUsage.getUsed()); // used now by your heap
+//            System.out.println("Max memory: " + heapMemoryUsage.getMax()); // max memory allowed for jvm -Xmx flag (-1 if isn't specified)
+//            System.out.println("Free memory: " + Runtime.getRuntime().freeMemory());
+//            System.out.println("=================================================================");
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }
