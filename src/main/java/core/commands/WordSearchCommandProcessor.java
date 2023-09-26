@@ -187,28 +187,34 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
 
     private boolean sendAnswerFromExamples(String userMessage, long chatId) {
         String inputMessage = userMessage.toLowerCase().replaceAll("[i1lӏ|]", "I");
+        List<Example> tempExamples = new ArrayList<>();
+        for (Example example : listOfExample) {
+            if (example.getRaw().contains(inputMessage)) {
+                tempExamples.add(example);
+            }
+        }
+        int numberOfExamplesFound = 0;
         StringBuilder outputMessage = new StringBuilder("<i>"
                 + inputMessage.substring(0, 1).toUpperCase()
                 + inputMessage.substring(1)
                 + "</i> ⤵️️️\n\n");
         String wordToFind = "\\b" + Pattern.quote(inputMessage) + "\\b";
         Pattern pattern = Pattern.compile(wordToFind, Pattern.UNICODE_CHARACTER_CLASS);
-        int numberOfExamplesFound = 0;
-        for (Example examples : listOfExample) {
-            Matcher matcher = pattern.matcher(examples.getRaw());
-            if (matcher.find() && numberOfExamplesFound < 10) {
-                outputMessage.append("   - ").append(examples.getRaw()
+        for (Example example : tempExamples) {
+            Matcher matcher = pattern.matcher(example.getRaw());
+            if (matcher.find()) {
+                outputMessage.append("   - ").append(example.getRaw()
                         .replaceAll("<", "[")
                         .replaceAll(">", "]")
                         .replaceAll(inputMessage, "<u>" + inputMessage + "</u>")
                         .replaceAll("\\{", "<b><i>")
                         .replaceAll("}", "</i></b> -")).append("\n");
                 numberOfExamplesFound++;
+                if (numberOfExamplesFound >= 10) {
+                    bot.execute(new SendMessage(chatId, outputMessage.toString()).parseMode(ParseMode.HTML));
+                    return true;
+                }
             }
-        }
-        if (numberOfExamplesFound > 0) {
-            bot.execute(new SendMessage(chatId, outputMessage.toString()).parseMode(ParseMode.HTML));
-            return true;
         }
         return false;
     }

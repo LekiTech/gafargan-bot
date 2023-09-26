@@ -13,8 +13,8 @@ public class BotUpdates {
 
     private final TelegramBot bot;
     public static SelectDictionaryLanguage selectedLanguage;
-    public static DictionaryRepository lezgiRusDictionary = new JsonDictionary();
-    public static DictionaryRepository rusLezgiDictionary = new JsonDictionary();
+    public static final DictionaryRepository lezgiRusDictionary = new JsonDictionary();
+    public static final DictionaryRepository rusLezgiDictionary = new JsonDictionary();
     public static List<Example> listOfExample;
 
     public BotUpdates(String apiToken) {
