@@ -211,10 +211,13 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
                         .replaceAll("}", "</i></b> -")).append("\n");
                 numberOfExamplesFound++;
                 if (numberOfExamplesFound >= 10) {
-                    bot.execute(new SendMessage(chatId, outputMessage.toString()).parseMode(ParseMode.HTML));
-                    return true;
+                    break;
                 }
             }
+        }
+        if (numberOfExamplesFound > 0) {
+            bot.execute(new SendMessage(chatId, outputMessage.toString()).parseMode(ParseMode.HTML));
+            return true;
         }
         return false;
     }
