@@ -25,8 +25,7 @@ public class JsonDictionary implements DictionaryRepository {
         if (spelling == null) {
             throw new IllegalArgumentException("spelling cannot be null");
         }
-        String spellingLowered = spelling.toLowerCase()
-                .replaceAll("[1lӏ|]", "i");
+        String spellingLowered = spelling.toLowerCase();
         if (!this.dictionary.containsKey(spellingLowered)) {
             throw new NotFoundException("Spelling '" + spellingLowered + "' not found");
         }
