@@ -5,9 +5,10 @@ import com.pengrad.telegrambot.UpdatesListener;
 import core.parser.DictionaryParser;
 import core.parser.DictionaryRepository;
 import core.parser.JsonDictionary;
-import core.parser.model.Example;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class BotUpdates {
 
@@ -15,7 +16,7 @@ public class BotUpdates {
     public static SelectDictionaryLanguage selectedLanguage;
     public static final DictionaryRepository lezgiRusDictionary = new JsonDictionary();
     public static final DictionaryRepository rusLezgiDictionary = new JsonDictionary();
-    public static List<Example> listOfExample;
+    public static Map<String, Set<String>> listOfExample;
 
     public BotUpdates(String apiToken) {
         bot = new TelegramBot(apiToken);
@@ -26,7 +27,7 @@ public class BotUpdates {
         DictionaryParser dictionaryParser = new DictionaryParser();
         lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
         rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));
-        var examples = new Examples();
+        Examples examples = new Examples();
         listOfExample = examples.getAll(List.of(lezgiRusDictionary, rusLezgiDictionary));
         bot.setUpdatesListener(updates -> {
             try {
@@ -46,7 +47,7 @@ public class BotUpdates {
             } catch (Exception e) {
                 System.err.println(e);
             }
-            Runtime.getRuntime().gc();
+//            Runtime.getRuntime().gc();
 //            MemoryMXBean memBean = ManagementFactory.getMemoryMXBean() ;
 //            MemoryUsage heapMemoryUsage = memBean.getHeapMemoryUsage();
 //            System.out.println("Committed memory: " + heapMemoryUsage.getCommitted()); // given memory to JVM by OS ( may fail to reach getMax, if there isn't more memory)

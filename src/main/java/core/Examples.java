@@ -5,27 +5,43 @@ import core.parser.model.DefinitionDetails;
 import core.parser.model.Example;
 import core.parser.model.ExpressionDetails;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Examples {
 
-    public List<Example> getAll(List<DictionaryRepository> listOfDictionary) {
-        List<Example> examples = new ArrayList<>();
+    public Map<String, Set<String>> getAll(List<DictionaryRepository> listOfDictionary) {
+        Map<String, Set<String>> resultExamples = new HashMap<>();
         for (DictionaryRepository dictionaryRepository : listOfDictionary) {
             for (List<ExpressionDetails> expressionDetails : dictionaryRepository.getFullDictionary().values()) {
                 for (ExpressionDetails details : expressionDetails) {
                     for (DefinitionDetails definitionDetails : details.getDefinitionDetails()) {
                         if (definitionDetails.getExamples() != null) {
-                            examples.addAll(definitionDetails.getExamples());
+                            writingExamplesToMap(definitionDetails.getExamples(), resultExamples);
                         }
                     }
                     if (details.getExamples() != null) {
-                        examples.addAll(details.getExamples());
+                        writingExamplesToMap(details.getExamples(), resultExamples);
                     }
                 }
             }
         }
-        return examples;
+        return resultExamples;
+    }
+
+    private static void writingExamplesToMap(List<Example> allExample, Map<String, Set<String>> resultExamples) {
+        for (Example example : allExample) {
+            String[] words = example.getRaw().split("[^а-яА-ЯёЁiI1lӏ|Ӏ]");
+            for (String word : words) {
+                if (!word.isEmpty()) {
+                    Set<String> temp = new HashSet<>();
+                    temp.add(example.getRaw());
+                    if (resultExamples.containsKey(word)) {
+                        resultExamples.get(word).addAll(temp);
+                    } else {
+                        resultExamples.put(word, temp);
+                    }
+                }
+            }
+        }
     }
 }

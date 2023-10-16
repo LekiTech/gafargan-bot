@@ -13,7 +13,7 @@ public class KeypadCreator {
                 },
                 new KeyboardButton[]{
                         new KeyboardButton("\uD83D\uDCE9Кхьихь чаз"),
-                        new KeyboardButton("\uD83D\uDCDCИнфо")
+                        new KeyboardButton("\uD83D\uDCDCЧакай")
                 }
         );
         keypad.resizeKeyboard(true).inputFieldPlaceholder("Жугъурзавай гаф кхьихь...");
