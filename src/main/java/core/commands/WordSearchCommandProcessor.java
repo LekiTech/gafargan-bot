@@ -29,7 +29,7 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
     @Override
     public void execute() {
         var chatId = message.chat().id();
-        var userMessage = message.text().toLowerCase().replaceAll("[i1lӏ|!]", "I");
+        var userMessage = message.text().toLowerCase().replaceAll("[i1lӏ|!]", "I").replaceAll("ё", "е");
         var language = selectedLanguage.getDictionaryLanguage(chatId);
         switch (language) {
             case CommandsList.LEZGI_RUS -> sendAnswerToUser(lezgiRusDictionary, userMessage, chatId);
@@ -57,8 +57,7 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
         if (words.get(0).contains(COMMAND_EXAMPLE_SUFFIX)) {
             return new InlineKeyboardMarkup(
                     new InlineKeyboardButton[][]{
-                            {new InlineKeyboardButton("Мад меселаяр къалурун")
-                                    .callbackData(words.get(0))}
+                            {new InlineKeyboardButton("Мад меселаяр къалурун").callbackData(words.get(0))}
                     }
             );
         }

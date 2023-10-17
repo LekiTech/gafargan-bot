@@ -70,13 +70,14 @@ public class SearchInDictionary {
                     : "");
             /* Выводим ответ с наличием общих примеров */
             if (generalExample) {
-                return new Answer(outputMessage.toString(), List.of(userMessage.toLowerCase() + COMMAND_EXAMPLE_SUFFIX));
+                return new Answer(outputMessage.toString().replaceAll("ё", "е"),
+                        List.of(userMessage.toLowerCase() + COMMAND_EXAMPLE_SUFFIX));
             }
         } catch (Exception e) {
             e.printStackTrace();
             return new SearchByExample().sendAnswerFromExamples(listOfExample, dictionary, userMessage);
         }
-        return new Answer(outputMessage.toString());
+        return new Answer(outputMessage.toString().replaceAll("ё", "е"));
     }
 
     private void markupExpressionsSpelling(String userMessage, int amountOfValues, StringBuilder outputMessage,
@@ -98,6 +99,6 @@ public class SearchInDictionary {
         details.getExamples().forEach(example -> {
             outputMessage.append(correction.lineEdit(example.getRaw())).append("\n");
         });
-        return outputMessage.toString();
+        return outputMessage.toString().replaceAll("ё", "е");
     }
 }

@@ -37,9 +37,9 @@ class SearchByExampleTest {
         String expected = """
                 <i>РикIелай алатна</i> ⤵️️️
 
-                <b><i>   - всё ушло из памяти</i></b> —  [разг.] вири <u>рикIелай алатна</u>, вири фикирдай акъатна
                 <b><i>   - из головы вон </i></b> — фикирдай акъатна, <u>рикIелай алатна</u>
                 <b><i>   - травой поросло</i></b> —  <u>рикIелай алатна</u>, садан рикIелни аламач
+                <b><i>   - все ушло из памяти</i></b> —  [разг.] вири <u>рикIелай алатна</u>, вири фикирдай акъатна
                 """;
         assertThat(actualMessage).isEqualTo(expected);
     }
@@ -113,7 +113,7 @@ class SearchByExampleTest {
         String expected = """
                 <i>ви тIвар вуж я?</i> ⤵️️️
 
-                <b><i>   -  как твоё имя?</i></b> —  <u>ви тIвар вуж я</u>?
+                <b><i>   -  как твое имя?</i></b> —  <u>ви тIвар вуж я</u>?
                 <b><i>   - как тебя звать (зовут)?</i></b> —  <u>ви тIвар вуж я</u>?
                 """;
         assertThat(actualMessage).isEqualTo(expected);
@@ -127,7 +127,7 @@ class SearchByExampleTest {
         String expected = """
                 <i>вун атуй рагъ атуй</i> ⤵️️️
 
-                <b><i>   - вун атуй, рагъ атуй!</i></b> —  [межд.] ты пришёл, солнце пришло!
+                <b><i>   - вун атуй, рагъ атуй!</i></b> —  [межд.] ты пришел, солнце пришло!
                 <b><i>   - вун атуй, рагъ атуй!</i></b> —  [межд]. добро пожаловать!
                 """;
         assertThat(actualMessage).isEqualTo(expected);
@@ -155,6 +155,35 @@ class SearchByExampleTest {
                 <i>вун гьинай я?</i> ⤵️️️
 
                 <b><i>   - жузун айиб тахьуй, <u>вун гьинай я</u>?</i></b> —  извините, откуда вы?
+                """;
+        assertThat(actualMessage).isEqualTo(expected);
+    }
+
+    @Test
+    void sendAnswerFromExamples9() {
+        String input = "мое сердце";
+        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
+        String actualMessage = answer.messageText();
+        String expected = """
+                <i>мое сердце</i> ⤵️️️
+
+                <b><i>   - ада зи рикI цIурурзава</i></b> —  он терзает <u>мое сердце</u>
+                <b><i>   - агь, ада зи рикI кана хьи</i></b> —  ах, он испепелил <u>мое сердце</u>!
+                <b><i>   - адан язух къведай акунри зи рикI чIулаварна</i></b> —  его жалкий вид омрачил <u>мое сердце</u>
+                <b><i>   - ваз хьайи кар фикирдиз атай кьван зи рикI гьайифдив ацIузва</i></b> —  каждый раз, когда я думаю о случившемся с тобой, <u>мое сердце</u> наполняется скорбью
+                """;
+        assertThat(actualMessage).isEqualTo(expected);
+    }
+
+    @Test
+    void sendAnswerFromExamples10() {
+        String input = "твое имя";
+        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
+        String actualMessage = answer.messageText();
+        String expected = """
+                <i>твое имя</i> ⤵️️️
+
+                <b><i>   -  как <u>твое имя</u>?</i></b> —  ви тIвар вуж я?
                 """;
         assertThat(actualMessage).isEqualTo(expected);
     }

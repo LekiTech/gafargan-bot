@@ -33,12 +33,13 @@ public class Examples {
             String[] words = example.getRaw().split("[^а-яА-ЯёЁiI1lӏ|Ӏ]");
             for (String word : words) {
                 if (!word.isEmpty()) {
+                    String spell = word.replaceAll("ё", "е");
                     Set<String> temp = new HashSet<>();
-                    temp.add(example.getRaw());
-                    if (resultExamples.containsKey(word)) {
-                        resultExamples.get(word).addAll(temp);
+                    temp.add(example.getRaw().replaceAll("ё", "е"));
+                    if (resultExamples.containsKey(spell)) {
+                        resultExamples.get(spell).addAll(temp);
                     } else {
-                        resultExamples.put(word, temp);
+                        resultExamples.put(spell, temp);
                     }
                 }
             }

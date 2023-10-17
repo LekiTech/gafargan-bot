@@ -31,7 +31,7 @@ class SearchForExampleOfWordTest {
         String expected = """
                 <i>Руш</i> ⤵️
 
-                <b><i>   - руш гана лам къачуна</i></b> —  [погов]. шут. отдал дочку, приобрёл осла (зятя);\s
+                <b><i>   - руш гана лам къачуна</i></b> —  [погов]. шут. отдал дочку, приобрел осла (зятя);\s
                 <b><i>   - руш чарадан цлан къван я</i></b> —  [погов]. дочь - камень в чужой стене;\s
                 руш жедалди къван хьуй [погов]. пусть камень родится, чем дочка
                 <b><i>   - чан руш!</i></b> —  обр. дочка! доченька! (ласковое обращение)
@@ -63,10 +63,10 @@ class SearchForExampleOfWordTest {
                 <b><i>   - кIвал чIур хьуй [вичин]!</i></b> —  [межд]. чтобы разорился [его] дом!
                 <b><i>   - кIвал чIурун</i></b> —  гл. 1) разрушать дом; 2) [перен]. разрушать семью; навлекать беду на семью
                 <b><i>   - кIвалел атун [фин]</i></b> —  [гл.] совершать первую побывку родительского дома невестой после свадьбы; [см.тж.] ацIунар (ацIунрал атун [фин])
-                <b><i>   - кIвалел эверун</i></b> —  гл. 1) приглашение на <b><i>   - мел</i></b> —  (помочи, толока) по случаю завершения строительства дома; [см]. <b><i>   - мел</i></b> — ; 2) приглашение на званный обед молодожёнов
+                <b><i>   - кIвалел эверун</i></b> —  гл. 1) приглашение на <b><i>   - мел</i></b> —  (помочи, толока) по случаю завершения строительства дома; [см]. <b><i>   - мел</i></b> — ; 2) приглашение на званный обед молодоженов
                 <b><i>   - кIвалин юкь аватуй!</i></b> —  [межд.] да разрушится дом!
                 <b><i>   - кIваляй чукурун</i></b> —  гл. выгонять, выселять из дому
-                <b><i>   - кIваляй кьве кьил кьуна акъудрай!</i></b> —  [межд]. чтоб выносили из дому (мёртвого)
+                <b><i>   - кIваляй кьве кьил кьуна акъудрай!</i></b> —  [межд]. чтоб выносили из дому (мертвого)
                 """;
         String actual = answer1.messageText();
         assertThat(actual).isEqualTo(expected);
@@ -119,8 +119,8 @@ class SearchForExampleOfWordTest {
         String expected = """
                 <i>Раши</i> ⤵️
 
-                <b><i>   - раши авун</i></b> —  [гл.] сделать тёмно-жёлтым
-                <b><i>   - раши хьун</i></b> —  [гл.] становиться тёмно-жёлтым
+                <b><i>   - раши авун</i></b> —  [гл.] сделать темно-желтым
+                <b><i>   - раши хьун</i></b> —  [гл.] становиться темно-желтым
                 """;
         String actual = answer1.messageText();
         assertThat(actual).isEqualTo(expected);
@@ -164,6 +164,22 @@ class SearchForExampleOfWordTest {
                 <b><i>   - что бы ни было</i></b> —  вуч хьайитIани
                 <b><i>   - что ты!</i></b> —  вуна вуч лугьузва! ваз вуч хьанва!
                 <b><i>   - чуть что</i></b> —  са жизвидлай, са жизви кар хьанамазди, са жизви малум хьанамазди
+                """;
+        String actual = answer1.messageText();
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void sendExample6() {
+        String inputMessage = "углубленный";
+        String expectedButtCallbackData = "углубленный=example";
+        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, inputMessage);
+        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Answer answer1 = new SearchForExampleOfWord().sendExample(rusLezgiDictionary, inputMessage);
+        String expected = """
+                <i>Углубленный</i> ⤵️
+
+                <b><i>   - углубленный в себя</i></b> —  дерин фикирриз фенвай, фикиррин деринра гьахьнавай
                 """;
         String actual = answer1.messageText();
         assertThat(actual).isEqualTo(expected);

@@ -24,7 +24,7 @@ public class SearchForExampleOfWord {
                 if (details.getExamples() != null) {
                     int count = 0;
                     for (Example examples : details.getExamples()) {
-                        outputMessage.append(correction.lineEdit(examples.getRaw())).append("\n");
+                        outputMessage.append(correction.lineEdit(examples.getRaw().replaceAll("ё", "е"))).append("\n");
                         if (count > 20) {
                             break;
                         }

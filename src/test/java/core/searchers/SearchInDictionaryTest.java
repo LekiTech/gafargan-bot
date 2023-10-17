@@ -105,7 +105,7 @@ class SearchInDictionaryTest {
                 <b><i>   - къвал лацу кал</i></b> —  белобокая корова
                 <b><i>   - са къвалахъ къаткун</i></b> —  ложиться набок
                 <b><i>   - къвал къвалаз яна</i></b> —  бок о бок
-                <b><i>   - къвал чIуькьвез акъвазун</i></b> —  ёжиться, мяться (стесняясь)
+                <b><i>   - къвал чIуькьвез акъвазун</i></b> —  ежиться, мяться (стесняясь)
                 <b><i>   - къвалан</i></b> —  боковой
 
                 ➡️<b>️ боковая стенка </b>
@@ -182,11 +182,11 @@ class SearchInDictionaryTest {
                 ➡️<b>️ вуч </b>
 
                 <b><i>   - что это такое?</i></b> —  им вуч я?
-                <b><i>   - чего ты ждёшь?</i></b> —  вуна вуч гуьзлемишзава?
-                <b><i>   - чему ты смеётся?</i></b> —  вун кквел хъуьрезва?
+                <b><i>   - чего ты ждешь?</i></b> —  вуна вуч гуьзлемишзава?
+                <b><i>   - чему ты смеется?</i></b> —  вун кквел хъуьрезва?
                 <b><i>   - чем?</i></b> —  кквелди?
-                <b><i>   - о чём?</i></b> —  кквекай? ккуьн гьакъиндай?
-                <b><i>   - на чём?</i></b> —  кквел?
+                <b><i>   - о чем?</i></b> —  кквекай? ккуьн гьакъиндай?
+                <b><i>   - на чем?</i></b> —  кквел?
 
                 ➡️<b>️ гьикI я? гьикI хьана? вуч хьана? </b>
 
@@ -218,7 +218,7 @@ class SearchInDictionaryTest {
 
                 ➡️<b>️ кIантIа, кIантIа…. хьурай </b>
 
-                <b><i>   - мне всё равно, что у меня, что у тебя собраться</i></b> —  кIантIа вина кIватI жен, кIантIа зина -заз сад я
+                <b><i>   - мне все равно, что у меня, что у тебя собраться</i></b> —  кIантIа вина кIватI жен, кIантIа зина -заз сад я
 
                 """;
         assertThat(actualMessage).isEqualTo(expected);
@@ -299,9 +299,76 @@ class SearchInDictionaryTest {
         Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, input);
         String actualMessage = answer.messageText();
         String expected = """
-                <i>Долговременный</i> ⤵️
+                <i>Жилье</i> ⤵️
 
-                ➡️<b>️ яргъал вахтунин, гзаф вахтунин </b>
+                ➡️<b>️ инсанар яшамиш жезвай чка </b>
+
+                ➡️<b>️ кIвал, яшамиш жедай чка </b>
+
+                """;
+        assertThat(actualMessage).isEqualTo(expected);
+    }
+
+    @Test
+    void whenTranslateIsFound10() {
+        String input = "дешевый";
+        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, input);
+        String actualMessage = answer.messageText();
+        String expected = """
+                <i>Дешевый</i> ⤵️
+
+                ➡️<b>️ ужуз </b>
+
+                ➡️<b>️ усал, къиметсуз, са къиметдикни квачир </b>
+
+                """;
+        assertThat(actualMessage).isEqualTo(expected);
+    }
+
+    @Test
+    void whenTranslateIsFound11() {
+        String input = "еж";
+        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, input);
+        String actualMessage = answer.messageText();
+        String expected = """
+                <i>Еж</i> ⤵️
+
+                ➡️<b>️ кьуьгъуьр </b>
+
+                """;
+        assertThat(actualMessage).isEqualTo(expected);
+    }
+
+    @Test
+    void whenTranslateIsFound12() {
+        String input = "счетный";
+        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, input);
+        String actualMessage = answer.messageText();
+        String expected = """
+                <i>Счетный</i> ⤵️
+
+                ➡️<b>️ гьисабдин, гьисабардай </b>
+
+                <b><i>   - счетная машина</i></b> —  гьисабардай машин
+
+                ➡️<b>️ гьисабрин, счетдин, счетрин </b>
+
+                <b><i>   - счетная книга </i></b> — счетрин ктаб
+                <b><i>   - счетный работник</i></b> —  счетдин работник (счетоводвилин)
+
+                """;
+        assertThat(actualMessage).isEqualTo(expected);
+    }
+
+    @Test
+    void whenTranslateIsFound13() {
+        String input = "убеленный";
+        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, input);
+        String actualMessage = answer.messageText();
+        String expected = """
+                <i>Убеленный</i> ⤵️
+
+                <b><i>   - убеленный сединами</i></b> —  рехивили лацу авунвай, рехи хьанвай, лацу хьанвай (чIарар, кьил)
 
                 """;
         assertThat(actualMessage).isEqualTo(expected);

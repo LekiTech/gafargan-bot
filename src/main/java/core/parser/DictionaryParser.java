@@ -23,7 +23,8 @@ public class DictionaryParser {
         Dictionary dictionary = objectMapper.readValue(json, Dictionary.class);
         List<Expression> expressions = dictionary.getExpressions();
         for (Expression expression : expressions) {
-            dictionaryMap.put(expression.getSpelling().toLowerCase(), expression.getDetails());
+            dictionaryMap.put(expression.getSpelling().toLowerCase().replaceAll("ё", "е"),
+                    expression.getDetails());
         }
         return dictionaryMap;
     }
