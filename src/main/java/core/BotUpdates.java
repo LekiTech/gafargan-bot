@@ -2,6 +2,7 @@ package core;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import core.commands.ChatCommandProcessor;
 import core.parser.DictionaryParser;
 import core.parser.DictionaryRepository;
 import core.parser.JsonDictionary;
@@ -35,11 +36,11 @@ public class BotUpdates {
                     var textMessage = update.message();
                     var callbackQuery = update.callbackQuery();
                     if (textMessage != null) {
-                        var commandProcessor = CommandsFactory.createMessageProcessor(textMessage, bot);
+                        ChatCommandProcessor commandProcessor = CommandsFactory.createMessageProcessor(textMessage, bot);
                         commandProcessor.execute();
                         DataStorage.instance().saveSearch(textMessage.chat().id(), textMessage.text());
                     } else if (callbackQuery != null) {
-                        var commandProcessor = CommandsFactory.createCallbackProcessor(callbackQuery, bot);
+                        ChatCommandProcessor commandProcessor = CommandsFactory.createCallbackProcessor(callbackQuery, bot);
                         commandProcessor.execute();
                         DataStorage.instance().saveSearch(callbackQuery.message().chat().id(), callbackQuery.data());
                     }

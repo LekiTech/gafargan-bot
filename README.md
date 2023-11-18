@@ -1,19 +1,91 @@
-# Телеграм-бот лезгинские словари "GafarganBot" 
-https://t.me/GafarganBot
+# Telegram Bot - <a href="https://t.me/GafarganBot">GafarganBot</a> 
 
-Бот умеет переводить слова с лезгинского языка на русский и наоборот. Также находит слова, введённые с орфографическими ошибками.
+- [Лезги](#лезги)
+- [English](#english)
+- [Русский](#русский)
 
+---
 
-<img src="https://user-images.githubusercontent.com/102806435/231672910-6acbf3f4-4d86-48f1-93c9-1deaeb197dd1.PNG" width="324" height="570">
+# Лезги
 
-Пример, когда ввели слово с ошибкой:
+<a href="https://t.me/GafarganBot">GafarganBot</a> - телеграм лезги гафарган-бот.
+И ботдивай лезги чIалай урус чIалал ва урус чIалай лезги чIалал гафар таржума ийиз жезва. Идалай гъейри, сад садахъ галаз алакъалу са шумуд гаф жугъуриз жезва. Мадни, гъалатIар кваз кхьенвай гафарни жугъурун мумкин я.
 
-<img src="https://user-images.githubusercontent.com/102806435/231675449-8ad5cc7b-a5f8-44a5-9231-b8515758bbf8.PNG" width="324" height="570">
+Гафар жугъурун:
+
+<img src="./images/screen-shot1.png"  width="314"> <img src="./images/screen-shot2.png"  width="314">
+
+Сад садахъ галаз алакъалу са шумуд гаф жугъурун:
+
+<img src="./images/screen-shot3.png"  width="350">
+
+ГъалатIар квай гафар жугъурун:
+
+<img src="./images/screen-shot4.png"  width="314"> <img src="./images/screen-shot5.png"  width="310.5">
+
+---
+
+# Инфо
+
+Гафарганрин авторар👤:
+- Лезги-урус гафарган📗 — Бабаханов М.Б.
+- Урус-лезги гафарган📕 — Гаджиев М.М.
+
+Чешме: <a href="https://github.com/LekiTech/data-sources">LekiTech</a>
+
+---
+
+# English
+
+<a href="https://t.me/GafarganBot">GafarganBot</a> - is a Telegram bot of Lezghin dictionaries.
+This bot can search for translations of words from Lezghin to Russian and from Russian to Lezghin. In addition, it can search for word combinations. Also, it can find words entered with spelling mistakes.
+
+Search for words:
+
+<img src="./images/screen-shot1.png"  width="314"> <img src="./images/screen-shot2.png"  width="314">
+
+Phrase search:
+
+<img src="./images/screen-shot3.png"  width="350">
+
+Word search for misspelled words:
+
+<img src="./images/screen-shot4.png"  width="314"> <img src="./images/screen-shot5.png"  width="310.5">
+
+---
 
 # Info
-Автор бота: Артур Магомедов.
 
-Используемые словари:
-- Лезгинско-русский словарь📙 - Талибов Б., Гаджиев М.
-- Русско-лезгинский словарь📕 - Гаджиев М.М.
-- Лезгинско-русский словарь📗 - Бабаханов М.Б.
+Authors of dictionaries👤:
+- Lezgi-russian dictionary📗 — Babakhanov M.B.
+- Russian-lezgi dictionary📕 — Gadzhiev M.M.
+
+Source: <a href="https://github.com/LekiTech/data-sources">LekiTech</a>
+
+---
+
+# Русский
+
+<a href="https://t.me/GafarganBot">GafarganBot</a> - телеграм-бот лезгинских словарей. Данный бот может искать переводы к словам с лезгинского на русский и с русского на лезгинский языки. Помимо этого, умеет искать словосочетания. Также, может найти слова, введенные с орфографическими ошибками.
+
+Поиск слов:
+
+<img src="./images/screen-shot1.png"  width="314"> <img src="./images/screen-shot2.png"  width="314">
+
+Поиск словосочетаний (предложений):
+
+<img src="./images/screen-shot3.png"  width="350">
+
+Поиск слов с орфографическими ошибками:
+
+<img src="./images/screen-shot4.png"  width="314"> <img src="./images/screen-shot5.png"  width="310.5">
+
+---
+
+# Инфо
+
+Авторы словарей👤:
+- Лезгинско-русский словарь📗 — Бабаханов М.Б.
+- Русско-лезгинский словарь📕 — Гаджиев М.М.
+
+Источник: <a href="https://github.com/LekiTech/data-sources">LekiTech</a>
