@@ -37,8 +37,7 @@
 
 # English
 
-<a href="https://t.me/GafarganBot">GafarganBot</a> - is a Telegram bot of Lezghin dictionaries.
-This bot can search for translations of words from Lezghin to Russian and from Russian to Lezghin. In addition, it can search for word combinations. Also, it can find words entered with spelling mistakes.
+<a href="https://t.me/GafarganBot">GafarganBot</a> - is a Telegram bot of Lezgi dictionaries. This bot can search for translations of words from Lezgi to Russian and from Russian to Lezgi languages. In addition, it can search for word combinations. It can also find words entered with the spelling mistakes.
 
 Search for words:
 
