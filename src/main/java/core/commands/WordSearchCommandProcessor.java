@@ -6,12 +6,12 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
+import core.DataStorage;
 import core.parser.DictionaryRepository;
 import core.searchers.Answer;
 import core.searchers.SearchInDictionary;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static core.BotUpdates.*;
 import static core.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
@@ -30,7 +30,7 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
     public void execute() {
         var chatId = message.chat().id();
         var userMessage = message.text().toLowerCase().replaceAll("[i1lӏ|!]", "I").replaceAll("ё", "е");
-        var language = selectedLanguage.getDictionaryLanguage(chatId);
+        var language = DataStorage.instance().getLastSelectedDictionary(chatId);
         switch (language) {
             case CommandsList.LEZGI_RUS -> sendAnswerToUser(lezgiRusDictionary, userMessage, chatId);
             case CommandsList.RUS_LEZGI -> sendAnswerToUser(rusLezgiDictionary, userMessage, chatId);

@@ -6,6 +6,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
+import core.DataStorage;
 import core.searchers.Answer;
 import core.searchers.SearchForExampleOfWord;
 import javassist.NotFoundException;
@@ -28,7 +29,7 @@ public class ResponseFromExamplesButtonCommandProcessor implements ChatCommandPr
     public void execute() throws NotFoundException {
         var chatId = message.chat().id();
         String userMessage = callbackQuery.data();
-        var language = selectedLanguage.getDictionaryLanguage(chatId);
+        var language = DataStorage.instance().getLastSelectedDictionary(chatId);
         SearchForExampleOfWord searchExample = new SearchForExampleOfWord();
         switch (language) {
             case CommandsList.LEZGI_RUS -> {

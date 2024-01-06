@@ -5,8 +5,6 @@ import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import core.commands.*;
 
-import static core.BotUpdates.selectedLanguage;
-
 public class CommandsFactory {
 
     public static final String COMMAND_EXAMPLE_SUFFIX = "=example";
@@ -23,10 +21,8 @@ public class CommandsFactory {
                 return new RusLezgiDictionaryCommandProcessor(message, bot);
             case CommandsList.ABOUT_US:
                 return new AboutUsCommandProcessor(message, bot);
-            case CommandsList.EMAIL_US:
-                return new EmailUsCommandProcessor(message, bot);
             default:
-                if (selectedLanguage.getDictionaryLanguage(chatId) == null) {
+                if (DataStorage.instance().getLastSelectedDictionary(chatId) == null) {
                     return new DefaultCommandProcessor(message, bot);
                 }
                 return new WordSearchCommandProcessor(message, bot);

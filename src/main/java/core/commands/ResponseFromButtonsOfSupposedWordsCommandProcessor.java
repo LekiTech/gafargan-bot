@@ -3,11 +3,8 @@ package core.commands;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
-import com.pengrad.telegrambot.request.SendMessage;
-import core.searchers.Answer;
-import core.searchers.SearchInDictionary;
+import core.DataStorage;
 import javassist.NotFoundException;
 
 import static core.BotUpdates.*;
@@ -28,7 +25,7 @@ public class ResponseFromButtonsOfSupposedWordsCommandProcessor implements ChatC
     public void execute() throws NotFoundException {
         var chatId = message.chat().id();
         String userMessage = callbackQuery.data();
-        var language = selectedLanguage.getDictionaryLanguage(chatId);
+        var language = DataStorage.instance().getLastSelectedDictionary(chatId);
         WordSearchCommandProcessor wordSearch = new WordSearchCommandProcessor(message, bot);
         switch (language) {
             case CommandsList.LEZGI_RUS -> {

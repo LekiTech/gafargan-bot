@@ -12,9 +12,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class DataStorage {
 
@@ -59,6 +57,36 @@ public class DataStorage {
         data.put("value", userMessage);
         //asynchronously write data
         docRef.set(data);
+    }
+
+    public void saveSelectedDictionary(Long chatId, String selectedDictionary) {
+        DocumentReference docRef = db.collection("lastSelectedDictionary").document(chatId.toString());
+        // Add document data
+        Map<String, Object> data = new HashMap<>();
+        data.put("dictionary", selectedDictionary);
+        data.put("createdAt", new Timestamp(System.currentTimeMillis()));
+        //asynchronously write data
+        docRef.set(data);
+    }
+
+    public String getLastSelectedDictionary(Long chatId) {
+        DocumentReference docRef = db.collection("lastSelectedDictionary").document(chatId.toString());
+        // asynchronously retrieve the document
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        // future.get() blocks on response
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                // System.out.println("Document data: " + document.getData());
+                return (String) document.getData().get("dictionary");
+                //.get("language", String.class);
+            } else {
+                System.out.println("No such document!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Map<String, Object> getUserData(Long chatId) {

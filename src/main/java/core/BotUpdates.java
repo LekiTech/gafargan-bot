@@ -2,6 +2,7 @@ package core;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.request.SendMessage;
 import core.commands.ChatCommandProcessor;
 import core.parser.DictionaryParser;
 import core.parser.DictionaryRepository;
@@ -14,7 +15,6 @@ import java.util.Set;
 public class BotUpdates {
 
     private final TelegramBot bot;
-    public static SelectDictionaryLanguage selectedLanguage;
     public static final DictionaryRepository lezgiRusDictionary = new JsonDictionary();
     public static final DictionaryRepository rusLezgiDictionary = new JsonDictionary();
     public static Map<String, Set<String>> listOfExample;
@@ -24,7 +24,6 @@ public class BotUpdates {
     }
 
     public void start() throws Exception {
-        selectedLanguage = new SelectDictionaryLanguage();
         DictionaryParser dictionaryParser = new DictionaryParser();
         lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
         rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));

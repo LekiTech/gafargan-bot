@@ -4,8 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
-
-import static core.BotUpdates.selectedLanguage;
+import core.DataStorage;
 
 public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor {
 
@@ -20,8 +19,8 @@ public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor 
     @Override
     public void execute() {
         var chatId = message.chat().id();
-        selectedLanguage.putDictionaryLanguage(chatId, CommandsList.LEZGI_RUS);
-        bot.execute(new SendMessage(chatId, "\uD83D\uDCD6Лезги-урус гафарган\n\n"
+        DataStorage.instance().saveSelectedDictionary(chatId, CommandsList.LEZGI_RUS);
+        bot.execute(new SendMessage(chatId, "\uD83D\uDCD6Лезги-урус гафарган\n"
                 + "<b><i>✏️Лезги чIалал кхьихь</i></b>").parseMode(ParseMode.HTML));
     }
 }

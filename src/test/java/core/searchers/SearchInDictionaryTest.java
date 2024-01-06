@@ -86,7 +86,7 @@ class SearchInDictionaryTest {
                 <b><i>   - пака зи рикIел хкваш</i></b> —  завтра напомни мне
 
 
-                <i>см. тж.: </i>къелби\s""";
+                <i>мадни килиг:</i> <code>къелби</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
         assertThat(actualExampleButton).isNotEmpty();
     }
@@ -125,7 +125,7 @@ class SearchInDictionaryTest {
                 <b><i>   - къвал квай югъ</i></b> —  дождливый день
 
 
-                <i>см. тж.: </i>пагв\s""";
+                <i>мадни килиг:</i> <code>пагв</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
         assertThat(actualExampleButton).isNotEmpty();
     }
@@ -233,7 +233,7 @@ class SearchInDictionaryTest {
                 <i>Чергесви (-ди, -да, -йри)</i> ⤵️
 
 
-                <i>см. тж.: </i>черкес I\s""";
+                <i>мадни килиг:</i> <code>черкес I</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
     }
 
@@ -289,7 +289,7 @@ class SearchInDictionaryTest {
                 <b><i>   - чатухъанди гьулдандиз тав гузва</i></b> —  кузнец отпускает сталь (уменьшает накал стали)
 
 
-                <i>см. тж.: </i>дем\s""";
+                <i>мадни килиг:</i> <code>дем</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
     }
 

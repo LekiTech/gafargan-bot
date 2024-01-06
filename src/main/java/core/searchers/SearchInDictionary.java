@@ -65,9 +65,9 @@ public class SearchInDictionary {
                 amountOfValues++;
             }
             /* Если теги есть, присваиваем к концу ответной строки */
-            outputMessage.append(!tags.isEmpty()
-                    ? "\n<i>см. тж.: </i>" + tags.deleteCharAt(tags.length() - 2)
-                    : "");
+            if (!tags.isEmpty()) {
+                outputMessage.append(createTags(tags));
+            }
             /* Выводим ответ с наличием общих примеров */
             if (generalExample) {
                 return new Answer(outputMessage.toString().replaceAll("ё", "е"),
@@ -100,5 +100,16 @@ public class SearchInDictionary {
             outputMessage.append(correction.lineEdit(example.getRaw())).append("\n");
         });
         return outputMessage.toString().replaceAll("ё", "е");
+    }
+
+    private StringBuilder createTags(StringBuilder tags) {
+        StringBuilder result = new StringBuilder("\n<i>мадни килиг:</i> ");
+        String[] tagArr = tags.toString().split(", ");
+        for (String tag : tagArr) {
+            if (!tag.isEmpty()) {
+                result.append("<code>").append(tag).append("</code>").append(", ");
+            }
+        }
+        return result.deleteCharAt(result.length() - 2);
     }
 }

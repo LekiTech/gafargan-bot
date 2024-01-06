@@ -12,7 +12,6 @@ public class KeypadCreator {
                         new KeyboardButton("\uD83D\uDCD5Урус-лезги гафарган")
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton("\uD83D\uDCE9Кхьихь чаз"),
                         new KeyboardButton("\uD83D\uDCDCЧакай")
                 }
         );
