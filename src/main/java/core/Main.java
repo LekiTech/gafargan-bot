@@ -1,5 +1,9 @@
 package core;
 
+import core.init.Env;
+import core.updates.BotUpdates;
+import core.updates.DataStorage;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {

@@ -1,6 +1,6 @@
-package core;
+package core.util;
 
-public class StringCorrection {
+public class LineCorrection {
 
     public String lineEdit(String line) {
         return line

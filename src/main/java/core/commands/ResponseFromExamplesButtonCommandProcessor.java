@@ -6,12 +6,12 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.DataStorage;
+import core.updates.DataStorage;
 import core.searchers.Answer;
 import core.searchers.SearchForExampleOfWord;
 import javassist.NotFoundException;
 
-import static core.BotUpdates.*;
+import static core.updates.BotUpdates.*;
 
 public class ResponseFromExamplesButtonCommandProcessor implements ChatCommandProcessor {
 

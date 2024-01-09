@@ -1,6 +1,6 @@
 package core.searchers;
 
-import core.StringCorrection;
+import core.util.LineCorrection;
 import core.parser.DictionaryRepository;
 import core.parser.model.Definition;
 import core.parser.model.DefinitionDetails;
@@ -8,8 +8,8 @@ import core.parser.model.ExpressionDetails;
 
 import java.util.List;
 
-import static core.BotUpdates.listOfExample;
-import static core.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
+import static core.updates.BotUpdates.listOfExample;
+import static core.updates.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
 
 public class SearchInDictionary {
 
@@ -52,7 +52,7 @@ public class SearchInDictionary {
                                 .append("</b>\n\n");
                     }
                     if (definitionDetails.getExamples() != null) {
-                        StringCorrection correction = new StringCorrection();
+                        LineCorrection correction = new LineCorrection();
                         definitionDetails.getExamples().forEach(example -> {
                             outputMessage.append(correction.lineEdit(example.getRaw())).append("\n");
                         });
@@ -95,7 +95,7 @@ public class SearchInDictionary {
 
     private String sendOnlyExamples(String userMessage, StringBuilder outputMessage, ExpressionDetails details) {
         outputMessage.append("<i>").append(userMessage).append("️</i> ⤵️\n\n");
-        StringCorrection correction = new StringCorrection();
+        LineCorrection correction = new LineCorrection();
         details.getExamples().forEach(example -> {
             outputMessage.append(correction.lineEdit(example.getRaw())).append("\n");
         });

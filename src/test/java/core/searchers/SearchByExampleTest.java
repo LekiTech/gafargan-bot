@@ -1,11 +1,10 @@
 package core.searchers;
 
-import core.Examples;
+import core.parser.Examples;
 import core.parser.DictionaryParser;
 import core.parser.DictionaryRepository;
 import core.parser.JsonDictionary;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

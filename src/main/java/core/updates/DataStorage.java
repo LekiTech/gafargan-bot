@@ -1,13 +1,12 @@
-package core;
+package core.updates;
 
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import core.Main;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -120,4 +119,10 @@ public class DataStorage {
         FirebaseApp.initializeApp(options);
         return FirestoreClient.getFirestore();
     }
+/*
+    public List<Long> getAllChatId() throws Exception {
+        ApiFuture<QuerySnapshot> query = db.collection("users").get();
+        return query.get().getDocuments().stream().map(document -> (Long) document.getData().get("chatId")).toList();
+    }
+ */
 }

@@ -1,4 +1,4 @@
-package core;
+package core.updates;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.CallbackQuery;

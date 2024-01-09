@@ -1,6 +1,5 @@
-package core;
+package core.parser;
 
-import core.parser.DictionaryRepository;
 import core.parser.model.DefinitionDetails;
 import core.parser.model.Example;
 import core.parser.model.ExpressionDetails;

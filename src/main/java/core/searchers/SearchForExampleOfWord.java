@@ -1,6 +1,6 @@
 package core.searchers;
 
-import core.StringCorrection;
+import core.util.LineCorrection;
 import core.parser.DictionaryRepository;
 import core.parser.model.Example;
 import core.parser.model.ExpressionDetails;
@@ -19,7 +19,7 @@ public class SearchForExampleOfWord {
             outputMessage.append("<i>").append(spelling.substring(0, 1).toUpperCase()).append(spelling.substring(1)
                     .replaceAll("[i1lӏ|]", "I")).append("</i> ⤵️\n\n");
             List<ExpressionDetails> expressionDetails = dictionary.getDefinitions(spelling);
-            StringCorrection correction = new StringCorrection();
+            LineCorrection correction = new LineCorrection();
             for (ExpressionDetails details : expressionDetails) {
                 if (details.getExamples() != null) {
                     int count = 0;

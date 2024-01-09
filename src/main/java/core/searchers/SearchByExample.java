@@ -1,6 +1,6 @@
 package core.searchers;
 
-import core.StringCorrection;
+import core.util.LineCorrection;
 import core.parser.DictionaryRepository;
 import javassist.NotFoundException;
 
@@ -30,7 +30,7 @@ public class SearchByExample {
             String cleanInputMsg = inputMessage.replaceAll("[,?!.;]", "");
             String wordToFind = "\\b" + Pattern.quote(cleanInputMsg) + "\\b";
             Pattern pattern = Pattern.compile(wordToFind, Pattern.UNICODE_CHARACTER_CLASS);
-            StringCorrection correction = new StringCorrection();
+            LineCorrection correction = new LineCorrection();
             for (String example : tempExamples) {
                 String tempEx = example.replaceAll("[,?!.;]", "");
                 Matcher matcher = pattern.matcher(tempEx);

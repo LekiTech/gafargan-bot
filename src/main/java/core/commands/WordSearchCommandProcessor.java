@@ -6,15 +6,15 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.DataStorage;
+import core.updates.DataStorage;
 import core.parser.DictionaryRepository;
 import core.searchers.Answer;
 import core.searchers.SearchInDictionary;
 
 import java.util.*;
 
-import static core.BotUpdates.*;
-import static core.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
+import static core.updates.BotUpdates.*;
+import static core.updates.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
 
 public class WordSearchCommandProcessor implements ChatCommandProcessor {
 

@@ -1,11 +1,11 @@
-package core;
+package core.updates;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
-import com.pengrad.telegrambot.request.SendMessage;
 import core.commands.ChatCommandProcessor;
 import core.parser.DictionaryParser;
 import core.parser.DictionaryRepository;
+import core.parser.Examples;
 import core.parser.JsonDictionary;
 
 import java.util.List;
