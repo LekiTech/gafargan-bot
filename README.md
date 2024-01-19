@@ -1,4 +1,4 @@
-# Telegram Bot - <a href="https://t.me/GafarganBot">GafarganBot</a> 
+# Telegram Bot - <a href="https://t.me/GafarganBot">GafarganBot</a> Lezgi dictionaries 
 
 - [Лезги](#лезги)
 - [English](#english)
