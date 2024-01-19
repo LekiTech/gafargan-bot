@@ -1,33 +1,33 @@
-package core.parser;
+package core.dictionary.parser;
 
-import core.parser.model.DefinitionDetails;
-import core.parser.model.Example;
-import core.parser.model.ExpressionDetails;
+import core.dictionary.model.DefinitionDetails;
+import core.dictionary.model.Example;
+import core.dictionary.model.ExpressionDetails;
 
 import java.util.*;
 
-public class Examples {
+public class ExamplesParsing {
 
-    public Map<String, Set<String>> getAll(List<DictionaryRepository> listOfDictionary) {
-        Map<String, Set<String>> resultExamples = new HashMap<>();
+    public Map<String, Set<String>> getAllExamples(List<DictionaryRepository> listOfDictionary) {
+        Map<String, Set<String>> result = new HashMap<>();
         for (DictionaryRepository dictionaryRepository : listOfDictionary) {
             for (List<ExpressionDetails> expressionDetails : dictionaryRepository.getFullDictionary().values()) {
                 for (ExpressionDetails details : expressionDetails) {
                     for (DefinitionDetails definitionDetails : details.getDefinitionDetails()) {
                         if (definitionDetails.getExamples() != null) {
-                            writingExamplesToMap(definitionDetails.getExamples(), resultExamples);
+                            writingExamplesToMap(definitionDetails.getExamples(), result);
                         }
                     }
                     if (details.getExamples() != null) {
-                        writingExamplesToMap(details.getExamples(), resultExamples);
+                        writingExamplesToMap(details.getExamples(), result);
                     }
                 }
             }
         }
-        return resultExamples;
+        return result;
     }
 
-    private static void writingExamplesToMap(List<Example> allExample, Map<String, Set<String>> resultExamples) {
+    private static void writingExamplesToMap(List<Example> allExample, Map<String, Set<String>> result) {
         for (Example example : allExample) {
             String[] words = example.getRaw().split("[^а-яА-ЯёЁiI1lӏ|Ӏ]");
             for (String word : words) {
@@ -35,10 +35,10 @@ public class Examples {
                     String spell = word.replaceAll("ё", "е");
                     Set<String> temp = new HashSet<>();
                     temp.add(example.getRaw().replaceAll("ё", "е"));
-                    if (resultExamples.containsKey(spell)) {
-                        resultExamples.get(spell).addAll(temp);
+                    if (result.containsKey(spell)) {
+                        result.get(spell).addAll(temp);
                     } else {
-                        resultExamples.put(spell, temp);
+                        result.put(spell, temp);
                     }
                 }
             }

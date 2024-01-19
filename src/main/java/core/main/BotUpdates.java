@@ -1,12 +1,14 @@
-package core.updates;
+package core.main;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import core.commands.ChatCommandProcessor;
-import core.parser.DictionaryParser;
-import core.parser.DictionaryRepository;
-import core.parser.Examples;
-import core.parser.JsonDictionary;
+import core.dictionary.parser.DictionaryParser;
+import core.dictionary.parser.DictionaryRepository;
+import core.dictionary.parser.ExamplesParsing;
+import core.dictionary.parser.JsonDictionary;
+import core.factory.CommandsFactory;
+import core.storage.DataStorage;
 
 import java.util.List;
 import java.util.Map;
@@ -27,8 +29,7 @@ public class BotUpdates {
         DictionaryParser dictionaryParser = new DictionaryParser();
         lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
         rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));
-        Examples examples = new Examples();
-        listOfExample = examples.getAll(List.of(lezgiRusDictionary, rusLezgiDictionary));
+        listOfExample = new ExamplesParsing().getAllExamples(List.of(lezgiRusDictionary, rusLezgiDictionary));
         bot.setUpdatesListener(updates -> {
             try {
                 for (var update : updates) {

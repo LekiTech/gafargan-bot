@@ -1,13 +1,15 @@
 package core.searchers;
 
-import core.util.LineCorrection;
-import core.parser.DictionaryRepository;
+import core.correction.LineEditor;
+import core.dictionary.parser.DictionaryRepository;
 import javassist.NotFoundException;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static core.correction.LineEditor.editLine;
 
 public class SearchByExample {
 
@@ -30,12 +32,11 @@ public class SearchByExample {
             String cleanInputMsg = inputMessage.replaceAll("[,?!.;]", "");
             String wordToFind = "\\b" + Pattern.quote(cleanInputMsg) + "\\b";
             Pattern pattern = Pattern.compile(wordToFind, Pattern.UNICODE_CHARACTER_CLASS);
-            LineCorrection correction = new LineCorrection();
             for (String example : tempExamples) {
                 String tempEx = example.replaceAll("[,?!.;]", "");
                 Matcher matcher = pattern.matcher(tempEx);
                 if (matcher.find()) {
-                    outputMessage.append(correction.lineEdit(example)
+                    outputMessage.append(editLine(example)
                             .replaceAll(cleanInputMsg, "<u>" + cleanInputMsg + "</u>")).append("\n");
                     numberOfExamples++;
                     if (numberOfExamples >= 10) {

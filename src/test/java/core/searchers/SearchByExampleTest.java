@@ -1,9 +1,9 @@
 package core.searchers;
 
-import core.parser.Examples;
-import core.parser.DictionaryParser;
-import core.parser.DictionaryRepository;
-import core.parser.JsonDictionary;
+import core.dictionary.parser.ExamplesParsing;
+import core.dictionary.parser.DictionaryParser;
+import core.dictionary.parser.DictionaryRepository;
+import core.dictionary.parser.JsonDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,8 +24,8 @@ class SearchByExampleTest {
     public void initDictionaries() throws Exception {
         lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
         rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));
-        var examples = new Examples();
-        listOfExample = examples.getAll(List.of(lezgiRusDictionary, rusLezgiDictionary));
+        var examples = new ExamplesParsing();
+        listOfExample = examples.getAllExamples(List.of(lezgiRusDictionary, rusLezgiDictionary));
     }
 
     @Test

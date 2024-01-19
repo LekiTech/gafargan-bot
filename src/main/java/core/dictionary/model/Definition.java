@@ -1,4 +1,4 @@
-package core.parser.model;
+package core.dictionary.model;
 
 import lombok.*;
 

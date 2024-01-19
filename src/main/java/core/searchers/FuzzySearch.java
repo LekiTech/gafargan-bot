@@ -1,6 +1,6 @@
 package core.searchers;
 
-import core.parser.DictionaryRepository;
+import core.dictionary.parser.DictionaryRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;

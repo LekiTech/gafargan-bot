@@ -1,8 +1,7 @@
-package core;
+package core.main;
 
-import core.init.Env;
-import core.updates.BotUpdates;
-import core.updates.DataStorage;
+import core.environment.Env;
+import core.storage.DataStorage;
 
 public class Main {
 

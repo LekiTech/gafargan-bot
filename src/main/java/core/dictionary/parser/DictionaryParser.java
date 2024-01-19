@@ -1,7 +1,9 @@
-package core.parser;
+package core.dictionary.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import core.parser.model.*;
+import core.dictionary.model.Dictionary;
+import core.dictionary.model.Expression;
+import core.dictionary.model.ExpressionDetails;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DictionaryParser {
+
     public Map<String, List<ExpressionDetails>> parse(String fileName) throws IOException {
         Map<String, List<ExpressionDetails>> dictionaryMap = new HashMap<>();
         /* Читаем JSON из файла */

@@ -1,9 +1,10 @@
-package core.updates;
+package core.factory;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import core.commands.*;
+import core.storage.DataStorage;
 
 public class CommandsFactory {
 

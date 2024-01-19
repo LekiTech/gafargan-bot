@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.updates.DataStorage;
+import core.storage.DataStorage;
 
 public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor {
 

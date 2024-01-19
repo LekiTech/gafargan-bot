@@ -1,8 +1,8 @@
 package core.searchers;
 
-import core.parser.DictionaryParser;
-import core.parser.DictionaryRepository;
-import core.parser.JsonDictionary;
+import core.dictionary.parser.DictionaryParser;
+import core.dictionary.parser.DictionaryRepository;
+import core.dictionary.parser.JsonDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

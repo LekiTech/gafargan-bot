@@ -1,4 +1,4 @@
-package core.util;
+package core.ui;
 
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;

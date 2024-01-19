@@ -1,20 +1,21 @@
 package core.searchers;
 
-import core.util.LineCorrection;
-import core.parser.DictionaryRepository;
-import core.parser.model.Definition;
-import core.parser.model.DefinitionDetails;
-import core.parser.model.ExpressionDetails;
+import core.dictionary.parser.DictionaryRepository;
+import core.dictionary.model.Definition;
+import core.dictionary.model.DefinitionDetails;
+import core.dictionary.model.ExpressionDetails;
 
 import java.util.List;
 
-import static core.updates.BotUpdates.listOfExample;
-import static core.updates.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
+import static core.correction.LineEditor.editLine;
+import static core.correction.WordCapitalize.capitalizeFirstLetter;
+import static core.main.BotUpdates.listOfExample;
+import static core.factory.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
 
 public class SearchInDictionary {
 
     public Answer sendAnswerFromDictionary(DictionaryRepository dictionary, String spelling) {
-        String userMessage = spelling.substring(0, 1).toUpperCase() + spelling.substring(1);
+        String userMessage = capitalizeFirstLetter(spelling);
         int amountOfValues = 1;
         boolean generalExample = false;
         StringBuilder tags = new StringBuilder();
@@ -52,9 +53,8 @@ public class SearchInDictionary {
                                 .append("</b>\n\n");
                     }
                     if (definitionDetails.getExamples() != null) {
-                        LineCorrection correction = new LineCorrection();
                         definitionDetails.getExamples().forEach(example -> {
-                            outputMessage.append(correction.lineEdit(example.getRaw())).append("\n");
+                            outputMessage.append(editLine(example.getRaw())).append("\n");
                         });
                         outputMessage.append("\n");
                     }
@@ -95,9 +95,8 @@ public class SearchInDictionary {
 
     private String sendOnlyExamples(String userMessage, StringBuilder outputMessage, ExpressionDetails details) {
         outputMessage.append("<i>").append(userMessage).append("️</i> ⤵️\n\n");
-        LineCorrection correction = new LineCorrection();
         details.getExamples().forEach(example -> {
-            outputMessage.append(correction.lineEdit(example.getRaw())).append("\n");
+            outputMessage.append(editLine(example.getRaw())).append("\n");
         });
         return outputMessage.toString().replaceAll("ё", "е");
     }

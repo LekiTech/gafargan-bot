@@ -1,8 +1,8 @@
-package core.util;
+package core.correction;
 
-public class LineCorrection {
+public class LineEditor {
 
-    public String lineEdit(String line) {
+    public static String editLine(String line) {
         return line
                 .replaceAll("<", "[")
                 .replaceAll(">", "]")

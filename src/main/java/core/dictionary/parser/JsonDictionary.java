@@ -1,6 +1,6 @@
-package core.parser;
+package core.dictionary.parser;
 
-import core.parser.model.ExpressionDetails;
+import core.dictionary.model.ExpressionDetails;
 import javassist.NotFoundException;
 
 import java.util.List;
