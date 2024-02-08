@@ -16,5 +16,4 @@ public class Test {
         String result = restTemplate.getForObject(url, String.class, params);
         System.out.println(result);
     }
-
 }
