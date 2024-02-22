@@ -3,8 +3,10 @@ package core.commands;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import core.storage.DataStorage;
+import core.ui.KeypadCreator;
 
 public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor {
 
@@ -20,7 +22,11 @@ public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor 
     public void execute() {
         var chatId = message.chat().id();
         DataStorage.instance().saveSelectedDictionary(chatId, CommandsList.LEZGI_RUS);
+        KeypadCreator keypadCreator = new KeypadCreator();
+        ReplyKeyboardMarkup keypad = keypadCreator.createMenuForDictionarySelection();
         bot.execute(new SendMessage(chatId, "\uD83D\uDCD6Лезги-урус гафарган.\n"
-                + "<b>✏️Лезги чIалал кхьихь.</b>").parseMode(ParseMode.HTML));
+                + "<b>✏️Лезги чIалал кхьихь.</b>")
+                .parseMode(ParseMode.HTML)
+                .replyMarkup(keypad));
     }
 }
