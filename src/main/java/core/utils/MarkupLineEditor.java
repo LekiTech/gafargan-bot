@@ -1,8 +1,8 @@
-package core.correction;
+package core.utils;
 
-public class LineEditor {
+public class MarkupLineEditor {
 
-    public static String editLine(String line) {
+    public static String convertMarkupToHTML(String line) {
         return line
                 .replaceAll("<", "[")
                 .replaceAll(">", "]")

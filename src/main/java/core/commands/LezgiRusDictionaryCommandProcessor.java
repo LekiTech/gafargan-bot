@@ -20,7 +20,7 @@ public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor 
     public void execute() {
         var chatId = message.chat().id();
         DataStorage.instance().saveSelectedDictionary(chatId, CommandsList.LEZGI_RUS);
-        bot.execute(new SendMessage(chatId, "\uD83D\uDCD6Лезги-урус гафарган\n"
-                + "<b><i>✏️Лезги чIалал кхьихь</i></b>").parseMode(ParseMode.HTML));
+        bot.execute(new SendMessage(chatId, "\uD83D\uDCD6Лезги-урус гафарган.\n"
+                + "<b>✏️Лезги чIалал кхьихь.</b>").parseMode(ParseMode.HTML));
     }
 }

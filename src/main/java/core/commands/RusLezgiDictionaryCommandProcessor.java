@@ -19,7 +19,7 @@ public class RusLezgiDictionaryCommandProcessor implements ChatCommandProcessor 
     public void execute() {
         var chatId = message.chat().id();
         DataStorage.instance().saveSelectedDictionary(chatId, CommandsList.RUS_LEZGI);
-        String normalized = "\uD83D\uDCD6Урус-лезги гафарган\n<b><i>✏Урус чIалал кхьихь</i></b>️"
+        String normalized = "\uD83D\uDCD6Урус-лезги гафарган.\n<b>✏Урус чIалал кхьихь.</b>️"
                 .replaceAll("\\p{Mn}", "");
         bot.execute(new SendMessage(chatId, normalized).parseMode(ParseMode.HTML));
     }

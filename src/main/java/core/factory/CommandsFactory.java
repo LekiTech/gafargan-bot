@@ -20,8 +20,8 @@ public class CommandsFactory {
                 return new LezgiRusDictionaryCommandProcessor(message, bot);
             case CommandsList.RUS_LEZGI:
                 return new RusLezgiDictionaryCommandProcessor(message, bot);
-            case CommandsList.ABOUT_US:
-                return new AboutUsCommandProcessor(message, bot);
+            case CommandsList.INFO:
+                return new InfoCommandProcessor(message, bot);
             default:
                 if (DataStorage.instance().getLastSelectedDictionary(chatId) == null) {
                     return new DefaultCommandProcessor(message, bot);

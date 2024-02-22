@@ -1,14 +1,13 @@
 package core.searchers;
 
-import core.correction.LineEditor;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.model.Example;
 import core.dictionary.model.ExpressionDetails;
 
 import java.util.List;
 
-import static core.correction.LineEditor.editLine;
-import static core.correction.WordCapitalize.capitalizeFirstLetter;
+import static core.utils.MarkupLineEditor.convertMarkupToHTML;
+import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class SearchForExampleOfWord {
 
@@ -26,7 +25,7 @@ public class SearchForExampleOfWord {
                 if (details.getExamples() != null) {
                     int count = 0;
                     for (Example examples : details.getExamples()) {
-                        outputMessage.append(editLine(examples.getRaw().replaceAll("ё", "е"))).append("\n");
+                        outputMessage.append(convertMarkupToHTML(examples.getRaw().replaceAll("ё", "е"))).append("\n");
                         if (count > 20) {
                             break;
                         }

@@ -1,6 +1,5 @@
 package core.searchers;
 
-import core.correction.LineEditor;
 import core.dictionary.parser.DictionaryRepository;
 import javassist.NotFoundException;
 
@@ -9,7 +8,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static core.correction.LineEditor.editLine;
+import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 
 public class SearchByExample {
 
@@ -36,7 +35,7 @@ public class SearchByExample {
                 String tempEx = example.replaceAll("[,?!.;]", "");
                 Matcher matcher = pattern.matcher(tempEx);
                 if (matcher.find()) {
-                    outputMessage.append(editLine(example)
+                    outputMessage.append(convertMarkupToHTML(example)
                             .replaceAll(cleanInputMsg, "<u>" + cleanInputMsg + "</u>")).append("\n");
                     numberOfExamples++;
                     if (numberOfExamples >= 10) {

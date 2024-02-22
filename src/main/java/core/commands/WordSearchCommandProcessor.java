@@ -15,6 +15,7 @@ import java.util.*;
 
 import static core.main.BotUpdates.*;
 import static core.factory.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
+import static core.utils.SearchStringNormalizer.normalizeString;
 
 public class WordSearchCommandProcessor implements ChatCommandProcessor {
 
@@ -29,7 +30,7 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
     @Override
     public void execute() {
         var chatId = message.chat().id();
-        var userMessage = message.text().toLowerCase().replaceAll("[i1lӏ|!]", "I").replaceAll("ё", "е");
+        var userMessage = normalizeString(message.text());
         var language = DataStorage.instance().getLastSelectedDictionary(chatId);
         switch (language) {
             case CommandsList.LEZGI_RUS -> sendAnswerToUser(lezgiRusDictionary, userMessage, chatId);

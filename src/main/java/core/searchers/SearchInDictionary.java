@@ -7,8 +7,8 @@ import core.dictionary.model.ExpressionDetails;
 
 import java.util.List;
 
-import static core.correction.LineEditor.editLine;
-import static core.correction.WordCapitalize.capitalizeFirstLetter;
+import static core.utils.MarkupLineEditor.convertMarkupToHTML;
+import static core.utils.WordCapitalize.capitalizeFirstLetter;
 import static core.main.BotUpdates.listOfExample;
 import static core.factory.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
 
@@ -54,7 +54,7 @@ public class SearchInDictionary {
                     }
                     if (definitionDetails.getExamples() != null) {
                         definitionDetails.getExamples().forEach(example -> {
-                            outputMessage.append(editLine(example.getRaw())).append("\n");
+                            outputMessage.append(convertMarkupToHTML(example.getRaw())).append("\n");
                         });
                         outputMessage.append("\n");
                     }
@@ -96,7 +96,7 @@ public class SearchInDictionary {
     private String sendOnlyExamples(String userMessage, StringBuilder outputMessage, ExpressionDetails details) {
         outputMessage.append("<i>").append(userMessage).append("️</i> ⤵️\n\n");
         details.getExamples().forEach(example -> {
-            outputMessage.append(editLine(example.getRaw())).append("\n");
+            outputMessage.append(convertMarkupToHTML(example.getRaw())).append("\n");
         });
         return outputMessage.toString().replaceAll("ё", "е");
     }

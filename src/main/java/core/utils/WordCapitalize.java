@@ -1,4 +1,4 @@
-package core.correction;
+package core.utils;
 
 public class WordCapitalize {
 
