@@ -48,15 +48,15 @@ public class DataStorage {
     }
 
     public void saveSearch(Long chatId, String userMessage) {
-//        UUID doc = UUID.randomUUID();
-//        DocumentReference docRef = db.collection("searches").document(doc.toString());
-//        // Add document data
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("chatId", chatId);
-//        data.put("createdAt", new Timestamp(System.currentTimeMillis()));
-//        data.put("value", userMessage);
-//        //asynchronously write data
-//        docRef.set(data);
+        UUID doc = UUID.randomUUID();
+        DocumentReference docRef = db.collection("searches").document(doc.toString());
+        // Add document data
+        Map<String, Object> data = new HashMap<>();
+        data.put("chatId", chatId);
+        data.put("createdAt", new Timestamp(System.currentTimeMillis()));
+        data.put("value", userMessage);
+        //asynchronously write data
+        docRef.set(data);
     }
 
     public void saveSelectedDictionary(Long chatId, String selectedDictionary) {
