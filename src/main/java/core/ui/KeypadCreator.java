@@ -13,6 +13,9 @@ public class KeypadCreator {
                         new KeyboardButton("\uD83D\uDCD5Урус-лезги гафарган")
                 },
                 new KeyboardButton[]{
+                        new KeyboardButton("\uD83D\uDD22Лезги числояр")
+                },
+                new KeyboardButton[]{
                         new KeyboardButton("\uD83C\uDF10Чи сайт: gafargan.com")
                                 .webAppInfo(new WebAppInfo("https://gafargan.com/"))
                 }
