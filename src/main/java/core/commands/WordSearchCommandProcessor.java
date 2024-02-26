@@ -2,19 +2,16 @@ package core.commands;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.storage.DataStorage;
+import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
 import core.searchers.Answer;
 import core.searchers.SearchInDictionary;
 
-import java.util.*;
-
-import static core.main.BotUpdates.*;
-import static core.factory.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
+import static core.tgbothandler.BotUpdates.*;
+import static core.ui.InlineKeyboardCreator.createInlineKeyboard;
 import static core.utils.SearchStringNormalizer.normalizeString;
 
 public class WordSearchCommandProcessor implements ChatCommandProcessor {
@@ -52,28 +49,5 @@ public class WordSearchCommandProcessor implements ChatCommandProcessor {
                     .parseMode(ParseMode.HTML)
                     .replyMarkup(inlineKeyboard));
         }
-    }
-
-    private InlineKeyboardMarkup createInlineKeyboard(List<String> words) {
-        if (words.get(0).contains(COMMAND_EXAMPLE_SUFFIX)) {
-            return new InlineKeyboardMarkup(
-                    new InlineKeyboardButton[][]{
-                            {new InlineKeyboardButton("Мад меселаяр къалурун").callbackData(words.get(0))}
-                    }
-            );
-        }
-        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        for (String word : words) {
-            List<InlineKeyboardButton> buttonList = new ArrayList<>();
-            buttonList.add(new InlineKeyboardButton(word).callbackData(word));
-            buttons.add(buttonList);
-        }
-        InlineKeyboardButton[][] inlineKeyboardButton = new InlineKeyboardButton[buttons.size()][1];
-        for (int i = 0; i < inlineKeyboardButton.length; i++) {
-            for (int j = 0; j < inlineKeyboardButton[i].length; j++) {
-                inlineKeyboardButton[i][j] = buttons.get(i).get(j);
-            }
-        }
-        return new InlineKeyboardMarkup(inlineKeyboardButton);
     }
 }

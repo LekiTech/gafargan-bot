@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.storage.DataStorage;
+import core.database.DataStorage;
 import core.ui.KeypadCreator;
 
 public class RusLezgiDictionaryCommandProcessor implements ChatCommandProcessor {

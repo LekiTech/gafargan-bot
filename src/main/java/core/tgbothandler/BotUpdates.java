@@ -1,4 +1,4 @@
-package core.main;
+package core.tgbothandler;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
@@ -7,8 +7,7 @@ import core.dictionary.parser.DictionaryParser;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.ExamplesParsing;
 import core.dictionary.parser.JsonDictionary;
-import core.factory.CommandsFactory;
-import core.storage.DataStorage;
+import core.database.DataStorage;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package core.environment;
+package core.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

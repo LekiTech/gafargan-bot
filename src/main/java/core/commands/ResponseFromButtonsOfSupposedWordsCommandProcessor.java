@@ -4,10 +4,10 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
-import core.storage.DataStorage;
+import core.database.DataStorage;
 import javassist.NotFoundException;
 
-import static core.main.BotUpdates.*;
+import static core.tgbothandler.BotUpdates.*;
 
 public class ResponseFromButtonsOfSupposedWordsCommandProcessor implements ChatCommandProcessor {
 

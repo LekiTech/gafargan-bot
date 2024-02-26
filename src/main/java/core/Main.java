@@ -1,7 +1,8 @@
-package core.main;
+package core;
 
-import core.environment.Env;
-import core.storage.DataStorage;
+import core.config.Env;
+import core.tgbothandler.BotUpdates;
+import core.database.DataStorage;
 
 public class Main {
 

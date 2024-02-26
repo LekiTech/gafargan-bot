@@ -1,4 +1,4 @@
-package core.main;
+package core.tgbothandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

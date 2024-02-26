@@ -1,4 +1,4 @@
-package core.storage;
+package core.database;
 
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -6,7 +6,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import core.main.Main;
+import core.Main;
 
 import java.io.IOException;
 import java.io.InputStream;

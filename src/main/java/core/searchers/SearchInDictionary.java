@@ -9,8 +9,8 @@ import java.util.List;
 
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
-import static core.main.BotUpdates.listOfExample;
-import static core.factory.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
+import static core.tgbothandler.BotUpdates.listOfExample;
+import static core.tgbothandler.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
 
 public class SearchInDictionary {
 
