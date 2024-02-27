@@ -1,33 +1,33 @@
 package core.searchers;
 
-import core.dictionary.parser.DictionaryParser;
+import core.config.DictionaryConfigReader;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.JsonDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static core.dictionary.parser.DictionaryParser.parse;
 import static org.assertj.core.api.Assertions.*;
 
-class SearchForExampleOfWordTest {
+class SearchByExamplesOfSpellingTest {
 
-
+    private final DictionaryConfigReader dictionaryConfig = new DictionaryConfigReader();
     private final DictionaryRepository lezgiRusDictionary = new JsonDictionary();
     private final DictionaryRepository rusLezgiDictionary = new JsonDictionary();
-    DictionaryParser dictionaryParser = new DictionaryParser();
 
     @BeforeEach
     public void initDictionaries() throws Exception {
-        lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
-        rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));
+        lezgiRusDictionary.setDictionary(parse(dictionaryConfig.getFilePath("lez_rus_dict")));
+        rusLezgiDictionary.setDictionary(parse(dictionaryConfig.getFilePath("rus_lez_dict")));
     }
 
     @Test
     void sendExample() {
         String inputMessage = "Руш";
         String expectedButtCallbackData = "руш=example";
-        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(lezgiRusDictionary, inputMessage);
-        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
-        Answer answer1 = new SearchForExampleOfWord().sendExample(lezgiRusDictionary, inputMessage);
+        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, inputMessage);
+        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Response response1 = new SearchByExamplesOfSpelling().sendExample(lezgiRusDictionary, inputMessage);
         String expected = """
                 <i>Руш</i> ⤵️
 
@@ -37,7 +37,7 @@ class SearchForExampleOfWordTest {
                 <b><i>   - чан руш!</i></b> —  обр. дочка! доченька! (ласковое обращение)
                 <b><i>   - кицIин руш!</i></b> —  обр. собачья дочь! (грубое обращение)
                 """;
-        String actual = answer1.messageText();
+        String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -45,9 +45,9 @@ class SearchForExampleOfWordTest {
     void sendExample1() {
         String inputMessage = "КIвал";
         String expectedButtCallbackData = "кiвал=example";
-        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(lezgiRusDictionary, inputMessage);
-        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
-        Answer answer1 = new SearchForExampleOfWord().sendExample(lezgiRusDictionary, inputMessage);
+        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, inputMessage);
+        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Response response1 = new SearchByExamplesOfSpelling().sendExample(lezgiRusDictionary, inputMessage);
         String expected = """
                 <i>КIвал</i> ⤵️
 
@@ -68,7 +68,7 @@ class SearchForExampleOfWordTest {
                 <b><i>   - кIваляй чукурун</i></b> —  гл. выгонять, выселять из дому
                 <b><i>   - кIваляй кьве кьил кьуна акъудрай!</i></b> —  [межд]. чтоб выносили из дому (мертвого)
                 """;
-        String actual = answer1.messageText();
+        String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -76,9 +76,9 @@ class SearchForExampleOfWordTest {
     void sendExample2() {
         String inputMessage = "рикi";
         String expectedButtCallbackData = "рикi=example";
-        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(lezgiRusDictionary, inputMessage);
-        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
-        Answer answer1 = new SearchForExampleOfWord().sendExample(lezgiRusDictionary, inputMessage);
+        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, inputMessage);
+        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Response response1 = new SearchByExamplesOfSpelling().sendExample(lezgiRusDictionary, inputMessage);
         String expected = """
                 <i>РикI</i> ⤵️
 
@@ -105,7 +105,7 @@ class SearchForExampleOfWordTest {
                 <b><i>   - рикI ацукьун</i></b> —  [гл.] понравиться, приглянуться
                 <b><i>   - рикI ачух</i></b> —  [прил.] искренний, откровенный
                 """;
-        String actual = answer1.messageText();
+        String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -113,16 +113,16 @@ class SearchForExampleOfWordTest {
     void sendExample3() {
         String inputMessage = "раши";
         String expectedButtCallbackData = "раши=example";
-        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(lezgiRusDictionary, inputMessage);
-        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
-        Answer answer1 = new SearchForExampleOfWord().sendExample(lezgiRusDictionary, inputMessage);
+        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, inputMessage);
+        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Response response1 = new SearchByExamplesOfSpelling().sendExample(lezgiRusDictionary, inputMessage);
         String expected = """
                 <i>Раши</i> ⤵️
 
                 <b><i>   - раши авун</i></b> —  [гл.] сделать темно-желтым
                 <b><i>   - раши хьун</i></b> —  [гл.] становиться темно-желтым
                 """;
-        String actual = answer1.messageText();
+        String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -130,15 +130,15 @@ class SearchForExampleOfWordTest {
     void sendExample4() {
         String inputMessage = "видеть";
         String expectedButtCallbackData = "видеть=example";
-        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, inputMessage);
-        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
-        Answer answer1 = new SearchForExampleOfWord().sendExample(rusLezgiDictionary, inputMessage);
+        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, inputMessage);
+        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Response response1 = new SearchByExamplesOfSpelling().sendExample(rusLezgiDictionary, inputMessage);
         String expected = """
                 <i>Видеть</i> ⤵️
 
                 <b><i>   - видеть насквозь </i></b> — (са кас) лап хъсандиз чир хьун, адан къастар лап хъсандиз чир хьун
                 """;
-        String actual = answer1.messageText();
+        String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -146,9 +146,9 @@ class SearchForExampleOfWordTest {
     void sendExample5() {
         String inputMessage = "что";
         String expectedButtCallbackData = "что=example";
-        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, inputMessage);
-        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
-        Answer answer1 = new SearchForExampleOfWord().sendExample(rusLezgiDictionary, inputMessage);
+        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, inputMessage);
+        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Response response1 = new SearchByExamplesOfSpelling().sendExample(rusLezgiDictionary, inputMessage);
         String expected = """
                 <i>Что</i> ⤵️
 
@@ -165,7 +165,7 @@ class SearchForExampleOfWordTest {
                 <b><i>   - что ты!</i></b> —  вуна вуч лугьузва! ваз вуч хьанва!
                 <b><i>   - чуть что</i></b> —  са жизвидлай, са жизви кар хьанамазди, са жизви малум хьанамазди
                 """;
-        String actual = answer1.messageText();
+        String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -173,15 +173,15 @@ class SearchForExampleOfWordTest {
     void sendExample6() {
         String inputMessage = "углубленный";
         String expectedButtCallbackData = "углубленный=example";
-        Answer answer = new SearchInDictionary().sendAnswerFromDictionary(rusLezgiDictionary, inputMessage);
-        assertThat(answer.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
-        Answer answer1 = new SearchForExampleOfWord().sendExample(rusLezgiDictionary, inputMessage);
+        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, inputMessage);
+        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+        Response response1 = new SearchByExamplesOfSpelling().sendExample(rusLezgiDictionary, inputMessage);
         String expected = """
                 <i>Углубленный</i> ⤵️
 
                 <b><i>   - углубленный в себя</i></b> —  дерин фикирриз фенвай, фикиррин деринра гьахьнавай
                 """;
-        String actual = answer1.messageText();
+        String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
     }
 }

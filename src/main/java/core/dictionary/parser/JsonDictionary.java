@@ -1,7 +1,6 @@
 package core.dictionary.parser;
 
 import core.dictionary.model.ExpressionDetails;
-import javassist.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -21,15 +20,12 @@ public class JsonDictionary implements DictionaryRepository {
     }
 
     @Override
-    public List<ExpressionDetails> getDefinitions(String spelling) throws NotFoundException {
-        if (spelling == null) {
-            throw new IllegalArgumentException("spelling cannot be null");
+    public List<ExpressionDetails> getDefinitions(String spelling) {
+        if (spelling != null) {
+            String spellingLowered = spelling.toLowerCase();
+            return dictionary.get(spellingLowered);
         }
-        String spellingLowered = spelling.toLowerCase();
-        if (!this.dictionary.containsKey(spellingLowered)) {
-            throw new NotFoundException("Spelling '" + spellingLowered + "' not found");
-        }
-        return dictionary.get(spellingLowered);
+        return null;
     }
 
     @Override

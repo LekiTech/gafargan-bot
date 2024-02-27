@@ -22,7 +22,7 @@ public class StartCommandProcessor implements ChatCommandProcessor {
     public void execute() {
         var chatId = message.chat().id();
         KeypadCreator keypadCreator = new KeypadCreator();
-        ReplyKeyboardMarkup keypad = keypadCreator.createMenuForDictionarySelection();
+        ReplyKeyboardMarkup keypad = keypadCreator.createMainMenuKeypad();
         bot.execute(new SendMessage(chatId, "Ас-саляму алейкум!\uD83D\uDC4B\uD83C\uDFFC\n"
                 + "Вун атуй, рагъ атуй!⛰\n\n"
                 + "\uD83D\uDCDA<b>Гафарган хкягъа:</b>").parseMode(ParseMode.HTML).replyMarkup(keypad));

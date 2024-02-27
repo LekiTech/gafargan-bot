@@ -6,14 +6,11 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 
 public class KeypadCreator {
 
-    public ReplyKeyboardMarkup createMenuForDictionarySelection() {
+    public ReplyKeyboardMarkup createMainMenuKeypad() {
         ReplyKeyboardMarkup keypad = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
                         new KeyboardButton("\uD83D\uDCD7Лезги-урус гафарган"),
                         new KeyboardButton("\uD83D\uDCD5Урус-лезги гафарган")
-                },
-                new KeyboardButton[]{
-                        new KeyboardButton("\uD83D\uDD22Лезги числояр")
                 },
                 new KeyboardButton[]{
                         new KeyboardButton("\uD83C\uDF10Чи сайт: gafargan.com")

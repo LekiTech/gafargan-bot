@@ -9,9 +9,9 @@ import java.util.List;
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
-public class SearchForExampleOfWord {
+public class SearchByExamplesOfSpelling {
 
-    public Answer sendExample(DictionaryRepository dictionary, String spelling) {
+    public Response sendExample(DictionaryRepository dictionary, String spelling) {
         StringBuilder outputMessage = new StringBuilder();
         try {
             String[] spell = spelling.split("=");
@@ -36,6 +36,6 @@ public class SearchForExampleOfWord {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Answer(outputMessage.toString());
+        return new Response(outputMessage.toString());
     }
 }

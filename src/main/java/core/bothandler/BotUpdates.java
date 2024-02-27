@@ -1,9 +1,9 @@
-package core.tgbothandler;
+package core.bothandler;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import core.commands.ChatCommandProcessor;
-import core.dictionary.parser.DictionaryParser;
+import core.config.DictionaryConfigReader;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.ExamplesParsing;
 import core.dictionary.parser.JsonDictionary;
@@ -13,9 +13,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static core.dictionary.parser.DictionaryParser.parse;
+
+/**
+ * The BotUpdates class manages the updates received from the Telegram Bot API and handles them accordingly.
+ * It initializes the TelegramBot instance and processes incoming updates by delegating to appropriate processors.
+ */
 public class BotUpdates {
 
     private final TelegramBot bot;
+    private final DictionaryConfigReader dictionaryConfig = new DictionaryConfigReader();
     public static final DictionaryRepository lezgiRusDictionary = new JsonDictionary();
     public static final DictionaryRepository rusLezgiDictionary = new JsonDictionary();
     public static Map<String, Set<String>> listOfExample;
@@ -24,10 +31,17 @@ public class BotUpdates {
         bot = new TelegramBot(apiToken);
     }
 
+    /**
+     * This method initializes and starts the functionality of a chat-bot. It sets up dictionaries for translation,
+     * parses examples, and listens for updates from the bot's interface. Upon receiving updates, it processes text
+     * messages and callback queries, executing corresponding commands and saving search data. If an exception occurs
+     * during the execution, it prints the error to the standard error stream.
+     *
+     * @throws Exception
+     */
     public void start() throws Exception {
-        DictionaryParser dictionaryParser = new DictionaryParser();
-        lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
-        rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));
+        lezgiRusDictionary.setDictionary(parse(dictionaryConfig.getFilePath("lez_rus_dict")));
+        rusLezgiDictionary.setDictionary(parse(dictionaryConfig.getFilePath("rus_lez_dict")));
         listOfExample = new ExamplesParsing().getAllExamples(List.of(lezgiRusDictionary, rusLezgiDictionary));
         bot.setUpdatesListener(updates -> {
             try {

@@ -2,16 +2,15 @@ package core.ui;
 
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import core.commands.CommandsList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static core.tgbothandler.CommandsFactory.COMMAND_EXAMPLE_SUFFIX;
-
 public class InlineKeyboardCreator {
 
     public static InlineKeyboardMarkup createInlineKeyboard(List<String> words) {
-        if (words.get(0).contains(COMMAND_EXAMPLE_SUFFIX)) {
+        if (words.get(0).contains(CommandsList.EXAMPLE_SUFFIX)) {
             return new InlineKeyboardMarkup(
                     new InlineKeyboardButton[][]{
                             {new InlineKeyboardButton("Мад меселаяр къалурун").callbackData(words.get(0))}

@@ -16,10 +16,10 @@ import java.util.Map;
 
 public class DictionaryParser {
 
-    public Map<String, List<ExpressionDetails>> parse(String fileName) throws IOException {
+    public static Map<String, List<ExpressionDetails>> parse(String fileName) throws IOException {
         Map<String, List<ExpressionDetails>> dictionaryMap = new HashMap<>();
         /* Читаем JSON из файла */
-        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
+        InputStream is = DictionaryParser.class.getClassLoader().getResourceAsStream(fileName);
         String json = readJsonFromFile(is);
         /* Парсим его */
         ObjectMapper objectMapper = new ObjectMapper();

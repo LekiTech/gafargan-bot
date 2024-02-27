@@ -1,7 +1,7 @@
 package core.searchers;
 
+import core.config.DictionaryConfigReader;
 import core.dictionary.parser.ExamplesParsing;
-import core.dictionary.parser.DictionaryParser;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.JsonDictionary;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,19 +11,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static core.dictionary.parser.DictionaryParser.parse;
 import static org.assertj.core.api.Assertions.*;
 
 class SearchByExampleTest {
 
+    private final DictionaryConfigReader dictionaryConfig = new DictionaryConfigReader();
     private final DictionaryRepository lezgiRusDictionary = new JsonDictionary();
     private final DictionaryRepository rusLezgiDictionary = new JsonDictionary();
     public Map<String, Set<String>> listOfExample;
-    DictionaryParser dictionaryParser = new DictionaryParser();
 
     @BeforeEach
     public void initDictionaries() throws Exception {
-        lezgiRusDictionary.setDictionary(dictionaryParser.parse("lezgi_rus_dict_babakhanov_v2.json"));
-        rusLezgiDictionary.setDictionary(dictionaryParser.parse("rus_lezgi_dict_hajiyev_v2.json"));
+        lezgiRusDictionary.setDictionary(parse(dictionaryConfig.getFilePath("lez_rus_dict")));
+        rusLezgiDictionary.setDictionary(parse(dictionaryConfig.getFilePath("rus_lez_dict")));
         var examples = new ExamplesParsing();
         listOfExample = examples.getAllExamples(List.of(lezgiRusDictionary, rusLezgiDictionary));
     }
@@ -31,8 +32,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples() {
         String input = "РикIелай алатна";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>РикIелай алатна</i> ⤵️️️
 
@@ -46,8 +47,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples1() {
         String input = "Гъил къачу";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>Гъил къачу</i> ⤵️️️
 
@@ -60,8 +61,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples2() {
         String input = "Фимир";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>Фимир</i> ⤵️️️
 
@@ -80,8 +81,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples3() {
         String input = "ам вуж я?";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>ам вуж я?</i> ⤵️️️
 
@@ -94,8 +95,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples4() {
         String input = "ви шумуд йис я?";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>ви шумуд йис я?</i> ⤵️️️
 
@@ -107,8 +108,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples5() {
         String input = "ви тIвар вуж я?";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>ви тIвар вуж я?</i> ⤵️️️
 
@@ -121,8 +122,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples6() {
         String input = "вун атуй рагъ атуй";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>вун атуй рагъ атуй</i> ⤵️️️
 
@@ -135,8 +136,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples7() {
         String input = "вун гьинай я?";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>вун гьинай я?</i> ⤵️️️
 
@@ -148,8 +149,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples8() {
         String input = "вун гьинай я?";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>вун гьинай я?</i> ⤵️️️
 
@@ -161,8 +162,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples9() {
         String input = "мое сердце";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>мое сердце</i> ⤵️️️
 
@@ -177,8 +178,8 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples10() {
         String input = "твое имя";
-        Answer answer = new SearchByExample().sendAnswerFromExamples(listOfExample, lezgiRusDictionary, input);
-        String actualMessage = answer.messageText();
+        Response response = new SearchByExample().findTranslationByExamples(listOfExample, input);
+        String actualMessage = response.messageText();
         String expected = """
                 <i>твое имя</i> ⤵️️️
 
