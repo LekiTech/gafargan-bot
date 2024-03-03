@@ -3,19 +3,21 @@ package core.commands;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import core.database.DataStorage;
+import core.dictionary.parser.DictionaryRepository;
 import core.searchers.SearchResponseHandler;
 
 import static core.commands.CommandsList.*;
-import static core.bothandler.BotUpdates.*;
 import static core.utils.SearchStringNormalizer.normalizeString;
 
-public class TranslationFinderCommandProcessor implements ChatCommandProcessor {
+public class ResponseFinderCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
+    private final DictionaryRepository dictionaries;
     private final TelegramBot bot;
 
-    public TranslationFinderCommandProcessor(Message message, TelegramBot bot) {
+    public ResponseFinderCommandProcessor(Message message, DictionaryRepository dictionaries, TelegramBot bot) {
         this.message = message;
+        this.dictionaries = dictionaries;
         this.bot = bot;
     }
 
@@ -26,8 +28,8 @@ public class TranslationFinderCommandProcessor implements ChatCommandProcessor {
         var selectedSearcher = DataStorage.instance().getLastSelectedDictionary(chatId);
         SearchResponseHandler messageHandler = new SearchResponseHandler(bot);
         switch (selectedSearcher) {
-            case LEZGI_RUS -> messageHandler.findResponse(lezgiRusDictionary, userMessage, chatId);
-            case RUS_LEZGI -> messageHandler.findResponse(rusLezgiDictionary, userMessage, chatId);
+            case LEZGI_RUS -> messageHandler.findResponse("lez", dictionaries, userMessage, chatId);
+            case RUS_LEZGI -> messageHandler.findResponse("rus", dictionaries, userMessage, chatId);
             default -> {
             }
         }

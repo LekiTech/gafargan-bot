@@ -2,34 +2,49 @@ package core.dictionary.parser;
 
 import core.dictionary.model.ExpressionDetails;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class JsonDictionary implements DictionaryRepository {
-    private Map<String, List<ExpressionDetails>> dictionary;
+
+    private final Map<String, Map<String, List<ExpressionDetails>>> dictionary = new HashMap<>();
 
     @Override
-    public void setDictionary(Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception {
-        if (parsedDictionary == null) {
-            throw new IllegalArgumentException("parsedDictionary cannot be null");
+    public void setDictionaryByLang(String lang, Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception {
+        if (lang == null || parsedDictionary == null) {
+            throw new IllegalArgumentException("lang or parsedDictionary cannot be null");
         }
-        if (this.dictionary != null) {
+        if (dictionary.containsKey(lang)) {
             throw new Exception("Cannot set dictionary twice");
         }
-        this.dictionary = parsedDictionary;
+        this.dictionary.put(lang, parsedDictionary);
     }
 
     @Override
-    public List<ExpressionDetails> getDefinitions(String spelling) {
-        if (spelling != null) {
-            String spellingLowered = spelling.toLowerCase();
-            return dictionary.get(spellingLowered);
+    public Map<String, List<ExpressionDetails>> getAllDictionaries() {
+        if (!dictionary.isEmpty()) {
+            final Map<String, List<ExpressionDetails>> combinedDictionary = new HashMap<>();
+            combinedDictionary.putAll(dictionary.get("lez"));
+            combinedDictionary.putAll(dictionary.get("rus"));
+            return combinedDictionary;
         }
         return null;
     }
 
     @Override
-    public Map<String, List<ExpressionDetails>> getFullDictionary() {
-        return dictionary;
+    public List<ExpressionDetails> getExpressionDetails(String lang, String spelling) {
+        if (lang != null && spelling != null && dictionary.containsKey(lang)) {
+            return dictionary.get(lang).get(spelling.toLowerCase());
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, List<ExpressionDetails>> getDictionaryByLang(String lang) {
+        if (lang != null) {
+            return dictionary.get(lang);
+        }
+        return null;
     }
 }

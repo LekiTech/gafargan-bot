@@ -7,9 +7,11 @@ import java.util.Map;
 
 public interface DictionaryRepository {
 
-    void setDictionary(Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception;
+    void setDictionaryByLang(String lang, Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception;
 
-    List<ExpressionDetails> getDefinitions(String spelling);
+    Map<String, List<ExpressionDetails>> getAllDictionaries();
 
-    Map<String, List<ExpressionDetails>> getFullDictionary();
+    List<ExpressionDetails> getExpressionDetails(String lang, String spelling);
+
+    Map<String, List<ExpressionDetails>> getDictionaryByLang(String lang);
 }

@@ -6,23 +6,26 @@ import core.dictionary.model.Definition;
 import core.dictionary.model.DefinitionDetails;
 import core.dictionary.model.ExpressionDetails;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class SearchBySpelling {
 
-    public Response findTranslationBySpelling(DictionaryRepository dictionary, String spelling) {
+    public Response findResponseBySpelling(String lang, DictionaryRepository dictionaries, String spelling) {
+        List<ExpressionDetails> expressionDetails = dictionaries.getExpressionDetails(lang, spelling);
+        if (expressionDetails == null) {
+            return null;
+        }
         String userMessage = capitalizeFirstLetter(spelling);
         int amountOfValues = 1;
         boolean generalExample = false;
         StringBuilder tags = new StringBuilder();
         StringBuilder outputMessage = new StringBuilder();
-        List<ExpressionDetails> expressionDetails = dictionary.getDefinitions(spelling);
-        if (expressionDetails == null) {
-            return null;
-        }
         for (ExpressionDetails details : expressionDetails) {
             /* Если слово есть в словаре, но нет перевода, вывести "перевод не найден" */
             if (details.getDefinitionDetails().isEmpty() && details.getExamples() == null) {
@@ -36,21 +39,21 @@ public class SearchBySpelling {
             /* Если у слова несколько или одно значений, то пронумеровать */
             markupExpressionsSpelling(userMessage, amountOfValues, outputMessage, expressionDetails, details);
             for (DefinitionDetails definitionDetails : details.getDefinitionDetails()) {
-                StringBuilder values = new StringBuilder();
+                StringBuilder definitionValues = new StringBuilder();
                 for (Definition definitions : definitionDetails.getDefinitions()) {
                     boolean isTagNull = definitions.getTags() == null;
                     tags.append(!isTagNull && definitions.getTags().contains("см.")
                             ? definitions.getValue().replaceAll("\\{", "").replaceAll("}", "") + ", "
                             : ""
                     );
-                    values.append(isTagNull || !definitions.getTags().contains("см.")
+                    definitionValues.append(isTagNull || !definitions.getTags().contains("см.")
                             ? definitions.getValue().replaceAll("[<{]", "[").replaceAll("[>}]", "]") + ", "
                             : "");
                 }
-                if (!values.isEmpty()) { /* Присваиваем value и удаляем запятую на конце */
+                if (!definitionValues.isEmpty()) { /* Присваиваем value и удаляем запятую на конце */
                     outputMessage
                             .append("➡️<b>️ ")
-                            .append(values.deleteCharAt(values.length() - 2))
+                            .append(definitionValues.deleteCharAt(definitionValues.length() - 2))
                             .append("</b>\n\n");
                 }
                 if (definitionDetails.getExamples() != null) {
@@ -72,7 +75,7 @@ public class SearchBySpelling {
         /* Выводим ответ с наличием общих примеров */
         if (generalExample) {
             return new Response(outputMessage.toString().replaceAll("ё", "е"),
-                    List.of(userMessage.toLowerCase() + CommandsList.EXAMPLE_SUFFIX));
+                    List.of(userMessage.toLowerCase() + "=example"));
         } else {
             return new Response(outputMessage.toString());
         }
@@ -100,9 +103,10 @@ public class SearchBySpelling {
     }
 
     private StringBuilder createTags(StringBuilder tags) {
-        StringBuilder result = new StringBuilder("\n<i>мадни килиг:</i> ");
+        StringBuilder result = new StringBuilder("\n<i>мадни клг.:</i> ");
         String[] tagArr = tags.toString().split(", ");
-        for (String tag : tagArr) {
+        Set<String> tagList = new HashSet<>(Arrays.asList(tagArr));
+        for (String tag : tagList) {
             if (!tag.isEmpty()) {
                 result.append("<code>").append(tag).append("</code>").append(", ");
             }

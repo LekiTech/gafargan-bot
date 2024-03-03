@@ -10,11 +10,11 @@ import static core.searchers.StringSimilarity.similarity;
 
 public class FuzzySearchBySpelling {
 
-    public Response findSimilarWordsBySpelling(DictionaryRepository dictionary, String userMessage) {
+    public Response findSimilarWordsBySpelling(String lang, DictionaryRepository dictionary, String userMessage) {
         record WordSim(String supposedWord, Double sim) {
         }
         List<WordSim> wordList = new ArrayList<>();
-        for (String supposedWord : dictionary.getFullDictionary().keySet()) {
+        for (String supposedWord : dictionary.getDictionaryByLang(lang).keySet()) {
             double sim = similarity(supposedWord, userMessage.toLowerCase());
             if (sim >= 0.5) {
                 wordList.add(new WordSim(supposedWord.replaceAll("i", "I"), sim));

@@ -5,21 +5,13 @@ import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import core.commands.*;
 import core.database.DataStorage;
+import core.dictionary.parser.DictionaryRepository;
 
-/**
- * Factory class for creating command processors based on incoming messages or callback queries.
- */
 public class CommandsFactory {
 
-    /**
-     * Creates a command processor for handling incoming text messages.
-     *
-     * @param message The incoming message.
-     * @param bot     The TelegramBot instance.
-     * @return the appropriate ChatCommandProcessor based on the message content.
-     */
-    public static ChatCommandProcessor createMessageProcessor(Message message, TelegramBot bot) {
-        var chatId = message.chat().id();
+    public static ChatCommandProcessor createMessageProcessor(Message message,
+                                                              DictionaryRepository dictionaries,
+                                                              TelegramBot bot) {
         String userMessage = message.text();
         switch (userMessage) {
             case CommandsList.START:
@@ -31,26 +23,18 @@ public class CommandsFactory {
             case CommandsList.INFO:
                 return new InfoCommandProcessor(message, bot);
             default:
+                var chatId = message.chat().id();
                 if (DataStorage.instance().getLastSelectedDictionary(chatId) == null) {
                     return new DefaultCommandProcessor(message, bot);
                 }
-                return new TranslationFinderCommandProcessor(message, bot);
+                return new ResponseFinderCommandProcessor(message, dictionaries, bot);
         }
     }
 
-    /**
-     * Creates a command processor for handling callback queries.
-     *
-     * @param callbackQuery The callback query received.
-     * @param bot           The TelegramBot instance.
-     * @return the appropriate ChatCommandProcessor based on the callback query content.
-     */
-    public static ChatCommandProcessor createCallbackProcessor(CallbackQuery callbackQuery, TelegramBot bot) {
-        var message = callbackQuery.message();
-        String userMessage = callbackQuery.data();
-        if (userMessage.contains(CommandsList.EXAMPLE_SUFFIX)) {
-            return new ResponseFromExampleButtonCommandProcessor(message, bot, callbackQuery);
-        }
-        return new ResponseFromSimilarWordsButtonCommandProcessor(message, bot, callbackQuery);
+    public static ChatCommandProcessor createCallbackProcessor(Message message,
+                                                               DictionaryRepository dictionaries,
+                                                               TelegramBot bot,
+                                                               CallbackQuery callbackQuery) {
+        return new ResponseFromInlineButtonCommandProcessor(message, dictionaries, bot, callbackQuery);
     }
 }

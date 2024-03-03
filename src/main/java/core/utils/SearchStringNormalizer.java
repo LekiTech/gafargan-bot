@@ -30,6 +30,15 @@ public class SearchStringNormalizer {
         return line.replaceAll("\\s+", " ").trim();
     }
 
+    public static String removePunctuation(String line) {
+        if (line.endsWith("?") || line.endsWith("!") || line.endsWith(".")) {
+            return line.substring(0, line.length() - 1).trim();
+        } else if (line.endsWith(" ?") || line.endsWith(" !") || line.endsWith(" .")) {
+            return line.substring(0, line.length() - 2).trim();
+        }
+        return line.replaceAll(",", "");
+    }
+
     /**
      * Normalizes a string by trimming leading and trailing spaces, replacing vertical bars with appropriate characters,
      * and converting all characters to lowercase. Additionally, this method replaces Cyrillic letter "ё" with "е".
@@ -38,7 +47,8 @@ public class SearchStringNormalizer {
      * @return the normalized string.
      */
     public static String normalizeString(String line) {
-        String resultString = replaceVerticalBar(trimSpaces(line));
+        String removedPunctuationLine = removePunctuation(line);
+        String resultString = replaceVerticalBar(trimSpaces(removedPunctuationLine));
         return resultString.replaceAll("ё", "е");
     }
 }

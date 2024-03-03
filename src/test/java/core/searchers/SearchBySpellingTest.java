@@ -1,6 +1,5 @@
 package core.searchers;
 
-import core.config.DictionaryConfigReader;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.JsonDictionary;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,20 +12,18 @@ import static org.assertj.core.api.Assertions.*;
 
 class SearchBySpellingTest {
 
-    private final DictionaryConfigReader dictionaryConfig = new DictionaryConfigReader();
-    private final DictionaryRepository lezgiRusDictionary = new JsonDictionary();
-    private final DictionaryRepository rusLezgiDictionary = new JsonDictionary();
+    private final DictionaryRepository dictionaries = new JsonDictionary();
 
     @BeforeEach
     public void initDictionaries() throws Exception {
-        lezgiRusDictionary.setDictionary(parse(dictionaryConfig.getFilePath("lez_rus_dict")));
-        rusLezgiDictionary.setDictionary(parse(dictionaryConfig.getFilePath("rus_lez_dict")));
+        dictionaries.setDictionaryByLang("lez", parse("lez_rus_dict"));
+        dictionaries.setDictionaryByLang("rus", parse("rus_lez_dict"));
     }
 
     @Test
     void whenTranslateIsFound() {
         String input = "спасибо";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Спасибо</i> ⤵️
@@ -40,7 +37,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsNotFound() {
         String input = "фирдавай";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez",dictionaries, input);
         String actualMessage = response.messageText();
         String expected = "<b>❌Таржума жагъанач</b>";
         assertThat(actualMessage).isEqualTo(expected);
@@ -49,7 +46,7 @@ class SearchBySpellingTest {
     @Test
     void whenWordHasNoTranslationAndOnlyAnExample() {
         String input = "финдикь";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Финдикь️</i> ⤵️
@@ -62,7 +59,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound1() {
         String input = "рикI";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expected = """
@@ -86,7 +83,7 @@ class SearchBySpellingTest {
                 <b><i>   - пака зи рикIел хкваш</i></b> —  завтра напомни мне
 
 
-                <i>мадни килиг:</i> <code>къелби</code>\s""";
+                <i>мадни клг.:</i> <code>къелби</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
         assertThat(actualExampleButton).isNotEmpty();
     }
@@ -94,7 +91,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound2() {
         String input = "къвал";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expected = """
@@ -125,7 +122,7 @@ class SearchBySpellingTest {
                 <b><i>   - къвал квай югъ</i></b> —  дождливый день
 
 
-                <i>мадни килиг:</i> <code>пагв</code>\s""";
+                <i>мадни клг.:</i> <code>пагв</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
         assertThat(actualExampleButton).isNotEmpty();
     }
@@ -133,7 +130,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound3() {
         String input = "гада";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Гада (-ди, -да, -йри)</i> ⤵️
@@ -160,7 +157,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound4() {
         String input = "кхьихь";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Кхьихь</i> ⤵️
@@ -174,7 +171,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound5() {
         String input = "что";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>1. Что️</i> ⤵️️
@@ -227,20 +224,20 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound6() {
         String input = "чергесви";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Чергесви (-ди, -да, -йри)</i> ⤵️
 
 
-                <i>мадни килиг:</i> <code>черкес I</code>\s""";
+                <i>мадни клг.:</i> <code>черкес I</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
     }
 
     @Test
     void whenTranslateIsFound7() {
         String input = "долговременный";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Долговременный</i> ⤵️
@@ -254,7 +251,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound8() {
         String input = "тав";
-        Response response = new SearchBySpelling().findTranslationBySpelling(lezgiRusDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>1. Тав (-уни, -уна, -ари)</i> ⤵️
@@ -289,14 +286,14 @@ class SearchBySpellingTest {
                 <b><i>   - чатухъанди гьулдандиз тав гузва</i></b> —  кузнец отпускает сталь (уменьшает накал стали)
 
 
-                <i>мадни килиг:</i> <code>дем</code>\s""";
+                <i>мадни клг.:</i> <code>дем</code>\s""";
         assertThat(actualMessage).isEqualTo(expected);
     }
 
     @Test
     void whenTranslateIsFound9() {
         String input = "жилье";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Жилье</i> ⤵️
@@ -312,7 +309,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound10() {
         String input = "дешевый";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Дешевый</i> ⤵️
@@ -328,7 +325,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound11() {
         String input = "еж";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Еж</i> ⤵️
@@ -342,7 +339,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound12() {
         String input = "счетный";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Счетный</i> ⤵️
@@ -363,7 +360,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound13() {
         String input = "убеленный";
-        Response response = new SearchBySpelling().findTranslationBySpelling(rusLezgiDictionary, input);
+        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Убеленный</i> ⤵️
