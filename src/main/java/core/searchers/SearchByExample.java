@@ -3,8 +3,10 @@ package core.searchers;
 import core.dictionary.model.Example;
 import core.dictionary.model.ExpressionDetails;
 import core.dictionary.parser.DictionaryRepository;
+import core.utils.MarkupLineEditor;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
@@ -39,17 +41,15 @@ public class SearchByExample {
             }
         }
         if (!foundExamples.isEmpty()) {
-            StringBuilder outputMessage = new StringBuilder("<i>" + capitalizeFirstLetter(userMessage) + "</i> ⤵️️️\n\n");
-            int numberOfExamples = 0;
-            for (String example : foundExamples) {
-                outputMessage.append(convertMarkupToHTML(example)
-                        .replaceAll(userMessage, "<u>" + userMessage + "</u>")).append("\n");
-                numberOfExamples++;
-                if (numberOfExamples >= 10) {
-                    return new Response(outputMessage.toString());
-                }
-            }
-            return new Response(outputMessage.toString());
+            return new Response(
+                    capitalizeFirstLetter(userMessage)
+                            + foundExamples.stream()
+                            .limit(10)
+                            .map(MarkupLineEditor::convertMarkupToHTML)
+                            .map(row -> row.replaceAll(userMessage, "<u>" + userMessage + "</u>"))
+                            .collect(Collectors.joining("\n"))
+                            + "\n"
+            );
         }
         return null;
     }
