@@ -26,10 +26,10 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Спасибо</i> ⤵️
-
+                <i>Спасибо</i> ⤵️️️
+                                
                 ➡️<b>️ сагърай, чухсагъул </b>
-
+                                
                 """;
         assertThat(actualMessage).isEqualTo(expected);
     }
@@ -49,8 +49,8 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Финдикь️</i> ⤵️
-
+                <i>Финдикь</i> ⤵️️️
+                                
                 <b><i>   - финдикьни акъуд тавун</i></b> —  [гл.] молчать, не пикнуть, слова не вымолвить
                 """;
         assertThat(actualMessage).isEqualTo(expected);
@@ -63,7 +63,7 @@ class SearchBySpellingTest {
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expected = """
-                <i>РикI (-и, -е, -ери)</i> ⤵️
+                <i>РикI (-и, -е, -ери)</i> ⤵️️️
 
                 ➡️<b>️ сердце </b>
 
@@ -95,7 +95,7 @@ class SearchBySpellingTest {
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expected = """
-                <i>1. Къвал (-а, -а, -ари)</i> ⤵️
+                <i>1. Къвал (-а, -а, -ари)</i> ⤵️️️
 
                 ➡️<b>️ бок </b>
 
@@ -114,7 +114,7 @@ class SearchBySpellingTest {
 
                 <b><i>   - эрчIи къвала кавалерия акъвазарна</i></b> —  на правый фланг поставили кавалерию
 
-                <i>2. Къвал (-ди, -да, -ри)</i> ⤵️
+                <i>2. Къвал (-ди, -да, -ри)</i> ⤵️️️
 
                 ➡️<b>️ дождь </b>
 
@@ -133,7 +133,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Гада (-ди, -да, -йри)</i> ⤵️
+                <i>Гада (-ди, -да, -йри)</i> ⤵️️️
 
                 ➡️<b>️ мальчик </b>
 
@@ -160,7 +160,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Кхьихь</i> ⤵️
+                <i>Кхьихь</i> ⤵️️️
 
                 ➡️<b>️ повел. [ф] от [кхьин] </b>
 
@@ -174,49 +174,49 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>1. Что️</i> ⤵️️
-
+                <i>1. Что</i> ⤵️️️
+                                
                 ➡️<b>️ вуч </b>
-
+                                
                 <b><i>   - что это такое?</i></b> —  им вуч я?
                 <b><i>   - чего ты ждешь?</i></b> —  вуна вуч гуьзлемишзава?
                 <b><i>   - чему ты смеется?</i></b> —  вун кквел хъуьрезва?
                 <b><i>   - чем?</i></b> —  кквелди?
                 <b><i>   - о чем?</i></b> —  кквекай? ккуьн гьакъиндай?
                 <b><i>   - на чем?</i></b> —  кквел?
-
+                                
                 ➡️<b>️ гьикI я? гьикI хьана? вуч хьана? </b>
-
+                                
                 <b><i>   - ну что же, ты едешь?</i></b> —  гьан гьикI хьана, вун физвани?
-
+                                
                 ➡️<b>️ вуч? вучиз? </b>
-
+                                
                 <b><i>   - что ты лежишь?</i></b> —  вун вучиз къатканва?
-
+                                
                 ➡️<b>️ вуч? гьикьван? ккуьн? </b>
-
+                                
                 <b><i>   - что стоит эта книжка?</i></b> —  и ктаб ккуьн ква?
-
+                                
                 ➡️<b>️ са кар, са затI </b>
-
+                                
                 <b><i>   - если что случится, я не отвечаю</i></b> —  нагагь са кар хьайитIа, за жаваб гудач.
-
-                <i>2. Что️</i> ⤵️️
-
+                                
+                <i>2. Что</i> ⤵️️️
+                                
                 ➡️<b>️ хьи, лагьана (гзаф вахтара перевод ийидач) </b>
-
+                                
                 <b><i>   - он ответил, что они уехали</i></b> —  ада, абур хъфена лагьана, жаваб гана
                 <b><i>   - он увидел, что-дело плохо</i></b> —  адаз акуна хьи, кар пис я
                 <b><i>   - я знаю, что он не приедет </i></b> — ам къвен тийирди заз чизва (ва я заз чизва хьи, ам къведач)
-
+                                
                 ➡️<b>️ гьар, гьар са, кьилиз </b>
-
+                                
                 <b><i>   - что ни день, то новые желания</i></b> —  гьар йкъуз цIийи-цIийи мурадар ава
-
+                                
                 ➡️<b>️ кIантIа, кIантIа…. хьурай </b>
-
+                                
                 <b><i>   - мне все равно, что у меня, что у тебя собраться</i></b> —  кIантIа вина кIватI жен, кIантIа зина -заз сад я
-
+                                
                 """;
         assertThat(actualMessage).isEqualTo(expected);
     }
@@ -227,7 +227,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Чергесви (-ди, -да, -йри)</i> ⤵️
+                <i>Чергесви (-ди, -да, -йри)</i> ⤵️️️
 
 
                 <i>мадни клг.:</i> <code>черкес I</code>\s""";
@@ -240,7 +240,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Долговременный</i> ⤵️
+                <i>Долговременный</i> ⤵️️️
 
                 ➡️<b>️ яргъал вахтунин, гзаф вахтунин </b>
 
@@ -254,32 +254,32 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>1. Тав (-уни, -уна, -ари)</i> ⤵️
+                <i>1. Тав (-уни, -уна, -ари)</i> ⤵️️️
 
                 ➡️<b>️ камин </b>
 
                 <b><i>   - тав авай кIвал</i></b> —  комната с камином
 
-                <i>2. Тав (-ди, -да, -ри)</i> ⤵️
+                <i>2. Тав (-ди, -да, -ри)</i> ⤵️️️
 
                 ➡️<b>️ гостиная </b>
 
                 <b><i>   - расай тав ваз мичIи сур хьана</i></b> —  [фольк] обставленной гостиной для тебя могила стала
 
-                <i>3. Тав (-ди, -да, -ари)</i> ⤵️
+                <i>3. Тав (-ди, -да, -ари)</i> ⤵️️️
 
                 ➡️<b>️ оттенок </b>
 
                 <b><i>   - ам бирдан насигьат гузвай тав кваз рахана</i></b> —  он вдруг заговорил в нравоучительном тоне
                 <b><i>   - абур вири крариз диндин тав гуз алахъзава</i></b> —  они стараются всем событиям придавать религиозный оттенок
 
-                <i>4. Тав (-ди, -да, -ри)</i> ⤵️
+                <i>4. Тав (-ди, -да, -ри)</i> ⤵️️️
 
                 ➡️<b>️ редко свадебный музыкальный вечер в доме жениха </b>
 
                 <b><i>   - ам вуч тав хьуй ашукь алачир?</i></b> —  что это за музыкальный вечер без ашуга?
 
-                <i>5. Тав (-ди, -да)</i> ⤵️
+                <i>5. Тав (-ди, -да)</i> ⤵️️️
 
                 ➡️<b>️ отпуск (металла) </b>
 
@@ -296,7 +296,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Жилье</i> ⤵️
+                <i>Жилье</i> ⤵️️️
 
                 ➡️<b>️ инсанар яшамиш жезвай чка </b>
 
@@ -312,7 +312,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Дешевый</i> ⤵️
+                <i>Дешевый</i> ⤵️️️
 
                 ➡️<b>️ ужуз </b>
 
@@ -328,7 +328,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Еж</i> ⤵️
+                <i>Еж</i> ⤵️️️
 
                 ➡️<b>️ кьуьгъуьр </b>
 
@@ -342,7 +342,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Счетный</i> ⤵️
+                <i>Счетный</i> ⤵️️️
 
                 ➡️<b>️ гьисабдин, гьисабардай </b>
 
@@ -363,7 +363,7 @@ class SearchBySpellingTest {
         Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
-                <i>Убеленный</i> ⤵️
+                <i>Убеленный</i> ⤵️️️
 
                 <b><i>   - убелённый сединами</i></b> —  рехивили лацу авунвай, рехи хьанвай, лацу хьанвай (чIарар, кьил)
 

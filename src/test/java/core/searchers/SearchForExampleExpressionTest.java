@@ -27,8 +27,8 @@ class SearchForExampleExpressionTest {
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
-                <i>Руш</i> ⤵️
-
+                <i>Руш</i> ⤵️️️
+                                
                 <b><i>   - руш гана лам къачуна</i></b> —  [погов]. шут. отдал дочку, приобрёл осла (зятя);\s
                 <b><i>   - руш чарадан цлан къван я</i></b> —  [погов]. дочь - камень в чужой стене;\s
                 руш жедалди къван хьуй [погов]. пусть камень родится, чем дочка
@@ -47,8 +47,8 @@ class SearchForExampleExpressionTest {
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
-                <i>КIвал</i> ⤵️
-
+                <i>КIвал</i> ⤵️️️
+                                
                 <b><i>   - кIвал авун</i></b> —  [гл.] 1) строить дом; 2) [перен]. создавать семью; обзаводиться имуществом
                 <b><i>   - кIвал алай къиб</i></b> —  [зоол.] [сущ.] черепаха; [см.тж]. хъалхъас
                 <b><i>   - кIвал алай шуькьуьнт</i></b> —  [зоол.] сущ. улитка с раковиной
@@ -78,8 +78,8 @@ class SearchForExampleExpressionTest {
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
-                <i>РикI</i> ⤵️
-
+                <i>Рикi</i> ⤵️️️
+                                
                 <b><i>   - рикIин куьлег мез я</i></b> —  [погов]. язык - ключ от сердца
                 <b><i>   - хъсанвал рикIелай фидач</i></b> —  [погов]. доброе дело не забывается
                 <b><i>   - рикIел хуьх</i></b> —  запомни
@@ -100,7 +100,6 @@ class SearchForExampleExpressionTest {
                 <b><i>   - рикI алахьун</i></b> —  гл. развлечься, забыться
                 <b><i>   - рикI атун</i></b> —  [гл.] набраться смелости, осмелеть
                 <b><i>   - рикI атIун</i></b> —  гл. ранить душу, причинять неприятность
-                <b><i>   - рикI ацукьун</i></b> —  [гл.] понравиться, приглянуться
                 """;
         String actual = response1.messageText();
         assertThat(actual).isEqualTo(expected);
@@ -114,8 +113,8 @@ class SearchForExampleExpressionTest {
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
-                <i>Раши</i> ⤵️
-
+                <i>Раши</i> ⤵️️️
+                                
                 <b><i>   - раши авун</i></b> —  [гл.] сделать тёмно-жёлтым
                 <b><i>   - раши хьун</i></b> —  [гл.] становиться тёмно-жёлтым
                 """;
@@ -131,8 +130,8 @@ class SearchForExampleExpressionTest {
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
         String expected = """
-                <i>Видеть</i> ⤵️
-
+                <i>Видеть</i> ⤵️️️
+                                
                 <b><i>   - видеть насквозь </i></b> — (са кас) лап хъсандиз чир хьун, адан къастар лап хъсандиз чир хьун
                 """;
         String actual = response1.messageText();
@@ -147,8 +146,8 @@ class SearchForExampleExpressionTest {
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
         String expected = """
-                <i>Что</i> ⤵️
-
+                <i>Что</i> ⤵️️️
+                                
                 <b><i>   - вот что</i></b> —  1) ингье икI; 2) вуна вуч аяни, заз килиг, яб це
                 <b><i>   - что до меня</i></b> —  зун лагьайтIа, закай рахайтIа, зал гьалтайтIа
                 <b><i>   - ни за что</i></b> —  гьич, кьейитIани, вуч гайитIани, вуч авуртIани
@@ -174,8 +173,8 @@ class SearchForExampleExpressionTest {
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
         String expected = """
-                <i>Углубленный</i> ⤵️
-
+                <i>Углубленный</i> ⤵️️️
+                                
                 <b><i>   - углублённый в себя</i></b> —  дерин фикирриз фенвай, фикиррин деринра гьахьнавай
                 """;
         String actual = response1.messageText();

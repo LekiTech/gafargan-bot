@@ -1,6 +1,5 @@
 package core.searchers;
 
-import core.commands.CommandsList;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.model.Definition;
 import core.dictionary.model.DefinitionDetails;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
-import static core.utils.WordCapitalize.capitalizeFirstLetter;
+import static core.utils.WordCapitalize.*;
 
 public class SearchBySpelling {
 
@@ -21,9 +20,8 @@ public class SearchBySpelling {
         if (expressionDetails == null) {
             return null;
         }
-        String userMessage = capitalizeFirstLetter(spelling);
-        int amountOfValues = 1;
-        boolean generalExample = false;
+        int amountOfDetails = 1;
+        boolean expressionExample = false;
         StringBuilder tags = new StringBuilder();
         StringBuilder outputMessage = new StringBuilder();
         for (ExpressionDetails details : expressionDetails) {
@@ -33,11 +31,12 @@ public class SearchBySpelling {
             }
             /* Если к слову отсутвуют переводы, есть только examples, то вывести example */
             if ((details.getDefinitionDetails().size() == 0 || details.getDefinitionDetails() == null)
-                    && details.getExamples() != null) {
-                return new Response(sendOnlyExamples(userMessage, outputMessage, details));
+                && details.getExamples() != null) {
+                outputMessage.append(capitalizeFirstLetter(spelling));
+                return new Response(sendOnlyExamples(outputMessage, details));
             }
             /* Если у слова несколько или одно значений, то пронумеровать */
-            markupExpressionsSpelling(userMessage, amountOfValues, outputMessage, expressionDetails, details);
+            markupExpressionsSpelling(spelling, amountOfDetails, outputMessage, expressionDetails, details);
             for (DefinitionDetails definitionDetails : details.getDefinitionDetails()) {
                 StringBuilder definitionValues = new StringBuilder();
                 for (Definition definitions : definitionDetails.getDefinitions()) {
@@ -63,39 +62,38 @@ public class SearchBySpelling {
                     outputMessage.append("\n");
                 }
             }
-            if (!generalExample) { /* Проверяем наличие общего example */
-                generalExample = details.getExamples() != null;
+            if (!expressionExample) {
+                expressionExample = details.getExamples() != null;
             }
-            amountOfValues++;
+            amountOfDetails++;
         }
         /* Если теги есть, присваиваем к концу ответной строки */
         if (!tags.isEmpty()) {
             outputMessage.append(createTags(tags));
         }
         /* Выводим ответ с наличием общих примеров */
-        if (generalExample) {
+        if (expressionExample) {
             return new Response(outputMessage.toString().replaceAll("ё", "е"),
-                    List.of(userMessage.toLowerCase() + "=example"));
+                    List.of(spelling.toLowerCase() + "=example"));
         } else {
             return new Response(outputMessage.toString());
         }
     }
 
-    private void markupExpressionsSpelling(String userMessage, int amountOfValues, StringBuilder outputMessage,
+    private void markupExpressionsSpelling(String userMessage, int amountOfDetails, StringBuilder outputMessage,
                                            List<ExpressionDetails> expressionDetails, ExpressionDetails details) {
         if (expressionDetails.size() > 1) {
-            outputMessage.append(details.getInflection() != null ?
-                    "<i>" + amountOfValues + ". " + userMessage + " (" + details.getInflection() + ")</i> ⤵️\n\n"
-                    : "<i>" + amountOfValues + ". " + userMessage + "️</i> ⤵️️\n\n");
+            outputMessage.append(details.getInflection() != null
+                    ? capitalizeFirstLetterWithNum(amountOfDetails + ". ", userMessage + " (" + details.getInflection() + ")")
+                    : capitalizeFirstLetterWithNum(amountOfDetails + ". ", userMessage));
         } else {
-            outputMessage.append(details.getInflection() != null ?
-                    "<i>" + userMessage + " (" + details.getInflection() + ")</i> ⤵️\n\n"
-                    : "<i>" + userMessage + "</i> ⤵️\n\n");
+            outputMessage.append(details.getInflection() != null
+                    ? capitalizeFirstLetter(userMessage + " (" + details.getInflection() + ")")
+                    : capitalizeFirstLetter(userMessage));
         }
     }
 
-    private String sendOnlyExamples(String userMessage, StringBuilder outputMessage, ExpressionDetails details) {
-        outputMessage.append("<i>").append(userMessage).append("️</i> ⤵️\n\n");
+    private String sendOnlyExamples(StringBuilder outputMessage, ExpressionDetails details) {
         details.getExamples().forEach(example -> {
             outputMessage.append(convertMarkupToHTML(example.getRaw())).append("\n");
         });
