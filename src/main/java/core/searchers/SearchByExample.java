@@ -7,6 +7,7 @@ import core.utils.MarkupLineEditor;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
@@ -14,31 +15,26 @@ import static core.utils.WordCapitalize.capitalizeFirstLetter;
 public class SearchByExample {
 
     public Response findResponseByExamples(DictionaryRepository dictionaries, String userMessage) {
+        // TODO исправить методы capitalizeFirstLetter(WithNum); убрать замену "ё" в outputMsg в классе SearchBySpelling
         final Map<String, List<ExpressionDetails>> combinedDictionary = dictionaries.getAllDictionaries();
         List<ExpressionDetails> combinedList = combinedDictionary.values().stream()
                 .flatMap(List::stream)
                 .toList();
-        final List<String> foundExamples = new ArrayList<>();
+        List<String> foundExamples = new ArrayList<>();
         if (!combinedList.isEmpty()) {
-            List<String> expressionExample = combinedList.stream()
-                    .filter(expressionDetails -> expressionDetails.getExamples() != null)
-                    .flatMap(expressionDetails -> expressionDetails.getExamples().stream())
-                    .map(Example::getRaw)
-                    .filter(raw -> cleanseText(raw).contains(userMessage))
-                    .toList();
-            if (!expressionExample.isEmpty()) {
-                foundExamples.addAll(expressionExample);
-            }
-            List<String> definitionExample = combinedList.stream()
-                    .flatMap(expressionDetails -> expressionDetails.getDefinitionDetails().stream())
-                    .filter(definitionDetails -> definitionDetails.getExamples() != null)
-                    .flatMap(definitionDetails -> definitionDetails.getExamples().stream())
-                    .map(Example::getRaw)
-                    .filter(raw -> cleanseText(raw).contains(userMessage))
-                    .toList();
-            if (!definitionExample.isEmpty()) {
-                foundExamples.addAll(definitionExample);
-            }
+            foundExamples = Stream.concat(
+                    combinedList.stream()
+                            .filter(expressionDetails -> expressionDetails.getExamples() != null)
+                            .flatMap(expressionDetails -> expressionDetails.getExamples().stream())
+                            .map(Example::getRaw)
+                            .filter(raw -> cleanseText(raw).contains(userMessage)),
+                    combinedList.stream()
+                            .flatMap(expressionDetails -> expressionDetails.getDefinitionDetails().stream())
+                            .filter(definitionDetails -> definitionDetails.getExamples() != null)
+                            .flatMap(definitionDetails -> definitionDetails.getExamples().stream())
+                            .map(Example::getRaw)
+                            .filter(raw -> cleanseText(raw).contains(userMessage))
+            ).toList();
         }
         if (!foundExamples.isEmpty()) {
             return new Response(
