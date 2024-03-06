@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import static core.dictionary.parser.DictionaryParser.parse;
 import static org.assertj.core.api.Assertions.*;
 
-@Disabled
 class SearchForExampleExpressionTest {
 
     private final DictionaryRepository dictionaries = new JsonDictionary();

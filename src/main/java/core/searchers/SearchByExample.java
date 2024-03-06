@@ -24,11 +24,13 @@ public class SearchByExample {
         if (!combinedList.isEmpty()) {
             foundExamples = Stream.concat(
                     combinedList.stream()
+                            .parallel()
                             .filter(expressionDetails -> expressionDetails.getExamples() != null)
                             .flatMap(expressionDetails -> expressionDetails.getExamples().stream())
                             .map(Example::getRaw)
                             .filter(raw -> cleanseText(raw).contains(userMessage)),
                     combinedList.stream()
+                            .parallel()
                             .flatMap(expressionDetails -> expressionDetails.getDefinitionDetails().stream())
                             .filter(definitionDetails -> definitionDetails.getExamples() != null)
                             .flatMap(definitionDetails -> definitionDetails.getExamples().stream())

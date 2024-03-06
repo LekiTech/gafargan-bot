@@ -5,6 +5,7 @@ import core.dictionary.parser.DictionaryRepository;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static core.searchers.StringSimilarity.similarity;
 
@@ -13,21 +14,19 @@ public class FuzzySearchBySpelling {
     public Response findSimilarWordsBySpelling(String lang, DictionaryRepository dictionary, String userMessage) {
         record WordSim(String supposedWord, Double sim) {
         }
-        List<WordSim> wordList = new ArrayList<>();
-        for (String supposedWord : dictionary.getDictionaryByLang(lang).keySet()) {
-            double sim = similarity(supposedWord, userMessage.toLowerCase());
-            if (sim >= 0.5) {
-                wordList.add(new WordSim(supposedWord.replaceAll("i", "I"), sim));
-            }
-        }
-        wordList.sort(Comparator.comparing(WordSim::sim).reversed());
-        if (wordList.subList(0, Math.min(7, wordList.size())).size() == 0) {
+        final List<WordSim> wordList = dictionary.getDictionaryByLang(lang).keySet().stream()
+                .parallel()
+                .map(supposedWord -> new WordSim(supposedWord.replaceAll("i", "I"), similarity(supposedWord, userMessage.toLowerCase())))
+                .filter(wordSim -> wordSim.sim() >= 0.5)
+                .sorted(Comparator.comparing(WordSim::sim).reversed())
+                .limit(7)
+                .toList();
+        if (wordList.isEmpty()) {
             return new Response("<b>❌Жагъай гаф авач</b>");
         }
-        List<String> supposedWords = new ArrayList<>();
-        for (WordSim word : wordList.subList(0, Math.min(7, wordList.size()))) {
-            supposedWords.add(word.supposedWord);
-        }
-        return new Response("\uD83E\uDD14Жагъай затI хьанач, и гафариз килиг:\n", supposedWords);
+        final List<String> supposedWords = wordList.stream()
+                .map(WordSim::supposedWord)
+                .toList();
+        return new Response("\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n", supposedWords);
     }
 }
