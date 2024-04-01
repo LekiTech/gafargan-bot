@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
+import core.searchers.NumbersSearchResponseHandler;
 import core.searchers.SearchResponseHandler;
 
 import static core.commands.CommandsList.*;
@@ -27,9 +28,11 @@ public class ResponseFinderCommandProcessor implements ChatCommandProcessor {
         var userMessage = normalizeString(message.text());
         var selectedSearcher = DataStorage.instance().getLastSelectedDictionary(chatId);
         SearchResponseHandler messageHandler = new SearchResponseHandler(bot);
+        NumbersSearchResponseHandler numbersHandler = new NumbersSearchResponseHandler(bot);
         switch (selectedSearcher) {
             case LEZGI_RUS -> messageHandler.findResponse("lez", dictionaries, userMessage, chatId);
             case RUS_LEZGI -> messageHandler.findResponse("rus", dictionaries, userMessage, chatId);
+            case LEZGI_NUMBERS -> numbersHandler.findResponse(userMessage, chatId);
             default -> {
             }
         }

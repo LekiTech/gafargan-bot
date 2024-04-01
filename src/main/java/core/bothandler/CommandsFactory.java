@@ -20,8 +20,14 @@ public class CommandsFactory {
                 return new LezgiRusDictionaryCommandProcessor(message, bot);
             case CommandsList.RUS_LEZGI:
                 return new RusLezgiDictionaryCommandProcessor(message, bot);
+            case CommandsList.LEZGI_NUMBERS:
+                return new NumberTranslationCommandProcessor(message, bot);
             case CommandsList.INFO:
                 return new InfoCommandProcessor(message, bot);
+            case CommandsList.LEZ_RUS_TAL,
+                    CommandsList.RUS_LEZ_GADZH,
+                    CommandsList.LEZ_RUS_BB:
+                return new DefaultCommandProcessor(message, bot);
             default:
                 var chatId = message.chat().id();
                 if (DataStorage.instance().getLastSelectedDictionary(chatId) == null) {

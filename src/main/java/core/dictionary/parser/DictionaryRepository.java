@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface DictionaryRepository {
 
-    void setDictionaryByLang(String lang, Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception;
+    void setDictionaryByLang(String langId, Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception;
 
     Map<String, List<ExpressionDetails>> getAllDictionaries();
 

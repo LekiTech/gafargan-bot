@@ -23,7 +23,7 @@ public class InfoCommandProcessor implements ChatCommandProcessor {
         String msg = String.format("""
                 <i>Чи проектар📌</i>
                 <b>⌨️Лезги клавиатура: <a href="%s">ссылка</a></b>
-                <b>🌐Сайт гафарган: gafargan.com</b>
+                <b>🌐Сайт гафарган: gafalag.com</b>
                                 
                 <i>Гафарганрин авторар👤</i>
                 <b>📗Лезги-урус гафарган:</b> Бабаханов М.Б.
