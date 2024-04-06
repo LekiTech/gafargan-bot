@@ -21,7 +21,7 @@ public class RusLezgiDictionaryCommandProcessor implements ChatCommandProcessor 
     public void execute() {
         var chatId = message.chat().id();
         DataStorage.instance().saveSelectedDictionary(chatId, CommandsList.RUS_LEZGI);
-        String normalized = "\uD83D\uDCD6Урус-лезги гафарган.\n<b>✏Урус чIалал кхьихь.</b>️"
+        String normalized = "<b>✏Урус чIалал кхьихь.</b>️"
                 .replaceAll("\\p{Mn}", "");
         KeypadCreator keypadCreator = new KeypadCreator();
         ReplyKeyboardMarkup keypad = keypadCreator.createMainMenuKeypad();

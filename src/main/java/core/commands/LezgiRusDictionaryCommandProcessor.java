@@ -24,8 +24,7 @@ public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor 
         DataStorage.instance().saveSelectedDictionary(chatId, CommandsList.LEZGI_RUS);
         KeypadCreator keypadCreator = new KeypadCreator();
         ReplyKeyboardMarkup keypad = keypadCreator.createMainMenuKeypad();
-        bot.execute(new SendMessage(chatId, "\uD83D\uDCD6Лезги-урус гафарган.\n"
-                + "<b>✏️Лезги чIалал кхьихь.</b>")
+        bot.execute(new SendMessage(chatId, "<b>✏️Лезги чIалал кхьихь.</b>")
                 .parseMode(ParseMode.HTML)
                 .replyMarkup(keypad));
     }
