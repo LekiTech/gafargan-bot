@@ -1,6 +1,7 @@
 package core.searchers;
 
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendVoice;
 import io.lekitech.LezgiNumbers;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.*;
 
+import static core.utils.WordCapitalize.capitalizeFirstLetter;
 import static io.lekitech.LezgiNumbers.numToLezgiTTS;
 
 public class NumbersSearchResponseHandler {
@@ -34,34 +36,37 @@ public class NumbersSearchResponseHandler {
             sendTextAndAudioResponse(userMessage, chatId);
         } else {
             try {
-                String text = String.valueOf(LezgiNumbers.lezgiToNum(userMessage));
-                bot.execute(new SendMessage(chatId, text));
+                String outputMessage = capitalizeFirstLetter(userMessage)
+                                       + "➡️ <code>"
+                                       + LezgiNumbers.lezgiToNum(userMessage)
+                                       + "</code>";
+                bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
             } catch (Exception e) {
-                bot.execute(new SendMessage(chatId, "❌Таржума жагъанач"));
+                bot.execute(new SendMessage(chatId, "<b>❌Таржума жагъанач</b>").parseMode(ParseMode.HTML));
             }
         }
     }
 
     private void sendTextAndAudioResponse(String userMessage, Long chatId) {
         try {
-        List<String> audios = LezgiNumbers.numToLezgiList(new BigInteger(userMessage));
-        List<Byte> listOfBytes = new ArrayList<>();
-        audios.forEach(el -> {
-            String sound = el.equals(" ") ? "audio/_.wav"
-                    : String.format("audio/%s.wav", el);
-            try {
-                byte[] audioBytes = numToLezgiTTS(sound);
-                for (byte audio : audioBytes) {
-                    listOfBytes.add(audio);
+            List<String> audios = LezgiNumbers.numToLezgiList(new BigInteger(userMessage));
+            List<Byte> listOfBytes = new ArrayList<>();
+            audios.forEach(el -> {
+                String sound = el.equals(" ") ? "audio/_.wav"
+                        : String.format("audio/%s.wav", el);
+                try {
+                    byte[] audioBytes = numToLezgiTTS(sound);
+                    for (byte audio : audioBytes) {
+                        listOfBytes.add(audio);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            });
+            byte[] allAudioBytes = new byte[listOfBytes.size()];
+            for (int i = 0; i < allAudioBytes.length; i++) {
+                allAudioBytes[i] = listOfBytes.get(i);
             }
-        });
-        byte[] allAudioBytes = new byte[listOfBytes.size()];
-        for (int i = 0; i < allAudioBytes.length; i++) {
-            allAudioBytes[i] = listOfBytes.get(i);
-        }
             // Создание временного аудиофайла
             File tempFile = File.createTempFile("audio", ".wav");
             // Создание аудиофайла
@@ -70,12 +75,16 @@ public class NumbersSearchResponseHandler {
             ByteArrayInputStream bais = new ByteArrayInputStream(allAudioBytes);
             AudioInputStream ais = new AudioInputStream(bais, format, allAudioBytes.length / format.getFrameSize());
             AudioSystem.write(ais, AudioFileFormat.Type.WAVE, tempFile);
-            String num = LezgiNumbers.numToLezgi(new BigInteger(userMessage));
-            bot.execute(new SendMessage(chatId, num));
+            String outputMessage = capitalizeFirstLetter(userMessage)
+                                   + "➡️ <code>"
+                                   + LezgiNumbers.numToLezgi(new BigInteger(userMessage))
+                                   + "</code>";
+            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
             bot.execute(new SendVoice(chatId, tempFile));
             tempFile.delete();
         } catch (Exception e) {
-            bot.execute(new SendMessage(chatId, "❌Таржума жагъанач, дуьз кхьихь, месела: 1278, 354, 2, ..."));
+            bot.execute(new SendMessage(chatId,
+                    "<b>❌Таржума жагъанач</b>, дуьз кхьихь, месела: 1278, 354, 2, ...").parseMode(ParseMode.HTML));
         }
     }
 }
