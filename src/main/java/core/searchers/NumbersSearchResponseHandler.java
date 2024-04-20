@@ -14,6 +14,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
@@ -52,14 +54,17 @@ public class NumbersSearchResponseHandler {
             List<String> audios = LezgiNumbers.numToLezgiList(new BigInteger(userMessage));
             List<Byte> listOfBytes = new ArrayList<>();
             audios.forEach(el -> {
-                String sound = el.equals(" ") ? "audio/_.wav"
-                        : String.format("audio/%s.wav", el);
+                String sound = el.equals(" ") ? "/audio/_.wav"
+                        : String.format("/audio/%s.wav", el);
+                URL resource = NumbersSearchResponseHandler.class.getResource(sound);
+                assert resource != null;
                 try {
-                    byte[] audioBytes = numToLezgiTTS(sound);
+                    String path = resource.toURI().getPath();
+                    byte[] audioBytes = numToLezgiTTS(path);
                     for (byte audio : audioBytes) {
                         listOfBytes.add(audio);
                     }
-                } catch (IOException e) {
+                } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
                 }
             });

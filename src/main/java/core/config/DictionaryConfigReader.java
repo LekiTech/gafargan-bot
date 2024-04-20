@@ -1,7 +1,10 @@
 package core.config;
 
+import core.dictionary.parser.DictionaryParser;
+
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -17,7 +20,8 @@ public class DictionaryConfigReader {
     private void readConfigValues() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream("src/main/resources/config.properties"));
+            InputStream is = DictionaryConfigReader.class.getClassLoader().getResourceAsStream("config.properties");
+            properties.load(is);
             for (String key : properties.stringPropertyNames()) {
                 // Добавить значения из config.properties в мапу
                 fileMap.put(key, properties.getProperty(key));
