@@ -23,7 +23,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound() {
         String input = "спасибо";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Спасибо</i> ⤵️️️
@@ -37,7 +37,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsNotFound() {
         String input = "фирдавай";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez",dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez",dictionaries, input);
         String actualMessage = response.messageText();
         String expected = "<b>❌Таржума жагъанач</b>";
         assertThat(actualMessage).isEqualTo(expected);
@@ -46,7 +46,7 @@ class SearchBySpellingTest {
     @Test
     void whenWordHasNoTranslationAndOnlyAnExample() {
         String input = "финдикь";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Финдикь</i> ⤵️️️
@@ -59,7 +59,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound1() {
         String input = "рикI";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expected = """
@@ -91,7 +91,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound2() {
         String input = "къвал";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expected = """
@@ -130,7 +130,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound3() {
         String input = "гада";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Гада (-ди, -да, -йри)</i> ⤵️️️
@@ -157,7 +157,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound4() {
         String input = "кхьихь";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Кхьихь</i> ⤵️️️
@@ -171,7 +171,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound5() {
         String input = "что";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>1. Что</i> ⤵️️️
@@ -224,7 +224,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound6() {
         String input = "чергесви";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Чергесви (-ди, -да, -йри)</i> ⤵️️️
@@ -237,7 +237,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound7() {
         String input = "долговременный";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Долговременный</i> ⤵️️️
@@ -251,7 +251,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound8() {
         String input = "тав";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>1. Тав (-уни, -уна, -ари)</i> ⤵️️️
@@ -293,7 +293,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound9() {
         String input = "жилье";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Жилье</i> ⤵️️️
@@ -309,7 +309,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound10() {
         String input = "дешевый";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Дешевый</i> ⤵️️️
@@ -325,7 +325,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound11() {
         String input = "еж";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Еж</i> ⤵️️️
@@ -339,7 +339,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound12() {
         String input = "счетный";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Счетный</i> ⤵️️️
@@ -360,7 +360,7 @@ class SearchBySpellingTest {
     @Test
     void whenTranslateIsFound13() {
         String input = "убеленный";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, input);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Убеленный</i> ⤵️️️

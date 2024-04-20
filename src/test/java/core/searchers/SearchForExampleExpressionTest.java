@@ -23,7 +23,7 @@ class SearchForExampleExpressionTest {
     void sendExample() {
         String inputMessage = "Руш";
         String expectedButtCallbackData = "руш=example";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, inputMessage);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
@@ -43,7 +43,7 @@ class SearchForExampleExpressionTest {
     void sendExample1() {
         String inputMessage = "КIвал";
         String expectedButtCallbackData = "кiвал=example";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, inputMessage);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
@@ -74,7 +74,7 @@ class SearchForExampleExpressionTest {
     void sendExample2() {
         String inputMessage = "рикi";
         String expectedButtCallbackData = "рикi=example";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, inputMessage);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
@@ -109,7 +109,7 @@ class SearchForExampleExpressionTest {
     void sendExample3() {
         String inputMessage = "раши";
         String expectedButtCallbackData = "раши=example";
-        Response response = new SearchBySpelling().findResponseBySpelling("lez", dictionaries, inputMessage);
+        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
         String expected = """
@@ -126,7 +126,7 @@ class SearchForExampleExpressionTest {
     void sendExample4() {
         String inputMessage = "видеть";
         String expectedButtCallbackData = "видеть=example";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, inputMessage);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, inputMessage);
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
         String expected = """
@@ -142,7 +142,7 @@ class SearchForExampleExpressionTest {
     void sendExample5() {
         String inputMessage = "что";
         String expectedButtCallbackData = "что=example";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, inputMessage);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, inputMessage);
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
         String expected = """
@@ -169,7 +169,7 @@ class SearchForExampleExpressionTest {
     void sendExample6() {
         String inputMessage = "углубленный";
         String expectedButtCallbackData = "углубленный=example";
-        Response response = new SearchBySpelling().findResponseBySpelling("rus", dictionaries, inputMessage);
+        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, inputMessage);
         assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
         Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
         String expected = """

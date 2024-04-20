@@ -12,9 +12,10 @@ import java.util.stream.Stream;
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
-public class SearchByExample {
+public class SearchByExample implements Searcher{
 
-    public Response findResponseByExamples(DictionaryRepository dictionaries, String userMessage) {
+    @Override
+    public Response searchResponse(String lang, DictionaryRepository dictionaries, String userMessage) {
         // TODO исправить методы capitalizeFirstLetter(WithNum); убрать замену "ё" в outputMsg в классе SearchBySpelling
         final Map<String, List<ExpressionDetails>> combinedDictionary = dictionaries.getAllDictionaries();
         List<ExpressionDetails> combinedList = combinedDictionary.values().stream()

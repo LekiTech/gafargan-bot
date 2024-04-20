@@ -10,13 +10,13 @@ import core.searchers.SearchResponseHandler;
 import static core.commands.CommandsList.*;
 import static core.utils.SearchStringNormalizer.normalizeString;
 
-public class ResponseFinderCommandProcessor implements ChatCommandProcessor {
+public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
     private final DictionaryRepository dictionaries;
     private final TelegramBot bot;
 
-    public ResponseFinderCommandProcessor(Message message, DictionaryRepository dictionaries, TelegramBot bot) {
+    public ResponseSearchCommandProcessor(Message message, DictionaryRepository dictionaries, TelegramBot bot) {
         this.message = message;
         this.dictionaries = dictionaries;
         this.bot = bot;
@@ -30,8 +30,8 @@ public class ResponseFinderCommandProcessor implements ChatCommandProcessor {
         SearchResponseHandler messageHandler = new SearchResponseHandler(bot);
         NumbersSearchResponseHandler numbersHandler = new NumbersSearchResponseHandler(bot);
         switch (selectedSearcher) {
-            case LEZGI_RUS -> messageHandler.findResponse("lez", dictionaries, userMessage, chatId);
-            case RUS_LEZGI -> messageHandler.findResponse("rus", dictionaries, userMessage, chatId);
+            case LEZGI_RUS -> messageHandler.sendResponse("lez", dictionaries, userMessage, chatId);
+            case RUS_LEZGI -> messageHandler.sendResponse("rus", dictionaries, userMessage, chatId);
             case LEZGI_NUMBERS -> numbersHandler.findResponse(userMessage, chatId);
             default -> {
             }

@@ -33,7 +33,7 @@ public class CommandsFactory {
                 if (DataStorage.instance().getLastSelectedDictionary(chatId) == null) {
                     return new DefaultCommandProcessor(message, bot);
                 }
-                return new ResponseFinderCommandProcessor(message, dictionaries, bot);
+                return new ResponseSearchCommandProcessor(message, dictionaries, bot);
         }
     }
 

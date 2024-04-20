@@ -21,7 +21,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples() {
         String input = "рикIелай алатна";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>РикIелай алатна</i> ⤵️️️
@@ -36,7 +36,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples1() {
         String input = "гъил къачу";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Гъил къачу</i> ⤵️️️
@@ -58,7 +58,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples2() {
         String input = "фимир";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Фимир</i> ⤵️️️
@@ -80,7 +80,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples3() {
         String input = "ам вуж я";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Ам вуж я</i> ⤵️️️
@@ -94,7 +94,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples4() {
         String input = "ви шумуд йис я";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Ви шумуд йис я</i> ⤵️️️
@@ -107,7 +107,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples5() {
         String input = "ви тIвар вуж я";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Ви тIвар вуж я</i> ⤵️️️
@@ -121,7 +121,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples6() {
         String input = "вун атуй рагъ атуй";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Вун атуй рагъ атуй</i> ⤵️️️
@@ -135,7 +135,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples7() {
         String input = "вун гьинай я";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Вун гьинай я</i> ⤵️️️
@@ -149,7 +149,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples9() {
         String input = "мое сердце";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Мое сердце</i> ⤵️️️
@@ -165,7 +165,7 @@ class SearchByExampleTest {
     @Test
     void sendAnswerFromExamples10() {
         String input = "твое имя";
-        Response response = new SearchByExample().findResponseByExamples(dictionaries, input);
+        Response response = new SearchByExample().searchResponse(null, dictionaries, input);
         String actualMessage = response.messageText();
         String expected = """
                 <i>Твое имя</i> ⤵️️️

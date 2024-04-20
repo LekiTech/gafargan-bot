@@ -37,23 +37,6 @@ public class SearchForExampleExpression {
                 );
             }
         }
-    /*   List<String> expressionExample = expressionDetails.stream()
-                .filter(expDetails -> expDetails.getExamples() != null)
-                .flatMap(expDetails -> expDetails.getExamples().stream())
-                .map(Example::getRaw)
-                .toList();
-        if (!expressionExample.isEmpty()) {
-            StringBuilder outputMessage = new StringBuilder().append(capitalizeFirstLetter(normalizeString(spelling)));
-            int count = 0;
-            for (String example : expressionExample) {
-                outputMessage.append(convertMarkupToHTML(example)).append("\n");
-                if (count >= 20) {
-                    break;
-                }
-                count++;
-            }
-            return new Response(outputMessage.toString());
-        } */
         return null;
     }
 }

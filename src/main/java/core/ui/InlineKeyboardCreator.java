@@ -15,6 +15,12 @@ public class InlineKeyboardCreator {
                             {new InlineKeyboardButton("Мад меселаяр къалурун").callbackData(words.get(0))}
                     }
             );
+        } else if (words.get(0).contains("=searchMore")) {
+            return new InlineKeyboardMarkup(
+                    new InlineKeyboardButton[][]{
+                            {new InlineKeyboardButton("Мад жагъурун\uD83D\uDD0D").callbackData(words.get(0))}
+                    }
+            );
         }
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         for (String word : words) {

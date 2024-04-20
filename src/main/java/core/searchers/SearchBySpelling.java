@@ -13,9 +13,10 @@ import java.util.Set;
 import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.*;
 
-public class SearchBySpelling {
+public class SearchBySpelling implements Searcher{
 
-    public Response findResponseBySpelling(String lang, DictionaryRepository dictionaries, String spelling) {
+    @Override
+    public Response searchResponse(String lang, DictionaryRepository dictionaries, String spelling) {
         List<ExpressionDetails> expressionDetails = dictionaries.getExpressionDetails(lang, spelling);
         if (expressionDetails == null) {
             return null;

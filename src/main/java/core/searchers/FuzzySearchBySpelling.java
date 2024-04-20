@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 
 import static core.searchers.StringSimilarity.similarity;
 
-public class FuzzySearchBySpelling {
+public class FuzzySearchBySpelling implements Searcher{
 
-    public Response findSimilarWordsBySpelling(String lang, DictionaryRepository dictionary, String userMessage) {
+    @Override
+    public Response searchResponse(String lang, DictionaryRepository dictionary, String userMessage) {
         record WordSim(String supposedWord, Double sim) {
         }
         final List<WordSim> wordList = dictionary.getDictionaryByLang(lang).keySet().stream()

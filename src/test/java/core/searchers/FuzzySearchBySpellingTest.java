@@ -24,7 +24,7 @@ class FuzzySearchBySpellingTest {
     @Test
     void whenWordNotFound() {
         String input = "ывфоларфвыолаофываолыфвифвыоафы";
-        Response response = new FuzzySearchBySpelling().findSimilarWordsBySpelling("rus", dictionaries, input);
+        Response response = new FuzzySearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         String expected = "<b>❌Жагъай гаф авач</b>";
         assertThat(actualMessage).isEqualTo(expected);
@@ -33,7 +33,7 @@ class FuzzySearchBySpellingTest {
     @Test
     void sendAnswerWithSuggestedWords() {
         String input = "рыш";
-        Response response = new FuzzySearchBySpelling().findSimilarWordsBySpelling("lez", dictionaries, input);
+        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
@@ -45,7 +45,7 @@ class FuzzySearchBySpellingTest {
     @Test
     void sendAnswerWithSuggestedWords1() {
         String input = "хъарнихъуз";
-        Response response = new FuzzySearchBySpelling().findSimilarWordsBySpelling("lez", dictionaries, input);
+        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
@@ -57,7 +57,7 @@ class FuzzySearchBySpellingTest {
     @Test
     void sendAnswerWithSuggestedWords2() {
         String input = "ходитьь";
-        Response response = new FuzzySearchBySpelling().findSimilarWordsBySpelling("rus", dictionaries, input);
+        Response response = new FuzzySearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
@@ -69,7 +69,7 @@ class FuzzySearchBySpellingTest {
     @Test
     void sendAnswerWithSuggestedWords3() {
         String input = "хъарнихъуз";
-        Response response = new FuzzySearchBySpelling().findSimilarWordsBySpelling("lez", dictionaries, input);
+        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
@@ -88,7 +88,7 @@ class FuzzySearchBySpellingTest {
     @Test
     void sendAnswerWithSuggestedWords4() {
         String input = "тумир";
-        Response response = new FuzzySearchBySpelling().findSimilarWordsBySpelling("lez", dictionaries, input);
+        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
@@ -100,7 +100,7 @@ class FuzzySearchBySpellingTest {
     @Test
     void sendAnswerWithSuggestedWords5() {
         String input = "гиледалды";
-        Response response = new FuzzySearchBySpelling().findSimilarWordsBySpelling("lez", dictionaries, input);
+        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
         String actualMessage = response.messageText();
         List<String> actualExampleButton = response.exampleButton();
         String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";

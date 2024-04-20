@@ -8,9 +8,7 @@ import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
 import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
-import core.searchers.Response;
-import core.searchers.SearchForExampleExpression;
-import core.searchers.SearchResponseHandler;
+import core.searchers.*;
 import javassist.NotFoundException;
 
 import static core.commands.CommandsList.*;
@@ -57,8 +55,24 @@ public class ResponseFromInlineButtonCommandProcessor implements ChatCommandProc
             Response response = searchForExampleExpression.sendExampleExpression(lang, dictionaries, userMessage);
             bot.execute(new SendMessage(chatId, response.messageText()).parseMode(ParseMode.HTML));
             return;
+        } else if (userMessage.contains("=searchMore")) {
+            String[] spell = userMessage.split("=");
+            String wordToSearch = "";
+            if (spell.length == 2) {
+                wordToSearch = spell[0];
+                Response response = new SearchByExample().searchResponse(null, dictionaries, wordToSearch);
+                if (response != null) {
+                    bot.execute(new SendMessage(chatId, response.messageText())
+                            .parseMode(ParseMode.HTML));
+                    return;
+                } else {
+                    bot.execute(new SendMessage(chatId, "<b>❌Мад жагъай затI авач</b>")
+                            .parseMode(ParseMode.HTML));
+                    return;
+                }
+            }
         }
         SearchResponseHandler handler = new SearchResponseHandler(bot);
-        handler.findResponse(lang, dictionaries, userMessage, chatId);
+        handler.sendResponse(lang, dictionaries, userMessage, chatId);
     }
 }
