@@ -8,7 +8,7 @@ RUN mvn -f /home/app/pom.xml clean package
 # Package stage
 
 FROM openjdk:17-slim
-COPY --from=build /home/app/target/GafarganBot-1.0-SNAPSHOT.jar ./GafarganBot.jar
+COPY --from=build /home/app/target/GafarganBot-1.0-SNAPSHOT.jar ./GafarganBot-jar-with-dependencies.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","./GafarganBot-jar-with-dependencies.jar"]
 
