@@ -18,4 +18,4 @@ ENTRYPOINT ["java","-jar","./GafarganBot-jar-with-dependencies.jar"]
 
 # Command to start
 # docker build -t gafargan-bot:latest .
-# docker run -d --name gafargan-bot gafargan-bot:latest --TELEGRAM_API_TOKEN=<API-TOKEN>
+# docker run -e TELEGRAM_API_TOKEN=<API-TOKEN> --name gafargan-bot gafargan-bot:latest

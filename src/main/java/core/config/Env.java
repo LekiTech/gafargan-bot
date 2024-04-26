@@ -2,15 +2,13 @@ package core.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-import java.net.URL;
-
 public class Env {
 
     private Dotenv dotenv;
     private static Env envInstance;
 
     private Env() {
-        dotenv = Dotenv.configure().load();
+        dotenv = Dotenv.configure().ignoreIfMissing().load();
     }
 
     public static Env instance() {
@@ -21,7 +19,11 @@ public class Env {
     }
 
     public String getTelegramApiToken() {
-        return dotenv.get("TELEGRAM_API_TOKEN");
+        String apiToken = System.getenv("TELEGRAM_API_TOKEN");
+        if (apiToken == null) {
+            apiToken = dotenv.get("TELEGRAM_API_TOKEN");
+        }
+        return apiToken;
     }
 
     public static boolean isRunningFromJar() {
