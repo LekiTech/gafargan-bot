@@ -32,21 +32,40 @@ public class NumbersSearchResponseHandler {
 
     public void findResponse(String userMessage, Long chatId) {
         if (isNumber(userMessage)) {
-            sendTextAndAudioResponse(userMessage, chatId);
+            sendTextAndAudio(userMessage, chatId);
         } else {
-            try {
-                String outputMessage = capitalizeFirstLetter(userMessage)
-                                       + "➡️ <code>"
-                                       + LezgiNumbers.lezgiToNum(userMessage)
-                                       + "</code>";
-                bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
-            } catch (Exception e) {
-                bot.execute(new SendMessage(chatId, "<b>❌Таржума жагъанач</b>").parseMode(ParseMode.HTML));
-            }
+            sendNumAndAudio(userMessage, chatId);
         }
     }
 
-    private void sendTextAndAudioResponse(String userMessage, Long chatId) {
+    private void sendTextAndAudio(String userMessage, Long chatId) {
+        try {
+            String numToLezgi = LezgiNumbers.numToLezgi(new BigInteger(userMessage));
+            File audioFile = getAudio(userMessage);
+            String outputMessage = capitalizeFirstLetter(userMessage)
+                                   + "➡️ <code>" + numToLezgi + "</code>";
+            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
+            bot.execute(new SendVoice(chatId, audioFile));
+        } catch (Exception e) {
+            bot.execute(new SendMessage(chatId, "<b>❌Таржума жагъанач</b>, дуьз кхьихь, месела: 1278, 354, 2, ...")
+                    .parseMode(ParseMode.HTML));
+        }
+    }
+
+    private void sendNumAndAudio(String userMessage, Long chatId) {
+        try {
+            String lezgiToNum = String.valueOf(LezgiNumbers.lezgiToNum(userMessage));
+            File audioFile = getAudio(lezgiToNum);
+            String outputMessage = capitalizeFirstLetter(userMessage)
+                                   + "➡️ <code>" + lezgiToNum + "</code>";
+            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
+            bot.execute(new SendVoice(chatId, audioFile));
+        } catch (Exception e) {
+            bot.execute(new SendMessage(chatId, "<b>❌Таржума жагъанач</b>").parseMode(ParseMode.HTML));
+        }
+    }
+
+    private File getAudio(String userMessage) {
         try {
             List<Byte> listOfBytes = new ArrayList<>();
             List<String> audios = LezgiNumbers.numToLezgiList(new BigInteger(userMessage));
@@ -76,17 +95,18 @@ public class NumbersSearchResponseHandler {
             ByteArrayInputStream bais = new ByteArrayInputStream(allAudioBytes);
             AudioInputStream ais = new AudioInputStream(bais, format, allAudioBytes.length / format.getFrameSize());
             AudioSystem.write(ais, AudioFileFormat.Type.WAVE, tempFile);
-            String outputMessage = capitalizeFirstLetter(userMessage)
-                                   + "➡️ <code>"
-                                   + LezgiNumbers.numToLezgi(new BigInteger(userMessage))
-                                   + "</code>";
-            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
-            bot.execute(new SendVoice(chatId, tempFile));
-            tempFile.delete();
+//            String outputMessage = capitalizeFirstLetter(userMessage)
+//                                   + "➡️ <code>"
+//                                   + LezgiNumbers.numToLezgi(new BigInteger(userMessage))
+//                                   + "</code>";
+//            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
+//            bot.execute(new SendVoice(chatId, tempFile));
+//            tempFile.delete();
+            return tempFile;
         } catch (Exception e) {
-            bot.execute(new SendMessage(chatId,
-                    "<b>❌Таржума жагъанач</b>, дуьз кхьихь, месела: 1278, 354, 2, ...").parseMode(ParseMode.HTML));
+            e.printStackTrace();
         }
+        return null;
     }
 
     private String getAudioFilePath(String sound) throws URISyntaxException {
