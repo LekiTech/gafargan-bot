@@ -95,13 +95,6 @@ public class NumbersSearchResponseHandler {
             ByteArrayInputStream bais = new ByteArrayInputStream(allAudioBytes);
             AudioInputStream ais = new AudioInputStream(bais, format, allAudioBytes.length / format.getFrameSize());
             AudioSystem.write(ais, AudioFileFormat.Type.WAVE, tempFile);
-//            String outputMessage = capitalizeFirstLetter(userMessage)
-//                                   + "➡️ <code>"
-//                                   + LezgiNumbers.numToLezgi(new BigInteger(userMessage))
-//                                   + "</code>";
-//            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
-//            bot.execute(new SendVoice(chatId, tempFile));
-//            tempFile.delete();
             return tempFile;
         } catch (Exception e) {
             e.printStackTrace();
