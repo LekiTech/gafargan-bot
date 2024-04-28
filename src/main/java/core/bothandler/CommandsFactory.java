@@ -6,6 +6,7 @@ import com.pengrad.telegrambot.model.Message;
 import core.commands.*;
 import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
+import core.utils.AlphabetBuilder;
 
 public class CommandsFactory {
 
@@ -43,8 +44,9 @@ public class CommandsFactory {
                                                                DictionaryRepository dictionaries,
                                                                TelegramBot bot,
                                                                CallbackQuery callbackQuery) {
-        var userMessage = callbackQuery.data();
-        if (userMessage.length() == 1 || userMessage.length() == 2) {
+        String userMessage = callbackQuery.data();
+        AlphabetBuilder alphabet = new AlphabetBuilder();
+        if (alphabet.containsKey(userMessage)) {
             return new ResponseFromAlphabetCommandProcessor(message, bot, callbackQuery);
         }
         return new ResponseFromInlineButtonCommandProcessor(message, dictionaries, bot, callbackQuery);
