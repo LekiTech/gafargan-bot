@@ -60,7 +60,7 @@ jobs:
             docker rm gafargan-bot || true
             echo "starting server instance..."
             docker run -d \
-              -e TELEGRAM_API_TOKEN==${{ secrets.TELEGRAM_API_TOKEN }} \ 
+              -e TELEGRAM_API_TOKEN==${{ secrets.TELEGRAM_API_TOKEN }} \
               --restart always \
               -p 0.0.0.0:80:8080 \
               --name gafargan-bot \
