@@ -1,0 +1,68 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Builder
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: lekitech/gafargan-bot:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v2
+      # Droplets already have docker, doctl + auth, and curl installed
+      # "gafargan-bot" - image name used in build job
+      - name: Deploy gafargan-bot to DigitalOcean Droplet
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.DIGITALOCEAN_DROPLET_HOST }}
+          username: root
+          key: ${{ secrets.DIGITALOCEAN_API_KEY }}
+          port: 22
+          # "gafargan-bot" - image name used in build job
+          # "gafargan" - your own container registry name
+          script: |
+            docker pull lekitech/gafargan-bot:latest
+            echo "calling shutdown endpoint..."
+            curl --silent http://localhost/shutdown || true
+            echo "giving healthcheck time to fail..."
+            sleep 30 # ((unhealthy + 1) * interval)
+
+            echo "removing unused images..."
+            docker image prune -a
+            echo "stopping and removing running container..."
+            docker stop gafargan-bot || true
+            docker rm gafargan-bot || true
+            echo "starting server instance..."
+            docker run -d \
+              -e GOOGLE_CREDENTIALS_BASE64="${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" \
+              -e TELEGRAM_API_TOKEN=${{ secrets.TELEGRAM_API_TOKEN }} \
+              --restart always \
+              -p 0.0.0.0:8081:8080 \
+              --name gafargan-bot \
+              lekitech/gafargan-bot:latest
