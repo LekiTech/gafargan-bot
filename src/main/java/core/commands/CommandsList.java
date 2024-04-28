@@ -6,6 +6,7 @@ public class CommandsList {
     public static final String LEZGI_RUS = "\uD83D\uDCD7Лезги-урус гафарган";
     public static final String RUS_LEZGI = "\uD83D\uDCD5Урус-лезги гафарган";
     public static final String LEZGI_NUMBERS = "\uD83D\uDD22Лезги числительнияр";
+    public static final String LEZGI_ALPHABET = "\uD83D\uDD20Гьарфалаг";
     public static final String INFO = "/info";
 
     /* Старые команды */

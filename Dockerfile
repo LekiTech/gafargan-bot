@@ -3,6 +3,7 @@
 FROM maven:3.8.4-openjdk-17-slim AS build
 COPY src /home/app/src
 COPY audio /home/app/audio
+COPY alphabet /home/app/alphabet
 COPY lib /home/app/lib
 COPY pom.xml /home/app
 RUN mvn install:install-file -Dfile="/home/app/lib/lezgi-numbers-java-0.0.1.jar" -DgroupId="io.lekitech" -DartifactId=lezgi-numbers-java -Dversion="1.0-SNAPSHOT" -Dpackaging=jar

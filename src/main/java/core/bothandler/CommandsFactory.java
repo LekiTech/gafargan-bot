@@ -22,6 +22,8 @@ public class CommandsFactory {
                 return new RusLezgiDictionaryCommandProcessor(message, bot);
             case CommandsList.LEZGI_NUMBERS:
                 return new NumberTranslationCommandProcessor(message, bot);
+            case CommandsList.LEZGI_ALPHABET:
+                return new AlphabetCommandProcessor(message, bot);
             case CommandsList.INFO:
                 return new InfoCommandProcessor(message, bot);
             case CommandsList.LEZ_RUS_TAL,
@@ -41,6 +43,10 @@ public class CommandsFactory {
                                                                DictionaryRepository dictionaries,
                                                                TelegramBot bot,
                                                                CallbackQuery callbackQuery) {
+        var userMessage = callbackQuery.data();
+        if (userMessage.length() == 1 || userMessage.length() == 2) {
+            return new ResponseFromAlphabetCommandProcessor(message, bot, callbackQuery);
+        }
         return new ResponseFromInlineButtonCommandProcessor(message, dictionaries, bot, callbackQuery);
     }
 }
