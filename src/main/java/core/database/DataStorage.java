@@ -8,6 +8,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import core.Main;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -109,17 +110,39 @@ public class DataStorage {
         return null;
     }
 
-    private Firestore initFirestore() throws IOException {
-        // InputStream serviceAccount = new FileInputStream("path/to/serviceAccount.json");
-        InputStream serviceAccount = Main.class.getClassLoader().getResourceAsStream("gafargan-bot-facc575fa9c7.json");
-        assert serviceAccount != null;
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(credentials)
-                .build();
-        FirebaseApp.initializeApp(options);
-        return FirestoreClient.getFirestore();
+    private Firestore initFirestore() {
+        try {
+            String encodedCredentials = System.getenv("GOOGLE_CREDENTIALS_BASE64");
+            if (encodedCredentials == null || encodedCredentials.isEmpty()) {
+                throw new IllegalStateException("Google credentials environment variable is not set or is empty");
+            }
+            byte[] decodedCredentials = Base64.getDecoder().decode(encodedCredentials);
+            try (InputStream serviceAccount = new ByteArrayInputStream(decodedCredentials)) {
+                GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(credentials)
+                        .build();
+                FirebaseApp.initializeApp(options);
+                return FirestoreClient.getFirestore();
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to initialize Firestore: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
+
+//    private Firestore initFirestore() throws IOException {
+//        // InputStream serviceAccount = new FileInputStream("path/to/serviceAccount.json");
+//        InputStream serviceAccount = Main.class.getClassLoader().getResourceAsStream("gafargan-bot-facc575fa9c7.json");
+//        assert serviceAccount != null;
+//        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+//        FirebaseOptions options = new FirebaseOptions.Builder()
+//                .setCredentials(credentials)
+//                .build();
+//        FirebaseApp.initializeApp(options);
+//        return FirestoreClient.getFirestore();
+//    }
 
     public Set<Long> getAllChatId() throws Exception {
         ApiFuture<QuerySnapshot> query = db.collection("users").get();
