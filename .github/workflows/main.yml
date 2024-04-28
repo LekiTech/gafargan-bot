@@ -60,6 +60,7 @@ jobs:
             docker rm gafargan-bot || true
             echo "starting server instance..."
             docker run -d \
+              -e GOOGLE_CREDENTIALS_BASE64="${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" \
               -e TELEGRAM_API_TOKEN=${{ secrets.TELEGRAM_API_TOKEN }} \
               --restart always \
               -p 0.0.0.0:8081:8080 \
