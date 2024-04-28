@@ -30,7 +30,7 @@ public class ResponseFromAlphabetCommandProcessor implements ChatCommandProcesso
         var chatId = message.chat().id();
         var userMessage = callbackQuery.data();
         AlphabetBuilder alphabet = new AlphabetBuilder();
-        String outputMsg = "<b>" + userMessage + "</b> — <b>" + alphabet.get(userMessage) + "</b>";
+        String outputMsg = "<b>" + userMessage + " — " + alphabet.get(userMessage) + "</b>";
         if (userMessage.equals("Ь") || userMessage.equals("Ъ")) {
             bot.execute(new SendMessage(chatId, outputMsg).parseMode(ParseMode.HTML));
             bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
