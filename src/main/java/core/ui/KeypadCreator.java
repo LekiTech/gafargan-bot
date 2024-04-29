@@ -14,7 +14,7 @@ public class KeypadCreator {
                 },
                 new KeyboardButton[]{
                         new KeyboardButton("\uD83D\uDD22Лезги числительнияр"),
-                        new KeyboardButton("\uD83D\uDD20Лезги гьарфалаг")
+                        new KeyboardButton("\uD83D\uDD20Лезги гьарфарган")
                 }
         );
         keypad.resizeKeyboard(true).inputFieldPlaceholder("Жугъурзавай гаф кхьихь...");

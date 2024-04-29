@@ -29,7 +29,9 @@ public class CommandsFactory {
                 return new InfoCommandProcessor(message, bot);
             case CommandsList.LEZ_RUS_TAL,
                     CommandsList.RUS_LEZ_GADZH,
-                    CommandsList.LEZ_RUS_BB:
+                    CommandsList.LEZ_RUS_BB,
+                    CommandsList.LEZGI_ALPHABET_OLD,
+                    CommandsList.ABOUT_US:
                 return new DefaultCommandProcessor(message, bot);
             default:
                 var chatId = message.chat().id();

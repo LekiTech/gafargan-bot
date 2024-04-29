@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import static core.utils.OutputLineEditor.insertAuthorsName;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class SearchByDefinition implements Searcher {
@@ -18,14 +19,8 @@ public class SearchByDefinition implements Searcher {
         final Map<String, List<ExpressionDetails>> dictionary = dictionaries.getDictionaryByLang(lang);
         List<String> spellings = searchSpellings(dictionary, defValue -> defValue.equals(userMessage));
         if (!spellings.isEmpty()) {
-            return createOutputMessage(userMessage, spellings);
+            return createOutputMessage(userMessage, spellings, lang);
         }
-        /*
-        spellings = searchSpellings(dictionary, defValue -> defValue.contains(userMessage));
-        if (!spellings.isEmpty()) {
-            return createOutputMessage(userMessage, spellings);
-        }
-         */
         return null;
     }
 
@@ -44,11 +39,12 @@ public class SearchByDefinition implements Searcher {
                 .toList();
     }
 
-    private Response createOutputMessage(String userMessage, List<String> spellings) {
+    private Response createOutputMessage(String userMessage, List<String> spellings, String lang) {
         StringBuilder outputMessage = new StringBuilder(capitalizeFirstLetter(userMessage));
         for (String spelling : spellings) {
             outputMessage.append("<b>➡️ ").append(spelling).append("</b>\n\n");
         }
+        outputMessage.append(insertAuthorsName(lang));
         return new Response(outputMessage.toString(), List.of(userMessage + "=searchMore"));
     }
 }

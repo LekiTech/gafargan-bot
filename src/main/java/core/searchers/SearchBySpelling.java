@@ -10,10 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static core.utils.MarkupLineEditor.convertMarkupToHTML;
+import static core.utils.OutputLineEditor.convertMarkupToHTML;
+import static core.utils.OutputLineEditor.insertAuthorsName;
 import static core.utils.WordCapitalize.*;
 
-public class SearchBySpelling implements Searcher{
+public class SearchBySpelling implements Searcher {
 
     @Override
     public Response searchResponse(String lang, DictionaryRepository dictionaries, String spelling) {
@@ -34,7 +35,7 @@ public class SearchBySpelling implements Searcher{
             if ((details.getDefinitionDetails().size() == 0 || details.getDefinitionDetails() == null)
                 && details.getExamples() != null) {
                 outputMessage.append(capitalizeFirstLetter(spelling));
-                return new Response(sendOnlyExamples(outputMessage, details));
+                return new Response(sendOnlyExamples(outputMessage, details, lang));
             }
             /* Если у слова несколько или одно значений, то пронумеровать */
             markupExpressionsSpelling(spelling, amountOfDetails, outputMessage, expressionDetails, details);
@@ -68,9 +69,12 @@ public class SearchBySpelling implements Searcher{
             }
             amountOfDetails++;
         }
-        /* Если теги есть, присваиваем к концу ответной строки */
+        /* присваиваем к концу ответной строки тэги и автора словаря */
         if (!tags.isEmpty()) {
             outputMessage.append(createTags(tags));
+            outputMessage.append("\n\n").append(insertAuthorsName(lang));
+        } else {
+            outputMessage.append(insertAuthorsName(lang));
         }
         /* Выводим ответ с наличием общих примеров */
         if (expressionExample) {
@@ -94,15 +98,16 @@ public class SearchBySpelling implements Searcher{
         }
     }
 
-    private String sendOnlyExamples(StringBuilder outputMessage, ExpressionDetails details) {
+    private String sendOnlyExamples(StringBuilder outputMessage, ExpressionDetails details, String lang) {
         details.getExamples().forEach(example -> {
             outputMessage.append(convertMarkupToHTML(example.getRaw())).append("\n");
         });
+        outputMessage.append("\n").append(insertAuthorsName(lang));
         return outputMessage.toString().replaceAll("ё", "е");
     }
 
     private StringBuilder createTags(StringBuilder tags) {
-        StringBuilder result = new StringBuilder("\n<i>мадни клг.:</i> ");
+        StringBuilder result = new StringBuilder("\n<b>\uD83D\uDD0Eмадни килиг:</b> ");
         String[] tagArr = tags.toString().split(", ");
         Set<String> tagList = new HashSet<>(Arrays.asList(tagArr));
         for (String tag : tagList) {

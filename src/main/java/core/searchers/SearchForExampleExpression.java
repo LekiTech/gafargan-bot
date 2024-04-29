@@ -3,13 +3,11 @@ package core.searchers;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.model.Example;
 import core.dictionary.model.ExpressionDetails;
-import core.utils.MarkupLineEditor;
+import core.utils.OutputLineEditor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static core.utils.MarkupLineEditor.convertMarkupToHTML;
-import static core.utils.SearchStringNormalizer.normalizeString;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class SearchForExampleExpression {
@@ -31,7 +29,7 @@ public class SearchForExampleExpression {
                         capitalizeFirstLetter(spelling)
                                 + expressionExample.stream()
                                 .limit(20)
-                                .map(MarkupLineEditor::convertMarkupToHTML)
+                                .map(OutputLineEditor::convertMarkupToHTML)
                                 .collect(Collectors.joining("\n"))
                                 + "\n"
                 );

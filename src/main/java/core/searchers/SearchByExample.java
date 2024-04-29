@@ -3,13 +3,12 @@ package core.searchers;
 import core.dictionary.model.Example;
 import core.dictionary.model.ExpressionDetails;
 import core.dictionary.parser.DictionaryRepository;
-import core.utils.MarkupLineEditor;
+import core.utils.OutputLineEditor;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static core.utils.MarkupLineEditor.convertMarkupToHTML;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class SearchByExample implements Searcher{
@@ -44,7 +43,7 @@ public class SearchByExample implements Searcher{
                     capitalizeFirstLetter(userMessage)
                             + foundExamples.stream()
                             .limit(10)
-                            .map(MarkupLineEditor::convertMarkupToHTML)
+                            .map(OutputLineEditor::convertMarkupToHTML)
                             .map(row -> row.replaceAll(userMessage, "<u>" + userMessage + "</u>"))
                             .collect(Collectors.joining("\n"))
                             + "\n"
