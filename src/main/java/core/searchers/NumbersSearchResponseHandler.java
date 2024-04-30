@@ -47,7 +47,7 @@ public class NumbersSearchResponseHandler {
             bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
             bot.execute(new SendVoice(chatId, audioFile));
         } catch (Exception e) {
-            bot.execute(new SendMessage(chatId, "<b>❌Таржума жагъанач</b>, дуьз кхьихь, месела: 1278, 354, 2, ...")
+            bot.execute(new SendMessage(chatId, "<b>❌Числительное жагъанач.</b>\n      <i>Дуьз кхьихь, месела: 10, -444, 2, ... ва икI мад</i>")
                     .parseMode(ParseMode.HTML));
         }
     }
@@ -61,7 +61,8 @@ public class NumbersSearchResponseHandler {
             bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
             bot.execute(new SendVoice(chatId, audioFile));
         } catch (Exception e) {
-            bot.execute(new SendMessage(chatId, "<b>❌Таржума жагъанач</b>").parseMode(ParseMode.HTML));
+            bot.execute(new SendMessage(chatId, "<b>❌Числительное жагъанач.</b>\n      <i>Дуьз кхьихь, месела: вад вишни къанни пуд, ... ва икI мад</i>")
+                    .parseMode(ParseMode.HTML));
         }
     }
 

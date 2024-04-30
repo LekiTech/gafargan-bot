@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static core.dictionary.parser.DictionaryParser.parse;
+import static core.utils.OutputLineEditor.insertAuthorsName;
 import static org.assertj.core.api.Assertions.*;
 
 class SearchBySpellingTest {
@@ -39,7 +40,7 @@ class SearchBySpellingTest {
         String input = "фирдавай";
         Response response = new SearchBySpelling().searchResponse("lez",dictionaries, input);
         String actualMessage = response.messageText();
-        String expected = "<b>❌Таржума жагъанач</b>";
+        String expected = "<b>❌Гафуниз таржума жагъанач</b>\n\uD83D\uDCDA" + insertAuthorsName("lez");
         assertThat(actualMessage).isEqualTo(expected);
     }
 

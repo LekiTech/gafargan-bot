@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static core.dictionary.parser.DictionaryParser.parse;
+import static core.utils.OutputLineEditor.insertAuthorsName;
 import static org.assertj.core.api.Assertions.*;
 
 class FuzzySearchBySpellingTest {
@@ -26,7 +27,7 @@ class FuzzySearchBySpellingTest {
         String input = "ывфоларфвыолаофываолыфвифвыоафы";
         Response response = new FuzzySearchBySpelling().searchResponse("rus", dictionaries, input);
         String actualMessage = response.messageText();
-        String expected = "<b>❌Жагъай гаф авач</b>";
+        String expected = "<b>❌Гаф жагъанач</b>\n\uD83D\uDCDA" + insertAuthorsName("rus");
         assertThat(actualMessage).isEqualTo(expected);
     }
 

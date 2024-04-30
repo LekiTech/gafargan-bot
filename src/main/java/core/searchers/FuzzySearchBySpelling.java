@@ -2,14 +2,13 @@ package core.searchers;
 
 import core.dictionary.parser.DictionaryRepository;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static core.searchers.StringSimilarity.similarity;
+import static core.utils.OutputLineEditor.insertAuthorsName;
 
-public class FuzzySearchBySpelling implements Searcher{
+public class FuzzySearchBySpelling implements Searcher {
 
     @Override
     public Response searchResponse(String lang, DictionaryRepository dictionary, String userMessage) {
@@ -23,7 +22,7 @@ public class FuzzySearchBySpelling implements Searcher{
                 .limit(7)
                 .toList();
         if (wordList.isEmpty()) {
-            return new Response("<b>❌Жагъай гаф авач</b>");
+            return new Response("<b>❌Гаф жагъанач</b>\n\uD83D\uDCDA" + insertAuthorsName(lang));
         }
         final List<String> supposedWords = wordList.stream()
                 .map(WordSim::supposedWord)

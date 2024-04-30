@@ -29,7 +29,7 @@ public class SearchBySpelling implements Searcher {
         for (ExpressionDetails details : expressionDetails) {
             /* Если слово есть в словаре, но нет перевода, вывести "перевод не найден" */
             if (details.getDefinitionDetails().isEmpty() && details.getExamples() == null) {
-                return new Response("<b>❌Таржума жагъанач</b>");
+                return new Response("<b>❌Гафуниз таржума жагъанач</b>\n\uD83D\uDCDA" + insertAuthorsName(lang));
             }
             /* Если к слову отсутвуют переводы, есть только examples, то вывести example */
             if ((details.getDefinitionDetails().size() == 0 || details.getDefinitionDetails() == null)
