@@ -129,7 +129,7 @@ public class DataStorage {
                     return FirestoreClient.getFirestore();
                 }
             } else {
-                InputStream serviceAccount = Main.class.getClassLoader().getResourceAsStream("gafargan-bot-facc575fa9c7.json");
+                InputStream serviceAccount = Main.class.getClassLoader().getResourceAsStream("gafargan-bot-firebase-adminsdk-3uwov-e042705c03.json");
                 assert serviceAccount != null;
                 GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
                 FirebaseOptions options = new FirebaseOptions.Builder()

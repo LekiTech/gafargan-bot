@@ -2,7 +2,7 @@ package core.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-public class Env {
+public final class Env {
 
     private Dotenv dotenv;
     private static Env envInstance;

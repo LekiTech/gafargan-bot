@@ -19,23 +19,25 @@ public class ResponseFromInlineButtonCommandProcessor implements ChatCommandProc
     private final TelegramBot bot;
     private final CallbackQuery callbackQuery;
     private final DictionaryRepository dictionaries;
+    private final String lang;
 
     public ResponseFromInlineButtonCommandProcessor(Message message,
                                                     DictionaryRepository dictionaries,
                                                     TelegramBot bot,
-                                                    CallbackQuery callbackQuery) {
+                                                    CallbackQuery callbackQuery,
+                                                    String lang) {
         this.message = message;
         this.dictionaries = dictionaries;
         this.bot = bot;
         this.callbackQuery = callbackQuery;
+        this.lang = lang;
     }
 
     @Override
     public void execute() throws NotFoundException {
         var chatId = message.chat().id();
         var userMessage = callbackQuery.data();
-        var language = DataStorage.instance().getLastSelectedDictionary(chatId);
-        switch (language) {
+        switch (lang) {
             case LEZGI_RUS -> {
                 sendResponseFromInlineButton("lez", userMessage, chatId);
                 bot.execute(new AnswerCallbackQuery(callbackQuery.id()));

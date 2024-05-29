@@ -6,6 +6,7 @@ import core.commands.ChatCommandProcessor;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.JsonDictionary;
 import core.database.DataStorage;
+import org.springframework.context.ApplicationContext;
 
 import static core.dictionary.parser.DictionaryParser.parse;
 
@@ -13,9 +14,11 @@ public class BotUpdates {
 
     private final TelegramBot bot;
     private final DictionaryRepository dictionaries = new JsonDictionary();
+    private final ApplicationContext context;
 
-    public BotUpdates(String apiToken) {
+    public BotUpdates(String apiToken, ApplicationContext context) {
         bot = new TelegramBot(apiToken);
+        this.context = context;
     }
 
     public void start() throws Exception {
@@ -27,14 +30,14 @@ public class BotUpdates {
                     var textMessage = update.message();
                     var callbackQuery = update.callbackQuery();
                     if (textMessage != null) {
-                        ChatCommandProcessor commandProcessor = CommandsFactory.createMessageProcessor(textMessage, dictionaries, bot);
+                        ChatCommandProcessor commandProcessor = CommandsFactory.createMessageProcessor(textMessage, dictionaries, bot, context);
                         commandProcessor.execute();
                         DataStorage.instance().saveSearch(textMessage.chat().id(), textMessage.text());
                     } else if (callbackQuery != null) {
                         var message = callbackQuery.message();
                         ChatCommandProcessor commandProcessor = CommandsFactory.createCallbackProcessor(message, dictionaries, bot, callbackQuery);
                         commandProcessor.execute();
-                        DataStorage.instance().saveSearch(callbackQuery.message().chat().id(), callbackQuery.data());
+                        DataStorage.instance().saveSearch(message.chat().id(), callbackQuery.data());
                     }
                 }
             } catch (Exception e) {

@@ -7,20 +7,22 @@ import core.commands.*;
 import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
 import core.utils.AlphabetBuilder;
+import org.springframework.context.ApplicationContext;
 
 public class CommandsFactory {
 
     public static ChatCommandProcessor createMessageProcessor(Message message,
                                                               DictionaryRepository dictionaries,
-                                                              TelegramBot bot) {
+                                                              TelegramBot bot,
+                                                              ApplicationContext context) {
         String userMessage = message.text();
         switch (userMessage) {
             case CommandsList.START:
-                return new StartCommandProcessor(message, bot);
+                return new StartCommandProcessor(message, bot, context);
             case CommandsList.LEZGI_RUS:
-                return new LezgiRusDictionaryCommandProcessor(message, bot);
+                return new LezgiRusDictionaryCommandProcessor(message, bot, context);
             case CommandsList.RUS_LEZGI:
-                return new RusLezgiDictionaryCommandProcessor(message, bot);
+                return new RusLezgiDictionaryCommandProcessor(message, bot, context);
             case CommandsList.LEZGI_NUMBERS:
                 return new NumberTranslationCommandProcessor(message, bot);
             case CommandsList.LEZGI_ALPHABET:
@@ -32,13 +34,13 @@ public class CommandsFactory {
                     CommandsList.LEZ_RUS_BB,
                     CommandsList.LEZGI_ALPHABET_OLD,
                     CommandsList.ABOUT_US:
-                return new DefaultCommandProcessor(message, bot);
+                return new DefaultCommandProcessor(message, bot, context);
             default:
-                var chatId = message.chat().id();
-                if (DataStorage.instance().getLastSelectedDictionary(chatId) == null) {
-                    return new DefaultCommandProcessor(message, bot);
+                String lang = DataStorage.instance().getLastSelectedDictionary(message.chat().id());
+                if (lang == null) {
+                    return new DefaultCommandProcessor(message, bot, context);
                 }
-                return new ResponseSearchCommandProcessor(message, dictionaries, bot);
+                return new ResponseSearchCommandProcessor(message, dictionaries, bot, lang);
         }
     }
 
@@ -51,6 +53,7 @@ public class CommandsFactory {
         if (alphabet.containsKey(userMessage)) {
             return new ResponseFromAlphabetCommandProcessor(message, bot, callbackQuery);
         }
-        return new ResponseFromInlineButtonCommandProcessor(message, dictionaries, bot, callbackQuery);
+        String lang = DataStorage.instance().getLastSelectedDictionary(message.chat().id());
+        return new ResponseFromInlineButtonCommandProcessor(message, dictionaries, bot, callbackQuery, lang);
     }
 }

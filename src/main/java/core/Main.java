@@ -2,30 +2,38 @@ package core;
 
 import core.config.Env;
 import core.bothandler.BotUpdates;
-import core.database.DataStorage;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
-/**
- * The Main class is the entry point of the Telegram bot application.
- * It initializes necessary components and starts the bot updates processing.
- */
+@SpringBootApplication
 public class Main {
 
-    /**
-     * The main method of the application.
-     *
-     * @param args Command-line arguments (not used in this application).
-     * @throws Exception if there's an error during bot initialization or execution.
-     */
     public static void main(String[] args) throws Exception {
+        SpringApplication application = new SpringApplication(Main.class);
+        ApplicationContext context = application.run(args);
         var token = Env.instance().getTelegramApiToken();
         if (token == null) {
             System.err.println("Telegram token not found");
             return;
         }
-        /* initialize singleton */
-        DataStorage.instance();
-        BotUpdates bot = new BotUpdates(token);
+        BotUpdates bot = new BotUpdates(token, context);
         /* Start the bot updates processing */
         bot.start();
+//        SpringApplication.run(Main.class, args);
+
+//        ApplicationContext context = SpringApplication.run(Main.class, args);
+//        UserService userService = context.getBean(UserService.class);
+//        userService.saveUser(new User(1998L, new Timestamp(System.currentTimeMillis())));
+
+
+//        ApplicationContext context = SpringApplication.run(Main.class, args);
+//        KamranService kamran = context.getBean(KamranService.class);
+//        kamran.save(new Kamran(UUID.randomUUID(), "Sample Name", new Timestamp(System.currentTimeMillis())));
+
+//        SpringApplication application = new SpringApplication(Main.class);
+//        ApplicationContext context = application.run(args);
+//        KamranService kamran = context.getBean(KamranService.class);
+//        kamran.save(new Kamran(UUID.randomUUID(), "3kamrann", new Timestamp(System.currentTimeMillis())));
     }
 }
