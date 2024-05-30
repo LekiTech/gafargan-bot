@@ -3,7 +3,6 @@ package core.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -31,8 +30,4 @@ public class SelectedDictionary {
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
 }

@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.database.DataStorage;
 import core.database.entity.UserChatId;
 import core.database.service.UserChatIdService;
 import core.ui.KeypadCreator;

@@ -11,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "search")
 @EqualsAndHashCode(of = {"id"})
 public class Search {

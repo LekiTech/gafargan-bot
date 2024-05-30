@@ -11,10 +11,17 @@ public class SelectedDictionaryService {
     @Autowired
     private SelectedDictionaryRepository selectedDictionaryRepository;
 
-    public void saveSelectedDictionary(Long chatId, SelectedDictionary dictionary) {
-        if (selectedDictionaryRepository.findSelectedDictionaryByUserChatId(chatId) != null) {
-//             selectedDictionaryRepository.updateSelectedDictionaryByUserChatId(dictionary, chatId);
+
+    public void saveDictionary(SelectedDictionary dictionary) {
+        if (findSelectedDictionary(dictionary.getUserChatId().getChatId()) != null) {
+            selectedDictionaryRepository.updateSelectedDictionaryByUserChatId(
+                    dictionary.getDictionary(), dictionary.getUserChatId().getChatId());
         }
         selectedDictionaryRepository.save(dictionary);
+    }
+
+
+    public String findSelectedDictionary(Long chatId) {
+        return selectedDictionaryRepository.findSelectedDictionaryByUserChatId(chatId);
     }
 }

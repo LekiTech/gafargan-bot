@@ -17,6 +17,5 @@ CREATE TABLE "selected_dictionary"
     "id"           UUID PRIMARY KEY,
     "dictionary"   TEXT,
     "user_chat_id" BIGINT REFERENCES "user_chat_id" ("chat_id") UNIQUE,
-    "created_at"   TIMESTAMP,
-    "updated"      TIMESTAMP
+    "created_at"   TIMESTAMP
 );

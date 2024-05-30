@@ -20,20 +20,5 @@ public class Main {
         BotUpdates bot = new BotUpdates(token, context);
         /* Start the bot updates processing */
         bot.start();
-//        SpringApplication.run(Main.class, args);
-
-//        ApplicationContext context = SpringApplication.run(Main.class, args);
-//        UserService userService = context.getBean(UserService.class);
-//        userService.saveUser(new User(1998L, new Timestamp(System.currentTimeMillis())));
-
-
-//        ApplicationContext context = SpringApplication.run(Main.class, args);
-//        KamranService kamran = context.getBean(KamranService.class);
-//        kamran.save(new Kamran(UUID.randomUUID(), "Sample Name", new Timestamp(System.currentTimeMillis())));
-
-//        SpringApplication application = new SpringApplication(Main.class);
-//        ApplicationContext context = application.run(args);
-//        KamranService kamran = context.getBean(KamranService.class);
-//        kamran.save(new Kamran(UUID.randomUUID(), "3kamrann", new Timestamp(System.currentTimeMillis())));
     }
 }

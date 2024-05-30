@@ -12,13 +12,15 @@ import java.util.UUID;
 public interface SelectedDictionaryRepository extends JpaRepository<SelectedDictionary, UUID> {
 
     @Query(value = """
-            SELECT sd FROM selected_dictionary sd WHERE sd.user_chat_id = :chatId
+            SELECT dictionary FROM selected_dictionary WHERE user_chat_id = :chatId
             """,
             nativeQuery = true)
-    SelectedDictionary findSelectedDictionaryByUserChatId(@Param("chatId") Long chatId);
-//
-//    @Query("""
-//            UPDATE selected_dictionary sd SET sd.dictionary = :dictionary WHERE sd.userChatId = :chatId""",
-//            nativeQuery = true)
-//    void updateSelectedDictionaryByUserChatId(SelectedDictionary dictionary, Long chatId);
+    String findSelectedDictionaryByUserChatId(@Param("chatId") Long chatId);
+
+    @Query(value = """
+            UPDATE selected_dictionary SET dictionary = :dictionary, created_at = now()
+            WHERE user_chat_id = :chatId
+            """,
+            nativeQuery = true)
+    Boolean updateSelectedDictionaryByUserChatId(@Param("dictionary") String dictionary, @Param("chatId") Long chatId);
 }

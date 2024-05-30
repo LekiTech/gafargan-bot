@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.database.DataStorage;
 import core.database.entity.SelectedDictionary;
 import core.database.entity.UserChatId;
 import core.database.service.SelectedDictionaryService;
@@ -29,8 +28,7 @@ public class RusLezgiDictionaryCommandProcessor implements ChatCommandProcessor 
     @Override
     public void execute() {
         var chatId = message.chat().id();
-        DataStorage.instance().saveSelectedDictionary(chatId, CommandsList.RUS_LEZGI);
-        String normalized = "<b>✏Урус чIалал кхьихь.</b>️"
+        String normalized = "<b>✏Урус чIалал кхьихь</b>️"
                 .replaceAll("\\p{Mn}", "");
         KeypadCreator keypadCreator = new KeypadCreator();
         ReplyKeyboardMarkup keypad = keypadCreator.createMainMenuKeypad();
@@ -38,12 +36,11 @@ public class RusLezgiDictionaryCommandProcessor implements ChatCommandProcessor 
                 .parseMode(ParseMode.HTML)
                 .replyMarkup(keypad));
         SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
-        selectedDictionaryService.saveSelectedDictionary(chatId,
-                new SelectedDictionary(
-                        UUID.randomUUID(),
-                        CommandsList.RUS_LEZGI,
-                        new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
-                        new Timestamp(System.currentTimeMillis()),
-                        new Timestamp(System.currentTimeMillis())));
+        selectedDictionaryService.saveDictionary(new SelectedDictionary(
+                UUID.randomUUID(),
+                CommandsList.RUS_LEZGI,
+                new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
+                new Timestamp(System.currentTimeMillis()))
+        );
     }
 }

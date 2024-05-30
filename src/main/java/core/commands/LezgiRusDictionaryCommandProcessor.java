@@ -31,16 +31,15 @@ public class LezgiRusDictionaryCommandProcessor implements ChatCommandProcessor 
         var chatId = message.chat().id();
         KeypadCreator keypadCreator = new KeypadCreator();
         ReplyKeyboardMarkup keypad = keypadCreator.createMainMenuKeypad();
-        bot.execute(new SendMessage(chatId, "<b>✏️Лезги чIалал кхьихь.</b>")
+        bot.execute(new SendMessage(chatId, "<b>✏️Лезги чIалал кхьихь</b>")
                 .parseMode(ParseMode.HTML)
                 .replyMarkup(keypad));
         SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
-        selectedDictionaryService.saveSelectedDictionary(chatId,
-                new SelectedDictionary(
-                        UUID.randomUUID(),
-                        CommandsList.LEZGI_RUS,
-                        new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
-                        new Timestamp(System.currentTimeMillis()),
-                        new Timestamp(System.currentTimeMillis())));
+        selectedDictionaryService.saveDictionary(new SelectedDictionary(
+                UUID.randomUUID(),
+                CommandsList.LEZGI_RUS,
+                new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
+                new Timestamp(System.currentTimeMillis()))
+        );
     }
 }

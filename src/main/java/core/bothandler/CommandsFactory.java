@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import core.commands.*;
-import core.database.DataStorage;
+import core.database.service.SelectedDictionaryService;
 import core.dictionary.parser.DictionaryRepository;
 import core.utils.AlphabetBuilder;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +24,7 @@ public class CommandsFactory {
             case CommandsList.RUS_LEZGI:
                 return new RusLezgiDictionaryCommandProcessor(message, bot, context);
             case CommandsList.LEZGI_NUMBERS:
-                return new NumberTranslationCommandProcessor(message, bot);
+                return new NumberTranslationCommandProcessor(message, bot, context);
             case CommandsList.LEZGI_ALPHABET:
                 return new AlphabetCommandProcessor(message, bot);
             case CommandsList.INFO:
@@ -36,7 +36,8 @@ public class CommandsFactory {
                     CommandsList.ABOUT_US:
                 return new DefaultCommandProcessor(message, bot, context);
             default:
-                String lang = DataStorage.instance().getLastSelectedDictionary(message.chat().id());
+                SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
+                String lang = selectedDictionaryService.findSelectedDictionary(message.chat().id());
                 if (lang == null) {
                     return new DefaultCommandProcessor(message, bot, context);
                 }
@@ -47,13 +48,15 @@ public class CommandsFactory {
     public static ChatCommandProcessor createCallbackProcessor(Message message,
                                                                DictionaryRepository dictionaries,
                                                                TelegramBot bot,
-                                                               CallbackQuery callbackQuery) {
+                                                               CallbackQuery callbackQuery,
+                                                               ApplicationContext context) {
         String userMessage = callbackQuery.data();
         AlphabetBuilder alphabet = new AlphabetBuilder();
         if (alphabet.containsKey(userMessage)) {
             return new ResponseFromAlphabetCommandProcessor(message, bot, callbackQuery);
         }
-        String lang = DataStorage.instance().getLastSelectedDictionary(message.chat().id());
+        SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
+        String lang = selectedDictionaryService.findSelectedDictionary(message.chat().id());
         return new ResponseFromInlineButtonCommandProcessor(message, dictionaries, bot, callbackQuery, lang);
     }
 }

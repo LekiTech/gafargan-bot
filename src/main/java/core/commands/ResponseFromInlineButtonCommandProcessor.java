@@ -6,7 +6,6 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
 import core.searchers.*;
 import javassist.NotFoundException;

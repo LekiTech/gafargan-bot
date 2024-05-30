@@ -3,10 +3,15 @@ package core.bothandler;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import core.commands.ChatCommandProcessor;
+import core.database.entity.Search;
+import core.database.entity.UserChatId;
+import core.database.service.SearchService;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.JsonDictionary;
-import core.database.DataStorage;
 import org.springframework.context.ApplicationContext;
+
+import java.sql.Timestamp;
+import java.util.UUID;
 
 import static core.dictionary.parser.DictionaryParser.parse;
 
@@ -30,14 +35,16 @@ public class BotUpdates {
                     var textMessage = update.message();
                     var callbackQuery = update.callbackQuery();
                     if (textMessage != null) {
-                        ChatCommandProcessor commandProcessor = CommandsFactory.createMessageProcessor(textMessage, dictionaries, bot, context);
+                        saveSearchInDataBase(textMessage.text(), textMessage.chat().id());
+                        ChatCommandProcessor commandProcessor = CommandsFactory
+                                .createMessageProcessor(textMessage, dictionaries, bot, context);
                         commandProcessor.execute();
-                        DataStorage.instance().saveSearch(textMessage.chat().id(), textMessage.text());
                     } else if (callbackQuery != null) {
                         var message = callbackQuery.message();
-                        ChatCommandProcessor commandProcessor = CommandsFactory.createCallbackProcessor(message, dictionaries, bot, callbackQuery);
+                        saveSearchInDataBase(callbackQuery.data(), message.chat().id());
+                        ChatCommandProcessor commandProcessor = CommandsFactory
+                                .createCallbackProcessor(message, dictionaries, bot, callbackQuery, context);
                         commandProcessor.execute();
-                        DataStorage.instance().saveSearch(message.chat().id(), callbackQuery.data());
                     }
                 }
             } catch (Exception e) {
@@ -53,5 +60,15 @@ public class BotUpdates {
 //            System.out.println("=================================================================");
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
+    }
+
+    private void saveSearchInDataBase(String value, Long chatId) {
+        SearchService searchService = context.getBean(SearchService.class);
+        searchService.saveSearch(new Search(
+                UUID.randomUUID(),
+                value,
+                new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
+                new Timestamp(System.currentTimeMillis()))
+        );
     }
 }

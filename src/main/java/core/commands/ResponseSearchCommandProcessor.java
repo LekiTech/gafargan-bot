@@ -2,7 +2,6 @@ package core.commands;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
-import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
 import core.searchers.NumbersSearchResponseHandler;
 import core.searchers.SearchResponseHandler;
