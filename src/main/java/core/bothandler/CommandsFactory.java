@@ -9,6 +9,8 @@ import core.dictionary.parser.DictionaryRepository;
 import core.utils.AlphabetBuilder;
 import org.springframework.context.ApplicationContext;
 
+import static core.commands.CommandsList.*;
+
 public class CommandsFactory {
 
     public static ChatCommandProcessor createMessageProcessor(Message message,
@@ -17,23 +19,23 @@ public class CommandsFactory {
                                                               ApplicationContext context) {
         String userMessage = message.text();
         switch (userMessage) {
-            case CommandsList.START:
+            case START:
                 return new StartCommandProcessor(message, bot, context);
-            case CommandsList.LEZGI_RUS:
+            case LEZGI_RUS:
                 return new LezgiRusDictionaryCommandProcessor(message, bot, context);
-            case CommandsList.RUS_LEZGI:
+            case RUS_LEZGI:
                 return new RusLezgiDictionaryCommandProcessor(message, bot, context);
-            case CommandsList.LEZGI_NUMBERS:
+            case LEZGI_NUMBERS:
                 return new NumberTranslationCommandProcessor(message, bot, context);
-            case CommandsList.LEZGI_ALPHABET:
+            case LEZGI_ALPHABET:
                 return new AlphabetCommandProcessor(message, bot);
-            case CommandsList.INFO:
+            case INFO:
                 return new InfoCommandProcessor(message, bot);
-            case CommandsList.LEZ_RUS_TAL,
-                    CommandsList.RUS_LEZ_GADZH,
-                    CommandsList.LEZ_RUS_BB,
-                    CommandsList.LEZGI_ALPHABET_OLD,
-                    CommandsList.ABOUT_US:
+            case LEZ_RUS_TAL,
+                    RUS_LEZ_GADZH,
+                    LEZ_RUS_BB,
+                    LEZGI_ALPHABET_OLD,
+                    ABOUT_US:
                 return new DefaultCommandProcessor(message, bot, context);
             default:
                 SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
