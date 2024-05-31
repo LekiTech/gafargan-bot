@@ -6,6 +6,7 @@ import core.commands.ChatCommandProcessor;
 import core.database.entity.Search;
 import core.database.entity.UserChatId;
 import core.database.service.SearchService;
+import core.database.service.UserChatIdService;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.JsonDictionary;
 import org.springframework.context.ApplicationContext;
@@ -63,6 +64,8 @@ public class BotUpdates {
     }
 
     private void saveSearchInDataBase(String value, Long chatId) {
+        UserChatIdService userChatIdService = context.getBean(UserChatIdService.class);
+        userChatIdService.saveUser(new UserChatId(chatId, new Timestamp(System.currentTimeMillis())));
         SearchService searchService = context.getBean(SearchService.class);
         searchService.saveSearch(new Search(
                 UUID.randomUUID(),
