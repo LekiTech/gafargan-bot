@@ -20,4 +20,4 @@ ENTRYPOINT ["java","-jar","./GafarganBot-jar-with-dependencies.jar"]
 
 # Command to start
 # docker build -t gafargan-bot:latest .
-# docker run -d -e GOOGLE_CREDENTIALS_BASE64="<GOOGLE-CREDENTIALS>" -e TELEGRAM_API_TOKEN=<API-TOKEN> --name gafargan-bot-test gafargan-bot:latest
+# docker run -d -e TELEGRAM_API_TOKEN=<API-TOKEN> --name gafargan-bot-test gafargan-bot:latest

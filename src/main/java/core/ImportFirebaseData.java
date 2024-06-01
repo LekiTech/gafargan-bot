@@ -20,12 +20,12 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 @SpringBootApplication
-public class ExportDataFromFirebase {
+public class ImportFirebaseData {
 
     public static void main(String[] args) {
         ObjectMapper mapper = new ObjectMapper();
 
-        ApplicationContext context = SpringApplication.run(ExportDataFromFirebase.class, args);
+        ApplicationContext context = SpringApplication.run(ImportFirebaseData.class, args);
         UserChatIdService userChatIdService = context.getBean(UserChatIdService.class);
         SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
         try {

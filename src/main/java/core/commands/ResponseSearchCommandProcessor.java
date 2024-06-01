@@ -30,8 +30,8 @@ public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
         SearchResponseHandler messageHandler = new SearchResponseHandler(bot);
         NumbersSearchResponseHandler numbersHandler = new NumbersSearchResponseHandler(bot);
         switch (lang) {
-            case LEZGI_RUS -> messageHandler.sendResponse("lez", dictionaries, userMessage, chatId);
-            case RUS_LEZGI -> messageHandler.sendResponse("rus", dictionaries, userMessage, chatId);
+            case LEZGI_RUS -> messageHandler.sendResponse(LEZ, dictionaries, userMessage, chatId);
+            case RUS_LEZGI -> messageHandler.sendResponse(RUS, dictionaries, userMessage, chatId);
             case LEZGI_NUMBERS -> numbersHandler.findResponse(userMessage, chatId);
             default -> {
             }

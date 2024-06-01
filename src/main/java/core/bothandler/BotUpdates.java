@@ -9,17 +9,18 @@ import core.database.service.SearchService;
 import core.database.service.UserChatIdService;
 import core.dictionary.parser.DictionaryRepository;
 import core.dictionary.parser.JsonDictionary;
+import core.dictionary.parser.DictionaryParser;
 import org.springframework.context.ApplicationContext;
 
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import static core.dictionary.parser.DictionaryParser.parse;
+import static core.commands.CommandsList.*;
 
 public class BotUpdates {
 
     private final TelegramBot bot;
-    private final DictionaryRepository dictionaries = new JsonDictionary();
+    private final DictionaryRepository dictionaryRepository = new JsonDictionary();
     private final ApplicationContext context;
 
     public BotUpdates(String apiToken, ApplicationContext context) {
@@ -28,8 +29,9 @@ public class BotUpdates {
     }
 
     public void start() throws Exception {
-        dictionaries.setDictionaryByLang("lez", parse("lez_rus_dict"));
-        dictionaries.setDictionaryByLang("rus", parse("rus_lez_dict"));
+        DictionaryParser reader = context.getBean(DictionaryParser.class);
+        dictionaryRepository.setDictionary(LEZ, reader.parse(LEZ, context));
+        dictionaryRepository.setDictionary(RUS, reader.parse(RUS, context));
         bot.setUpdatesListener(updates -> {
             try {
                 for (var update : updates) {
@@ -38,13 +40,13 @@ public class BotUpdates {
                     if (textMessage != null) {
                         saveSearchInDataBase(textMessage.text(), textMessage.chat().id());
                         ChatCommandProcessor commandProcessor = CommandsFactory
-                                .createMessageProcessor(textMessage, dictionaries, bot, context);
+                                .createMessageProcessor(textMessage, dictionaryRepository, bot, context);
                         commandProcessor.execute();
                     } else if (callbackQuery != null) {
                         var message = callbackQuery.message();
                         saveSearchInDataBase(callbackQuery.data(), message.chat().id());
                         ChatCommandProcessor commandProcessor = CommandsFactory
-                                .createCallbackProcessor(message, dictionaries, bot, callbackQuery, context);
+                                .createCallbackProcessor(message, dictionaryRepository, bot, callbackQuery, context);
                         commandProcessor.execute();
                     }
                 }
