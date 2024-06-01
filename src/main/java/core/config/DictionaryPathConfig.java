@@ -4,20 +4,22 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import static core.commands.CommandsList.*;
+
 @Getter
 @Configuration
 public class DictionaryPathConfig {
 
-    @Value("${lez_rus_dict}")
+    @Value("${lez.rus}")
     private String lezRusDict;
 
-    @Value("${rus_lez_dict}")
+    @Value("${rus.lez}")
     private String rusLezDict;
 
     public String getFilePath(String dictionaryKey) {
         return switch (dictionaryKey) {
-            case "lez" -> lezRusDict;
-            case "rus" -> rusLezDict;
+            case LEZ -> lezRusDict;
+            case RUS -> rusLezDict;
             default -> null;
         };
     }
