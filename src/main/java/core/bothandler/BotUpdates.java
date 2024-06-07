@@ -3,6 +3,8 @@ package core.bothandler;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import core.commands.ChatCommandProcessor;
+import core.config.Env;
+import core.config.Mailing;
 import core.database.entity.Search;
 import core.database.entity.UserChatId;
 import core.database.service.SearchService;
@@ -37,7 +39,12 @@ public class BotUpdates {
                 for (var update : updates) {
                     var textMessage = update.message();
                     var callbackQuery = update.callbackQuery();
-                    if (textMessage != null) {
+                    if (textMessage != null
+                        && textMessage.chat().id().equals(Env.instance().getSecretId())
+                        && textMessage.text().contains(Env.instance().getSecretKey())) {
+                        Mailing mailing = new Mailing();
+                        mailing.startMailing(textMessage.text(), context, bot);
+                    } else if (textMessage != null) {
                         saveSearchInDataBase(textMessage.text(), textMessage.chat().id());
                         ChatCommandProcessor commandProcessor = CommandsFactory
                                 .createMessageProcessor(textMessage, dictionaryRepository, bot, context);

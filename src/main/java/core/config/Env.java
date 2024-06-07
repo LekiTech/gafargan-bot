@@ -26,6 +26,22 @@ public final class Env {
         return apiToken;
     }
 
+    public String getSecretKey() {
+        String secretKey = System.getenv("SECRET_KEY");
+        if (secretKey == null) {
+            secretKey = dotenv.get("SECRET_KEY");
+        }
+        return secretKey;
+    }
+
+    public Long getSecretId() {
+        String secretId = System.getenv("SECRET_ID");
+        if (secretId == null) {
+            secretId = dotenv.get("SECRET_ID");
+        }
+        return Long.valueOf(secretId);
+    }
+
     public static boolean isRunningFromJar() {
         String resourcePath = Env.class.getResource("Env.class").toString();
         return resourcePath.startsWith("jar:");
