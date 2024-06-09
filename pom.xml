@@ -48,6 +48,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!--
+                    IMPORTANT
+                    If get any errors on this library then execute the following on project level folder via terminal
+                    mvn install:install-file -Dfile="lib/lezgi-numbers-java-0.0.1.jar" -DgroupId="io.lekitech" -DartifactId=lezgi-numbers-java -Dversion="1.0-SNAPSHOT" -Dpackaging=jar
+            -->
+            <!--
+                    DO NOT ADD THE FOLLOWING, it causes docker build errors:
+                    <scope>system</scope>
+                    <systemPath>${project.basedir}/lib/lezgi-numbers-java-0.0.1.jar</systemPath>
+            -->
             <groupId>io.lekitech</groupId>
             <artifactId>lezgi-numbers-java</artifactId>
             <version>1.0-SNAPSHOT</version>

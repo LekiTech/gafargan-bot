@@ -2,6 +2,8 @@ package core.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
+import java.util.Map;
+
 public final class Env {
 
     private Dotenv dotenv;
@@ -39,7 +41,23 @@ public final class Env {
         if (secretId == null) {
             secretId = dotenv.get("SECRET_ID");
         }
-        return Long.valueOf(secretId);
+        return secretId == null ? null : Long.valueOf(secretId);
+    }
+
+    public Map<String, Object> getDatabaseProperties() {
+        String dbUrl = System.getenv("DATABASE_URL");
+        if (dbUrl != null) {
+            return Map.of(
+                    "spring.datasource.url", System.getenv("DATABASE_URL"),
+                    "spring.datasource.username", System.getenv("DATABASE_USERNAME"),
+                    "spring.datasource.password", System.getenv("DATABASE_PASSWORD")
+            );
+        }
+        return Map.of(
+                "spring.datasource.url", dotenv.get("DATABASE_URL"),
+                "spring.datasource.username", dotenv.get("DATABASE_USERNAME"),
+                "spring.datasource.password", dotenv.get("DATABASE_PASSWORD")
+        );
     }
 
     public static boolean isRunningFromJar() {

@@ -40,8 +40,8 @@ public class BotUpdates {
                     var textMessage = update.message();
                     var callbackQuery = update.callbackQuery();
                     if (textMessage != null
-                        && textMessage.chat().id().equals(Env.instance().getSecretId())
-                        && textMessage.text().contains(Env.instance().getSecretKey())) {
+                            && textMessage.chat().id().equals(Env.instance().getSecretId())
+                            && textMessage.text().contains(Env.instance().getSecretKey())) {
                         Mailing mailing = new Mailing();
                         mailing.startMailing(textMessage.text(), context, bot);
                     } else if (textMessage != null) {
