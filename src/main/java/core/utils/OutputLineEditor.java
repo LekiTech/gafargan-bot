@@ -12,9 +12,9 @@ public class OutputLineEditor {
 
     public static String insertAuthorsName(String dictionaryLang) {
         if (dictionaryLang.equals("lez")) {
-            return "<i>Бабаханов М.Б. \"Лезги-урус гафарган\"</i>";
+            return "<i>\uD83D\uDCDA\"Лезги-урус гафарган\" Бабаханов М.Б.</i>";
         } else if (dictionaryLang.equals("rus")) {
-            return "<i>Гаджиев М.М. \"Урус-лезги гафарган\"</i>";
+            return "<i>\uD83D\uDCDA\"Урус-лезги гафарган\" Гаджиев М.М.</i>";
         }
         return "";
     }

@@ -1,51 +1,40 @@
 package core.dictionary.parser;
 
+import core.config.DictionaryPathConfig;
+import core.dictionary.model.*;
+import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import core.config.DictionaryConfigReader;
-import core.dictionary.model.Dictionary;
-import core.dictionary.model.Expression;
-import core.dictionary.model.ExpressionDetails;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
+@AllArgsConstructor
 public class DictionaryParser {
 
-    private static final DictionaryConfigReader dictionaryConfig = new DictionaryConfigReader();
+    private final ResourceLoader resourceLoader;
+    private final ObjectMapper objectMapper;
 
-    public static Map<String, List<ExpressionDetails>> parse(String fileConfigPath) throws IOException {
-        Map<String, List<ExpressionDetails>> dictionaryMap = new HashMap<>();
-        /* Читаем JSON из файла */
-        String fileName = dictionaryConfig.getFilePath(fileConfigPath);
-        InputStream is = DictionaryParser.class.getClassLoader().getResourceAsStream(fileName);
-        String json = readJsonFromFile(is);
-        /* Парсим его */
-        ObjectMapper objectMapper = new ObjectMapper();
-        Dictionary dictionary = objectMapper.readValue(json, Dictionary.class);
-        List<Expression> expressions = dictionary.getExpressions();
-        for (Expression expression : expressions) {
-            dictionaryMap.put(expression.getSpelling().toLowerCase().replaceAll("ё", "е"),
-                    expression.getDetails());
-        }
-        return dictionaryMap;
-    }
-
-    private static String readJsonFromFile(InputStream is) throws IOException {
-        try (InputStreamReader streamReader =
-                     new InputStreamReader(is, StandardCharsets.UTF_8);
-             BufferedReader reader = new BufferedReader(streamReader)) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
+    public Map<String, List<ExpressionDetails>> parse(String dictionaryKey, ApplicationContext context) {
+        Map<String, List<ExpressionDetails>> result = new HashMap<>();
+        DictionaryPathConfig configReader = context.getBean(DictionaryPathConfig.class);
+        String fileName = configReader.getFilePath(dictionaryKey);
+        try {
+            Resource resource = resourceLoader.getResource("classpath:" + fileName);
+            Dictionary dictionary = objectMapper.readValue(resource.getInputStream(), Dictionary.class);
+            List<Expression> expressions = dictionary.getExpressions();
+            for (Expression expression : expressions) {
+                result.put(expression.getSpelling().toLowerCase().replaceAll("ё", "е"),
+                        expression.getDetails());
             }
-            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return result;
     }
 }

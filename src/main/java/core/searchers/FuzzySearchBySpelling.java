@@ -22,11 +22,11 @@ public class FuzzySearchBySpelling implements Searcher {
                 .limit(7)
                 .toList();
         if (wordList.isEmpty()) {
-            return new Response("<b>❌Гаф жагъанач</b>\n\uD83D\uDCDA" + insertAuthorsName(lang));
+            return new Response("<b>❌Гаф жагъанач</b>\n" + insertAuthorsName(lang));
         }
         final List<String> supposedWords = wordList.stream()
                 .map(WordSim::supposedWord)
                 .toList();
-        return new Response("\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n", supposedWords);
+        return new Response("\uD83E\uDD14гаф жагъанач, ибуруз килиг:\n", supposedWords);
     }
 }

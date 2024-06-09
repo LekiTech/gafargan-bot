@@ -6,7 +6,6 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
-import core.database.DataStorage;
 import core.dictionary.parser.DictionaryRepository;
 import core.searchers.*;
 import javassist.NotFoundException;
@@ -19,29 +18,31 @@ public class ResponseFromInlineButtonCommandProcessor implements ChatCommandProc
     private final TelegramBot bot;
     private final CallbackQuery callbackQuery;
     private final DictionaryRepository dictionaries;
+    private final String lang;
 
     public ResponseFromInlineButtonCommandProcessor(Message message,
                                                     DictionaryRepository dictionaries,
                                                     TelegramBot bot,
-                                                    CallbackQuery callbackQuery) {
+                                                    CallbackQuery callbackQuery,
+                                                    String lang) {
         this.message = message;
         this.dictionaries = dictionaries;
         this.bot = bot;
         this.callbackQuery = callbackQuery;
+        this.lang = lang;
     }
 
     @Override
     public void execute() throws NotFoundException {
         var chatId = message.chat().id();
         var userMessage = callbackQuery.data();
-        var language = DataStorage.instance().getLastSelectedDictionary(chatId);
-        switch (language) {
+        switch (lang) {
             case LEZGI_RUS -> {
-                sendResponseFromInlineButton("lez", userMessage, chatId);
+                sendResponseFromInlineButton(LEZ, userMessage, chatId);
                 bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
             }
             case RUS_LEZGI -> {
-                sendResponseFromInlineButton("rus", userMessage, chatId);
+                sendResponseFromInlineButton(RUS, userMessage, chatId);
                 bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
             }
             default -> {

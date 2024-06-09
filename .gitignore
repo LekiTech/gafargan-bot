@@ -1,4 +1,5 @@
 .idea
 target
 .env
-src/main/resources/gafargan-bot-facc575fa9c7.json
+gafargan-bot-manual-export-timestamps.json
+.DS_Store

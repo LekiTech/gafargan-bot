@@ -2,7 +2,9 @@ package core.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-public class Env {
+import java.util.Map;
+
+public final class Env {
 
     private Dotenv dotenv;
     private static Env envInstance;
@@ -24,6 +26,38 @@ public class Env {
             apiToken = dotenv.get("TELEGRAM_API_TOKEN");
         }
         return apiToken;
+    }
+
+    public String getSecretKey() {
+        String secretKey = System.getenv("SECRET_KEY");
+        if (secretKey == null) {
+            secretKey = dotenv.get("SECRET_KEY");
+        }
+        return secretKey;
+    }
+
+    public Long getSecretId() {
+        String secretId = System.getenv("SECRET_ID");
+        if (secretId == null) {
+            secretId = dotenv.get("SECRET_ID");
+        }
+        return secretId == null ? null : Long.valueOf(secretId);
+    }
+
+    public Map<String, Object> getDatabaseProperties() {
+        String dbUrl = System.getenv("DATABASE_URL");
+        if (dbUrl != null) {
+            return Map.of(
+                    "spring.datasource.url", System.getenv("DATABASE_URL"),
+                    "spring.datasource.username", System.getenv("DATABASE_USERNAME"),
+                    "spring.datasource.password", System.getenv("DATABASE_PASSWORD")
+            );
+        }
+        return Map.of(
+                "spring.datasource.url", dotenv.get("DATABASE_URL"),
+                "spring.datasource.username", dotenv.get("DATABASE_USERNAME"),
+                "spring.datasource.password", dotenv.get("DATABASE_PASSWORD")
+        );
     }
 
     public static boolean isRunningFromJar() {

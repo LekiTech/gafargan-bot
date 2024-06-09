@@ -11,7 +11,7 @@ public class JsonDictionary implements DictionaryRepository {
     private final Map<String, Map<String, List<ExpressionDetails>>> dictionary = new HashMap<>();
 
     @Override
-    public void setDictionaryByLang(String langId, Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception {
+    public void setDictionary(String langId, Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception {
         if (langId == null || parsedDictionary == null) {
             throw new IllegalArgumentException("lang or parsedDictionary cannot be null");
         }

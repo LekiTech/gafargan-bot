@@ -2,29 +2,35 @@ package core;
 
 import core.config.Env;
 import core.bothandler.BotUpdates;
-import core.database.DataStorage;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationContext;
 
-/**
- * The Main class is the entry point of the Telegram bot application.
- * It initializes necessary components and starts the bot updates processing.
- */
+import java.util.HashMap;
+import java.util.Map;
+
+@SpringBootApplication
 public class Main {
 
-    /**
-     * The main method of the application.
-     *
-     * @param args Command-line arguments (not used in this application).
-     * @throws Exception if there's an error during bot initialization or execution.
-     */
     public static void main(String[] args) throws Exception {
+        // NOTE: not the best way to do this, but it works for current Spring usage
+        // NOTE: next time either use appropriate Spring Boot or use Hibernate directly for db connection if API is not needed
+        // Create a map to hold your database properties
+        Map<String, Object> dbProperties = Env.instance().getDatabaseProperties();
+        // Use SpringApplicationBuilder to set the properties
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(Main.class);
+        builder.properties(dbProperties);
+
+        // Build and run the application
+        ApplicationContext context = builder.run(args);
+
         var token = Env.instance().getTelegramApiToken();
         if (token == null) {
             System.err.println("Telegram token not found");
             return;
         }
-        /* initialize singleton */
-        DataStorage.instance();
-        BotUpdates bot = new BotUpdates(token);
+        BotUpdates bot = new BotUpdates(token, context);
         /* Start the bot updates processing */
         bot.start();
     }

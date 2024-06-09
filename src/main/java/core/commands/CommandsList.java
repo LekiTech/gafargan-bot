@@ -9,6 +9,9 @@ public class CommandsList {
     public static final String LEZGI_NUMBERS = "\uD83D\uDD22Лезги числительнияр";
     public static final String LEZGI_ALPHABET = "\uD83D\uDD20Лезги гьарфарган";
 
+    public static final String LEZ = "lez";
+    public static final String RUS = "rus";
+
     /* Старые команды */
     public static final String LEZ_RUS_TAL = "\uD83D\uDCD9Лезгинско-русский словарь (Талибов Б., Гаджиев М.)";
     public static final String LEZ_RUS_BB = "\uD83D\uDCD7Лезгинско-русский словарь (Бабаханов М.Б.)";
