@@ -16,6 +16,8 @@ import org.springframework.context.ApplicationContext;
 
 import java.sql.Timestamp;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static core.commands.CommandsList.*;
 
@@ -35,53 +37,52 @@ public class BotUpdates {
         dictionaryRepository.setDictionary(LEZ, reader.parse(LEZ, context));
         dictionaryRepository.setDictionary(RUS, reader.parse(RUS, context));
         dictionaryRepository.setLezEngDictionary(reader.parseLezEngDict(ENG, context));
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         bot.setUpdatesListener(updates -> {
             try {
                 for (var update : updates) {
-                    var textMessage = update.message();
-                    var callbackQuery = update.callbackQuery();
-                    if (textMessage != null
-                            && textMessage.chat().id().equals(Env.instance().getSecretId())
-                            && textMessage.text().contains(Env.instance().getSecretKey())) {
-                        Mailing mailing = new Mailing();
-                        mailing.startMailing(textMessage.text(), context, bot);
-                    } else if (textMessage != null) {
-                        saveSearchInDataBase(textMessage.text(), textMessage.chat().id());
-                        ChatCommandProcessor commandProcessor = CommandsFactory
-                                .createMessageProcessor(textMessage, dictionaryRepository, bot, context);
-                        commandProcessor.execute();
-                    } else if (callbackQuery != null) {
-                        var message = callbackQuery.message();
-                        saveSearchInDataBase(callbackQuery.data(), message.chat().id());
-                        ChatCommandProcessor commandProcessor = CommandsFactory
-                                .createCallbackProcessor(message, dictionaryRepository, bot, callbackQuery, context);
-                        commandProcessor.execute();
-                    }
+                    executor.submit(() -> {
+                        try {
+                            var textMessage = update.message();
+                            var callbackQuery = update.callbackQuery();
+                            if (textMessage != null
+                                && textMessage.chat().id().equals(Env.instance().getSecretId())
+                                && textMessage.text().contains(Env.instance().getSecretKey())) {
+                                Mailing mailing = new Mailing();
+                                mailing.startMailing(textMessage.text(), context, bot);
+                            } else if (textMessage != null) {
+                                saveSearchInDataBase(textMessage.text(), textMessage.chat().id());
+                                ChatCommandProcessor commandProcessor = CommandsFactory
+                                        .createMessageProcessor(textMessage, dictionaryRepository, bot, context);
+                                commandProcessor.execute();
+                            } else if (callbackQuery != null) {
+                                var message = callbackQuery.message();
+                                saveSearchInDataBase(callbackQuery.data(), message.chat().id());
+                                ChatCommandProcessor commandProcessor = CommandsFactory
+                                        .createCallbackProcessor(message, dictionaryRepository, bot, callbackQuery, context);
+                                commandProcessor.execute();
+                            }
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
+                    });
                 }
             } catch (Exception e) {
                 System.err.println(e);
             }
-//            Runtime.getRuntime().gc();
-//            MemoryMXBean memBean = ManagementFactory.getMemoryMXBean() ;
-//            MemoryUsage heapMemoryUsage = memBean.getHeapMemoryUsage();
-//            System.out.println("Committed memory: " + heapMemoryUsage.getCommitted()); // given memory to JVM by OS ( may fail to reach getMax, if there isn't more memory)
-//            System.out.println("Used memory: " + heapMemoryUsage.getUsed()); // used now by your heap
-//            System.out.println("Max memory: " + heapMemoryUsage.getMax()); // max memory allowed for jvm -Xmx flag (-1 if isn't specified)
-//            System.out.println("Free memory: " + Runtime.getRuntime().freeMemory());
-//            System.out.println("=================================================================");
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }
 
-    private void saveSearchInDataBase(String value, Long chatId) {
-        UserChatIdService userChatIdService = context.getBean(UserChatIdService.class);
-        userChatIdService.saveUser(new UserChatId(chatId, new Timestamp(System.currentTimeMillis())));
-        SearchService searchService = context.getBean(SearchService.class);
-        searchService.saveSearch(new Search(
-                UUID.randomUUID(),
-                value,
-                new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
-                new Timestamp(System.currentTimeMillis()))
-        );
+        private void saveSearchInDataBase (String value, Long chatId){
+            UserChatIdService userChatIdService = context.getBean(UserChatIdService.class);
+            userChatIdService.saveUser(new UserChatId(chatId, new Timestamp(System.currentTimeMillis())));
+            SearchService searchService = context.getBean(SearchService.class);
+            searchService.saveSearch(new Search(
+                    UUID.randomUUID(),
+                    value,
+                    new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
+                    new Timestamp(System.currentTimeMillis()))
+            );
+        }
     }
-}

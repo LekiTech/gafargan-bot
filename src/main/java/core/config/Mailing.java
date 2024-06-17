@@ -17,12 +17,12 @@ public class Mailing {
         for (UserChatId chatId : allUsers) {
             allChatId.add(chatId.getChatId());
         }
-        bot.execute(new SendMessage(Env.instance().getSecretId(), "Айди получены: " + allChatId.size() + " штук"));
+        bot.execute(new SendMessage(Env.instance().getSecretId(), "Кол-во юзеров: " + allChatId.size()));
         String msgToMailing = messageToMailing.substring(messageToMailing.indexOf(" "));
         int cursor = 0;
         int half = allChatId.size() / 2;
         int j = 0;
-        bot.execute(new SendMessage(Env.instance().getSecretId(), "Начинается рассылка."));
+        bot.execute(new SendMessage(Env.instance().getSecretId(), "Старт рассылки."));
         for (Long chatId : allChatId) {
             bot.execute(new SendMessage(chatId, msgToMailing));
             cursor++;
@@ -35,15 +35,13 @@ public class Mailing {
                 bot.execute(new SendMessage(Env.instance().getSecretId(), "Половина пользователей (" + half + ") получили рассылку"));
             } else if (j == 250) {
                 bot.execute(new SendMessage(Env.instance().getSecretId(), "250 человек получили рассылку"));
-            } else if (j == 500) {
-                bot.execute(new SendMessage(Env.instance().getSecretId(), "500 человек получили рассылку"));
             } else if (j == 1000) {
                 bot.execute(new SendMessage(Env.instance().getSecretId(), "1000 человек получили рассылку"));
-            } else if (j == 2000) {
-                bot.execute(new SendMessage(Env.instance().getSecretId(), "2000 человек получили рассылку"));
+            } else if (j == 3500) {
+                bot.execute(new SendMessage(Env.instance().getSecretId(), "3500 человек получили рассылку"));
             }
         }
-        bot.execute(new SendMessage(Env.instance().getSecretId(), "Рассылка окончена"));
+        bot.execute(new SendMessage(Env.instance().getSecretId(), "Рассылка окончена."));
     }
 }
 
