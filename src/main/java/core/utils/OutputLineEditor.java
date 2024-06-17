@@ -1,5 +1,7 @@
 package core.utils;
 
+import static core.commands.CommandsList.*;
+
 public class OutputLineEditor {
 
     public static String convertMarkupToHTML(String line) {
@@ -11,10 +13,12 @@ public class OutputLineEditor {
     }
 
     public static String insertAuthorsName(String dictionaryLang) {
-        if (dictionaryLang.equals("lez")) {
+        if (dictionaryLang.equals(LEZ)) {
             return "<i>\uD83D\uDCDA\"Лезги-урус гафарган\" Бабаханов М.Б.</i>";
-        } else if (dictionaryLang.equals("rus")) {
+        } else if (dictionaryLang.equals(RUS)) {
             return "<i>\uD83D\uDCDA\"Урус-лезги гафарган\" Гаджиев М.М.</i>";
+        } else if (dictionaryLang.equals(ENG)) {
+            return "<i>\uD83C\uDDEC\uD83C\uDDE7\"Лезги-инглис гафарган\" Расим Расулов</i>";
         }
         return "";
     }

@@ -3,3 +3,5 @@ target
 .env
 gafargan-bot-manual-export-timestamps.json
 .DS_Store
+chatIds.json
+Lezgi-English Dictionary.txt

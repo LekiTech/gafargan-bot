@@ -25,6 +25,8 @@ public class CommandsFactory {
                 return new LezgiRusDictionaryCommandProcessor(message, bot, context);
             case RUS_LEZGI:
                 return new RusLezgiDictionaryCommandProcessor(message, bot, context);
+            case LEZGI_ENG:
+                return new LezgiEngDictionaryCommandProcessor(message, bot, context);
             case LEZGI_NUMBERS:
                 return new NumberTranslationCommandProcessor(message, bot, context);
             case LEZGI_ALPHABET:
