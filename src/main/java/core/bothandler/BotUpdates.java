@@ -34,6 +34,7 @@ public class BotUpdates {
         DictionaryParser reader = context.getBean(DictionaryParser.class);
         dictionaryRepository.setDictionary(LEZ, reader.parse(LEZ, context));
         dictionaryRepository.setDictionary(RUS, reader.parse(RUS, context));
+        dictionaryRepository.setLezEngDictionary(reader.parseLezEngDict(ENG, context));
         bot.setUpdatesListener(updates -> {
             try {
                 for (var update : updates) {

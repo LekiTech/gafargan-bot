@@ -2,6 +2,7 @@ package core.dictionary.parser;
 
 import core.dictionary.model.ExpressionDetails;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,26 @@ import java.util.Map;
 public class JsonDictionary implements DictionaryRepository {
 
     private final Map<String, Map<String, List<ExpressionDetails>>> dictionary = new HashMap<>();
+    /* Temporary code due to the fact that the JSON format of the Lezgi-English dictionary is different from other dictionaries. */
+    private final Map<String, List<String>> lezEngDictionary = new HashMap<>();
+
+    @Override
+    public Map<String, List<String>> getLezgiEngDict() {
+        return lezEngDictionary;
+    }
+
+    @Override
+    public void setLezEngDictionary(Map<String, List<String>> dict) {
+        lezEngDictionary.putAll(dict);
+    }
+
+    @Override
+    public List<String> getFromLezEngDictionary(String spelling) {
+        if (spelling != null && !spelling.isEmpty()) {
+            return lezEngDictionary.get(spelling.toLowerCase()) == null ? new ArrayList<>() : lezEngDictionary.get(spelling.toLowerCase());
+        }
+        return null;
+    }
 
     @Override
     public void setDictionary(String langId, Map<String, List<ExpressionDetails>> parsedDictionary) throws Exception {

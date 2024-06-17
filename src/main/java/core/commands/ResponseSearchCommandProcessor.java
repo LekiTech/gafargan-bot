@@ -2,12 +2,24 @@ package core.commands;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.ParseMode;
+import com.pengrad.telegrambot.request.SendMessage;
 import core.dictionary.parser.DictionaryRepository;
+import core.searchers.FuzzySearchBySpelling;
 import core.searchers.NumbersSearchResponseHandler;
+import core.searchers.Response;
 import core.searchers.SearchResponseHandler;
 
+import java.util.Comparator;
+import java.util.List;
+
 import static core.commands.CommandsList.*;
+import static core.searchers.StringSimilarity.similarity;
+import static core.ui.InlineKeyboardCreator.createInlineKeyboard;
+import static core.utils.OutputLineEditor.insertAuthorsName;
 import static core.utils.SearchStringNormalizer.normalizeString;
+import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
 
@@ -32,9 +44,47 @@ public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
         switch (lang) {
             case LEZGI_RUS -> messageHandler.sendResponse(LEZ, dictionaries, userMessage, chatId);
             case RUS_LEZGI -> messageHandler.sendResponse(RUS, dictionaries, userMessage, chatId);
+            case LEZGI_ENG -> sendResponseFromLezgiEngDict(dictionaries, userMessage, chatId);
             case LEZGI_NUMBERS -> numbersHandler.findResponse(userMessage, chatId);
             default -> {
             }
         }
+    }
+
+    /* Temporary code due to the fact that the JSON format of the Lezgi-English dictionary is different from other dictionaries. */
+    public void sendResponseFromLezgiEngDict(DictionaryRepository dictionaries, String userMessage, Long chatId) {
+        List<String> definitions = dictionaries.getFromLezEngDictionary(userMessage);
+        if (definitions.isEmpty() || definitions == null) {
+            record WordSim(String supposedWord, Double sim) {
+            }
+            final List<WordSim> wordList = dictionaries.getLezgiEngDict().keySet().stream()
+                    .parallel()
+                    .map(supposedWord -> new WordSim(supposedWord.replaceAll("i", "I"), similarity(supposedWord, userMessage.toLowerCase())))
+                    .filter(wordSim -> wordSim.sim() >= 0.5)
+                    .sorted(Comparator.comparing(WordSim::sim).reversed())
+                    .limit(7)
+                    .toList();
+            if (wordList.isEmpty()) {
+                bot.execute(new SendMessage(chatId, "<b>❌Гаф жагъанач</b>\n" + insertAuthorsName(ENG))
+                        .parseMode(ParseMode.HTML));
+                return;
+            }
+            final List<String> supposedWords = wordList.stream()
+                    .map(WordSim::supposedWord)
+                    .toList();
+            InlineKeyboardMarkup inlineKeyboard = createInlineKeyboard(supposedWords);
+            bot.execute(new SendMessage(chatId, "\uD83E\uDD14гаф жагъанач, ибуруз килиг:\n")
+                    .parseMode(ParseMode.HTML)
+                    .replyMarkup(inlineKeyboard));
+            return;
+        }
+
+        StringBuilder outputMsg = new StringBuilder(capitalizeFirstLetter(userMessage));
+        for (String definition : definitions) {
+            outputMsg.append(definition);
+        }
+        outputMsg.append("\n\n").append(insertAuthorsName(ENG));
+        bot.execute(new SendMessage(chatId, outputMsg.toString())
+                .parseMode(ParseMode.HTML));
     }
 }
