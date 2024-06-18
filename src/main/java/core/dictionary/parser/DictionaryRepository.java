@@ -1,11 +1,16 @@
 package core.dictionary.parser;
 
+import core.dictionary.model.DialectDictionary;
 import core.dictionary.model.ExpressionDetails;
 
 import java.util.List;
 import java.util.Map;
 
 public interface DictionaryRepository {
+
+    Map<String, List<DialectDictionary.Dialect>> getDialectDictionary();
+
+    void setDialectDictionary(Map<String, List<DialectDictionary.Dialect>> dict);
 
     void setLezEngDictionary(Map<String, List<String>> dict);
 

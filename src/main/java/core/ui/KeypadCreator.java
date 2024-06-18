@@ -16,6 +16,7 @@ public class KeypadCreator {
                 },
                 new KeyboardButton[]{
                         new KeyboardButton(LEZGI_ENG),
+                        new KeyboardButton(LEZGI_DIALECT_DICT)
                 },
                 new KeyboardButton[]{
                         new KeyboardButton(LEZGI_NUMBERS),

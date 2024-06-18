@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static core.commands.CommandsList.*;
+
 @Component
 @AllArgsConstructor
 public class DictionaryParser {
@@ -32,6 +34,24 @@ public class DictionaryParser {
             for (Expression expression : expressions) {
                 result.put(expression.getSpelling().toLowerCase().replaceAll("ё", "е"),
                         expression.getDetails());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public Map<String, List<DialectDictionary.Dialect>> parseDialectDict(String dictionaryKey, ApplicationContext context) {
+        Map<String, List<DialectDictionary.Dialect>> result = new HashMap<>();
+        DictionaryPathConfig configReader = context.getBean(DictionaryPathConfig.class);
+        String fileName = configReader.getFilePath(DIALECT_DICT);
+        try {
+            Resource resource = resourceLoader.getResource("classpath:" + fileName);
+            DialectDictionary dictionary = objectMapper.readValue(resource.getInputStream(), DialectDictionary.class);
+            List<DialectDictionary.Expression> expressions = dictionary.getExpressions();
+            for (DialectDictionary.Expression expression : expressions) {
+                String literaryDialect = expression.getSpelling();
+                result.put(literaryDialect, expression.getDialects());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -50,6 +50,11 @@ public class ResponseFromInlineButtonCommandProcessor implements ChatCommandProc
                 search.sendResponseFromLezgiEngDict(dictionaries, userMessage, chatId);
                 bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
             }
+            case LEZGI_DIALECT_DICT -> {
+                ResponseSearchCommandProcessor search = new ResponseSearchCommandProcessor(message, dictionaries, bot, lang);
+                search.sendResponseFromDialectDict(dictionaries, userMessage, chatId);
+                bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+            }
             default -> {
             }
         }

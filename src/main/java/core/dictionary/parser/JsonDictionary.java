@@ -1,5 +1,6 @@
 package core.dictionary.parser;
 
+import core.dictionary.model.DialectDictionary;
 import core.dictionary.model.ExpressionDetails;
 
 import java.util.ArrayList;
@@ -12,6 +13,17 @@ public class JsonDictionary implements DictionaryRepository {
     private final Map<String, Map<String, List<ExpressionDetails>>> dictionary = new HashMap<>();
     /* Temporary code due to the fact that the JSON format of the Lezgi-English dictionary is different from other dictionaries. */
     private final Map<String, List<String>> lezEngDictionary = new HashMap<>();
+    private final Map<String, List<DialectDictionary.Dialect>> dialectDictionary = new HashMap<>();
+
+    @Override
+    public Map<String, List<DialectDictionary.Dialect>> getDialectDictionary() {
+        return dialectDictionary;
+    }
+
+    @Override
+    public void setDialectDictionary(Map<String, List<DialectDictionary.Dialect>> dict) {
+        dialectDictionary.putAll(dict);
+    }
 
     @Override
     public Map<String, List<String>> getLezgiEngDict() {
