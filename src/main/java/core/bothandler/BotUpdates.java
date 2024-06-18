@@ -37,6 +37,7 @@ public class BotUpdates {
         dictionaryRepository.setDictionary(LEZ, reader.parse(LEZ, context));
         dictionaryRepository.setDictionary(RUS, reader.parse(RUS, context));
         dictionaryRepository.setLezEngDictionary(reader.parseLezEngDict(ENG, context));
+        dictionaryRepository.setDialectDictionary(reader.parseDialectDict(DIALECT_DICT, context));
         ExecutorService executor = Executors.newFixedThreadPool(10);
         bot.setUpdatesListener(updates -> {
             try {
@@ -74,15 +75,15 @@ public class BotUpdates {
         });
     }
 
-        private void saveSearchInDataBase (String value, Long chatId){
-            UserChatIdService userChatIdService = context.getBean(UserChatIdService.class);
-            userChatIdService.saveUser(new UserChatId(chatId, new Timestamp(System.currentTimeMillis())));
-            SearchService searchService = context.getBean(SearchService.class);
-            searchService.saveSearch(new Search(
-                    UUID.randomUUID(),
-                    value,
-                    new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
-                    new Timestamp(System.currentTimeMillis()))
-            );
-        }
+    private void saveSearchInDataBase(String value, Long chatId) {
+        UserChatIdService userChatIdService = context.getBean(UserChatIdService.class);
+        userChatIdService.saveUser(new UserChatId(chatId, new Timestamp(System.currentTimeMillis())));
+        SearchService searchService = context.getBean(SearchService.class);
+        searchService.saveSearch(new Search(
+                UUID.randomUUID(),
+                value,
+                new UserChatId(chatId, new Timestamp(System.currentTimeMillis())),
+                new Timestamp(System.currentTimeMillis()))
+        );
     }
+}

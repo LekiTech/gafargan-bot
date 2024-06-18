@@ -10,6 +10,7 @@ public class CommandsList {
     public static final String LEZGI_RUS = "\uD83D\uDCD7Лезги-урус гафарган";
     public static final String RUS_LEZGI = "\uD83D\uDCD5Урус-лезги гафарган";
     public static final String LEZGI_ENG = "\uD83C\uDDEC\uD83C\uDDE7Лезги-инглис гафарган";
+    public static final String LEZGI_DIALECT_DICT = "⛰Нугъатдин гафарган";
     public static final String LEZGI_NUMBERS = "\uD83D\uDD22Лезги числительнияр";
     public static final String LEZGI_ALPHABET = "\uD83D\uDD20Лезги гьарфарган";
 
@@ -17,6 +18,7 @@ public class CommandsList {
     public static final String LEZ = "lez";
     public static final String RUS = "rus";
     public static final String ENG = "eng";
+    public static final String DIALECT_DICT = "dialectDict";
 
     /* Old commands */
     public static final String LEZ_RUS_TAL = "\uD83D\uDCD9Лезгинско-русский словарь (Талибов Б., Гаджиев М.)";
