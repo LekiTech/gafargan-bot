@@ -30,7 +30,7 @@ public class DefaultCommandProcessor implements ChatCommandProcessor {
         KeypadCreator keypadCreator = new KeypadCreator();
         ReplyKeyboardMarkup keypad = keypadCreator.createMainMenuKeypad();
         String outputMsg = """
-                Ботдин цIийивилер акъатна ва я куьне таржумачи хкягънавач.
+                Ботдин цIийивилер акъатна ва я куьне гафарган хкягънавач.
                 <b>Садра мад хкягъ хъия👇🏼</b>
                 """;
         bot.execute(new SendMessage(chatId, outputMsg)

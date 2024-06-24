@@ -2,12 +2,12 @@ package core.config;
 
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import static core.commands.CommandsList.*;
 
 @Getter
-@Configuration
+@Component
 public class DictionaryPathConfig {
 
     @Value("${lez.rus}")
