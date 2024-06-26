@@ -20,10 +20,10 @@ public class JsonDictionary implements DictionaryRepository {
 
     @PostConstruct
     private void init() {
-        dictionary.put(LEZ, dictionaryParser.parse(LEZ));
-        dictionary.put(RUS, dictionaryParser.parse(RUS));
-        dictionary.put(ENG, dictionaryParser.parse(ENG));
-        dialectDictionary.putAll(dictionaryParser.parseDialectDict(DIALECT_DICT));
+        dictionary.put(LEZGI_RUS, dictionaryParser.parse(LEZGI_RUS));
+        dictionary.put(RUS_LEZGI, dictionaryParser.parse(RUS_LEZGI));
+        dictionary.put(LEZGI_ENG, dictionaryParser.parse(LEZGI_ENG));
+        dialectDictionary.putAll(dictionaryParser.parseDialectDict(LEZGI_DIALECT_DICT));
     }
 
     @Override
@@ -51,8 +51,8 @@ public class JsonDictionary implements DictionaryRepository {
     public Map<String, List<ExpressionDetails>> getAllDictionaries() {
         if (!dictionary.isEmpty()) {
             final Map<String, List<ExpressionDetails>> combinedDictionary = new HashMap<>();
-            combinedDictionary.putAll(dictionary.get(LEZ));
-            combinedDictionary.putAll(dictionary.get(RUS));
+            combinedDictionary.putAll(dictionary.get(LEZGI_RUS));
+            combinedDictionary.putAll(dictionary.get(RUS_LEZGI));
             return combinedDictionary;
         }
         return null;

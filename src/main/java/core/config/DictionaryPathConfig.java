@@ -24,10 +24,10 @@ public class DictionaryPathConfig {
 
     public String getFilePath(String dictionaryKey) {
         return switch (dictionaryKey) {
-            case LEZ -> lezRusDict;
-            case RUS -> rusLezDict;
-            case ENG -> lezEngDict;
-            case DIALECT_DICT -> dialectDict;
+            case LEZGI_RUS -> lezRusDict;
+            case RUS_LEZGI -> rusLezDict;
+            case LEZGI_ENG -> lezEngDict;
+            case LEZGI_DIALECT_DICT -> dialectDict;
             default -> null;
         };
     }

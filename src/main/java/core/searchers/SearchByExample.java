@@ -9,8 +9,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static core.commands.CommandsList.LEZ;
-import static core.commands.CommandsList.RUS;
+import static core.commands.CommandsList.LEZGI_RUS;
+import static core.commands.CommandsList.RUS_LEZGI;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class SearchByExample implements Searcher {
@@ -19,7 +19,7 @@ public class SearchByExample implements Searcher {
     public Response searchResponse(String lang, DictionaryRepository dictionaries, String userMessage) {
         // TODO исправить методы capitalizeFirstLetter(WithNum); убрать замену "ё" в outputMsg в классе SearchBySpelling
         /* This condition will need to be removed when the JSON format of other dictionaries is updated to version two. */
-        if (!lang.equals(LEZ) && !lang.equals(RUS)) {
+        if (!lang.equals(LEZGI_RUS) && !lang.equals(RUS_LEZGI)) {
             return null;
         }
         final Map<String, List<ExpressionDetails>> combinedDictionary = dictionaries.getAllDictionaries();

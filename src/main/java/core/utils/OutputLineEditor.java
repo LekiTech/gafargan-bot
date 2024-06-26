@@ -13,11 +13,11 @@ public class OutputLineEditor {
     }
 
     public static String insertAuthorsName(String dictionaryLang) {
-        if (dictionaryLang.equals(LEZ)) {
+        if (dictionaryLang.equals(LEZGI_RUS)) {
             return "<i>\uD83D\uDCDA\"Лезги-урус гафарган\" Бабаханов М.Б.</i>";
-        } else if (dictionaryLang.equals(RUS)) {
+        } else if (dictionaryLang.equals(RUS_LEZGI)) {
             return "<i>\uD83D\uDCDA\"Урус-лезги гафарган\" Гаджиев М.М.</i>";
-        } else if (dictionaryLang.equals(ENG)) {
+        } else if (dictionaryLang.equals(LEZGI_ENG)) {
             return "<i>\uD83C\uDDEC\uD83C\uDDE7\"Лезги-инглис гафарган\" Расим Расулов</i>";
         }
         return "";

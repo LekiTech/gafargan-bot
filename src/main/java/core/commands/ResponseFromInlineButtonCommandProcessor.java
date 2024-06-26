@@ -38,15 +38,15 @@ public class ResponseFromInlineButtonCommandProcessor implements ChatCommandProc
         var userMessage = callbackQuery.data();
         switch (lang) {
             case LEZGI_RUS -> {
-                sendResponseFromInlineButton(LEZ, userMessage, chatId);
+                sendResponseFromInlineButton(LEZGI_RUS, userMessage, chatId);
                 bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
             }
             case RUS_LEZGI -> {
-                sendResponseFromInlineButton(RUS, userMessage, chatId);
+                sendResponseFromInlineButton(RUS_LEZGI, userMessage, chatId);
                 bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
             }
             case LEZGI_ENG -> {
-                sendResponseFromInlineButton(ENG, userMessage, chatId);
+                sendResponseFromInlineButton(LEZGI_ENG, userMessage, chatId);
                 bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
             }
             case LEZGI_DIALECT_DICT -> {

@@ -17,8 +17,8 @@ public class SearchByDefinition implements Searcher {
     @Override
     public Response searchResponse(String lang, DictionaryRepository dictionaries, String userMessage) {
         /* This condition will need to be changed when the JSON format of other dictionaries is updated to version two. */
-        if (lang.equals(LEZ) || lang.equals(RUS)) {
-            lang = lang.equals(LEZ) ? RUS : LEZ;
+        if (lang.equals(LEZGI_RUS) || lang.equals(RUS_LEZGI)) {
+            lang = lang.equals(LEZGI_RUS) ? RUS_LEZGI : LEZGI_RUS;
         } else {
             return null;
         }

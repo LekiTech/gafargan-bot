@@ -7,12 +7,9 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import core.dictionary.model.DialectDictionary;
 import core.dictionary.parser.DictionaryRepository;
-import core.searchers.FuzzySearchBySpelling;
 import core.searchers.NumbersSearchResponseHandler;
-import core.searchers.Response;
 import core.searchers.SearchResponseHandler;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +17,7 @@ import java.util.Map;
 import static core.commands.CommandsList.*;
 import static core.searchers.StringSimilarity.similarity;
 import static core.ui.InlineKeyboardCreator.createInlineKeyboard;
-import static core.utils.OutputLineEditor.insertAuthorsName;
 import static core.utils.SearchStringNormalizer.normalizeString;
-import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
 public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
 
@@ -45,9 +40,9 @@ public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
         SearchResponseHandler messageHandler = new SearchResponseHandler(bot);
         NumbersSearchResponseHandler numbersHandler = new NumbersSearchResponseHandler(bot);
         switch (lang) {
-            case LEZGI_RUS -> messageHandler.sendResponse(LEZ, dictionaries, userMessage, chatId);
-            case RUS_LEZGI -> messageHandler.sendResponse(RUS, dictionaries, userMessage, chatId);
-            case LEZGI_ENG -> messageHandler.sendResponse(ENG, dictionaries, userMessage, chatId);
+            case LEZGI_RUS -> messageHandler.sendResponse(LEZGI_RUS, dictionaries, userMessage, chatId);
+            case RUS_LEZGI -> messageHandler.sendResponse(RUS_LEZGI, dictionaries, userMessage, chatId);
+            case LEZGI_ENG -> messageHandler.sendResponse(LEZGI_ENG, dictionaries, userMessage, chatId);
 //            case LEZGI_ENG -> sendResponseFromLezgiEngDict(dictionaries, userMessage, chatId);
             case LEZGI_DIALECT_DICT -> sendResponseFromDialectDict(dictionaries, userMessage, chatId);
             case LEZGI_NUMBERS -> numbersHandler.findResponse(userMessage, chatId);
