@@ -1,5 +1,7 @@
 package core.dictionary.parser;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import core.config.DictionaryPathConfig;
 import core.dictionary.model.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +26,10 @@ public class DictionaryParser {
 
     private final ResourceLoader resourceLoader;
     private final ObjectMapper objectMapper;
+    private final DictionaryPathConfig configReader;
 
-    public Map<String, List<ExpressionDetails>> parse(String dictionaryKey, ApplicationContext context) {
+    public Map<String, List<ExpressionDetails>> parse(String dictionaryKey) {
         Map<String, List<ExpressionDetails>> result = new HashMap<>();
-        DictionaryPathConfig configReader = context.getBean(DictionaryPathConfig.class);
         String fileName = configReader.getFilePath(dictionaryKey);
         try {
             Resource resource = resourceLoader.getResource("classpath:" + fileName);
@@ -41,10 +45,9 @@ public class DictionaryParser {
         return result;
     }
 
-    public Map<String, List<DialectDictionary.Dialect>> parseDialectDict(String dictionaryKey, ApplicationContext context) {
+    public Map<String, List<DialectDictionary.Dialect>> parseDialectDict(String dictionaryKey) {
         Map<String, List<DialectDictionary.Dialect>> result = new HashMap<>();
-        DictionaryPathConfig configReader = context.getBean(DictionaryPathConfig.class);
-        String fileName = configReader.getFilePath(DIALECT_DICT);
+        String fileName = configReader.getFilePath(dictionaryKey);
         try {
             Resource resource = resourceLoader.getResource("classpath:" + fileName);
             DialectDictionary dictionary = objectMapper.readValue(resource.getInputStream(), DialectDictionary.class);
@@ -62,6 +65,7 @@ public class DictionaryParser {
     /* Temporary code due to the fact that the JSON format of the Lezgi-English dictionary is different from other dictionaries. */
     public Map<String, List<String>> parseLezEngDict(String dictionaryKey, ApplicationContext context) {
         Map<String, List<String>> result = new HashMap<>();
+        /*
         DictionaryPathConfig configReader = context.getBean(DictionaryPathConfig.class);
         String fileName = configReader.getFilePath(dictionaryKey);
         try {
@@ -88,9 +92,48 @@ public class DictionaryParser {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(result.size());
+        System.out.println("**************************************************************");
+        List<Expression> expressions = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : result.entrySet()) {
+            Expression expression = new Expression();
+            String spelling = entry.getKey();
+            expression.setSpelling(spelling.toUpperCase());
+
+            List<ExpressionDetails> expressionDetailsList = new ArrayList<>();
+            List<DefinitionDetails> definitionDetails = new ArrayList<>();
+            List<Definition> definitionsList = new ArrayList<>();
+            Definition definition = new Definition();
+            for (String def : entry.getValue()) {
+                if (definition.getValue() == null) {
+                    definition.setValue(def);
+                } else {
+                    String value = definition.getValue() + " " + def;
+                    definition.setValue(value);
+                }
+            }
+            definitionsList.add(definition);
+            definitionDetails.add(new DefinitionDetails(definitionsList, null, null));
+            expressionDetailsList.add(new ExpressionDetails(null, definitionDetails, null));
+            expression.setDetails(expressionDetailsList);
+            expressions.add(expression);
+        }
+        System.out.println(expressions.size());
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(expressions);
+            FileWriter writer = new FileWriter("lezgi_eng_dict_rasim_rasulov.json");
+            writer.write(json);
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("JSON file created successfully");
+
+         */
         return result;
     }
-
+/*
     @Getter
     @Setter
     static class EngDictionary {
@@ -114,4 +157,5 @@ public class DictionaryParser {
         private String spelling;
         private List<String> definitions;
     }
+ */
 }

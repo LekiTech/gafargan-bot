@@ -2,18 +2,29 @@ package core.dictionary.parser;
 
 import core.dictionary.model.DialectDictionary;
 import core.dictionary.model.ExpressionDetails;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static core.commands.CommandsList.*;
+
+@Component
 public class JsonDictionary implements DictionaryRepository {
 
+    @Autowired
+    private DictionaryParser dictionaryParser;
     private final Map<String, Map<String, List<ExpressionDetails>>> dictionary = new HashMap<>();
-    /* Temporary code due to the fact that the JSON format of the Lezgi-English dictionary is different from other dictionaries. */
-    private final Map<String, List<String>> lezEngDictionary = new HashMap<>();
     private final Map<String, List<DialectDictionary.Dialect>> dialectDictionary = new HashMap<>();
+
+    @PostConstruct
+    private void init() {
+        dictionary.put(LEZ, dictionaryParser.parse(LEZ));
+        dictionary.put(RUS, dictionaryParser.parse(RUS));
+        dictionary.put(ENG, dictionaryParser.parse(ENG));
+        dialectDictionary.putAll(dictionaryParser.parseDialectDict(DIALECT_DICT));
+    }
 
     @Override
     public Map<String, List<DialectDictionary.Dialect>> getDialectDictionary() {
@@ -23,24 +34,6 @@ public class JsonDictionary implements DictionaryRepository {
     @Override
     public void setDialectDictionary(Map<String, List<DialectDictionary.Dialect>> dict) {
         dialectDictionary.putAll(dict);
-    }
-
-    @Override
-    public Map<String, List<String>> getLezgiEngDict() {
-        return lezEngDictionary;
-    }
-
-    @Override
-    public void setLezEngDictionary(Map<String, List<String>> dict) {
-        lezEngDictionary.putAll(dict);
-    }
-
-    @Override
-    public List<String> getFromLezEngDictionary(String spelling) {
-        if (spelling != null && !spelling.isEmpty()) {
-            return lezEngDictionary.get(spelling.toLowerCase()) == null ? new ArrayList<>() : lezEngDictionary.get(spelling.toLowerCase());
-        }
-        return null;
     }
 
     @Override
@@ -58,8 +51,8 @@ public class JsonDictionary implements DictionaryRepository {
     public Map<String, List<ExpressionDetails>> getAllDictionaries() {
         if (!dictionary.isEmpty()) {
             final Map<String, List<ExpressionDetails>> combinedDictionary = new HashMap<>();
-            combinedDictionary.putAll(dictionary.get("lez"));
-            combinedDictionary.putAll(dictionary.get("rus"));
+            combinedDictionary.putAll(dictionary.get(LEZ));
+            combinedDictionary.putAll(dictionary.get(RUS));
             return combinedDictionary;
         }
         return null;

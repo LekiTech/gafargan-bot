@@ -25,12 +25,12 @@ public class Main {
         // Build and run the application
         ApplicationContext context = builder.run(args);
 
-        var token = Env.instance().getTelegramApiToken();
-        if (token == null) {
-            System.err.println("Telegram token not found");
-            return;
-        }
-        BotUpdates bot = new BotUpdates(token, context);
+//        var token = Env.instance().getTelegramApiToken();
+//        if (token == null) {
+//            System.err.println("Telegram token not found");
+//            return;
+//        }
+        BotUpdates bot = context.getBean(BotUpdates.class);
         /* Start the bot updates processing */
         bot.start();
     }

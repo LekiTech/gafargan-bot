@@ -13,8 +13,6 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Expression {
 
-
-
     @JsonProperty("spelling")
     private String spelling;
 

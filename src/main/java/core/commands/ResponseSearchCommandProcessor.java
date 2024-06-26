@@ -47,7 +47,8 @@ public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
         switch (lang) {
             case LEZGI_RUS -> messageHandler.sendResponse(LEZ, dictionaries, userMessage, chatId);
             case RUS_LEZGI -> messageHandler.sendResponse(RUS, dictionaries, userMessage, chatId);
-            case LEZGI_ENG -> sendResponseFromLezgiEngDict(dictionaries, userMessage, chatId);
+            case LEZGI_ENG -> messageHandler.sendResponse(ENG, dictionaries, userMessage, chatId);
+//            case LEZGI_ENG -> sendResponseFromLezgiEngDict(dictionaries, userMessage, chatId);
             case LEZGI_DIALECT_DICT -> sendResponseFromDialectDict(dictionaries, userMessage, chatId);
             case LEZGI_NUMBERS -> numbersHandler.findResponse(userMessage, chatId);
             default -> {
@@ -57,6 +58,7 @@ public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
 
     /* Temporary code due to the fact that the JSON format of the Lezgi-English dictionary is different from other dictionaries. */
     public void sendResponseFromLezgiEngDict(DictionaryRepository dictionaries, String userMessage, Long chatId) {
+        /*
         List<String> definitions = dictionaries.getFromLezEngDictionary(userMessage);
 
         if (definitions.isEmpty() || definitions == null) {
@@ -90,6 +92,7 @@ public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
         outputMsg.append("\n\n").append(insertAuthorsName(ENG));
         bot.execute(new SendMessage(chatId, outputMsg.toString())
                 .parseMode(ParseMode.HTML));
+         */
     }
 
     public void sendResponseFromDialectDict(DictionaryRepository dictionaries, String userMessage, Long chatId) {

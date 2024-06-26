@@ -9,13 +9,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static core.commands.CommandsList.LEZ;
+import static core.commands.CommandsList.RUS;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
-public class SearchByExample implements Searcher{
+public class SearchByExample implements Searcher {
 
     @Override
     public Response searchResponse(String lang, DictionaryRepository dictionaries, String userMessage) {
         // TODO исправить методы capitalizeFirstLetter(WithNum); убрать замену "ё" в outputMsg в классе SearchBySpelling
+        /* This condition will need to be removed when the JSON format of other dictionaries is updated to version two. */
+        if (!lang.equals(LEZ) && !lang.equals(RUS)) {
+            return null;
+        }
         final Map<String, List<ExpressionDetails>> combinedDictionary = dictionaries.getAllDictionaries();
         List<ExpressionDetails> combinedList = combinedDictionary.values().stream()
                 .flatMap(List::stream)
@@ -41,12 +47,12 @@ public class SearchByExample implements Searcher{
         if (!foundExamples.isEmpty()) {
             return new Response(
                     capitalizeFirstLetter(userMessage)
-                            + foundExamples.stream()
+                    + foundExamples.stream()
                             .limit(10)
                             .map(OutputLineEditor::convertMarkupToHTML)
                             .map(row -> row.replaceAll(userMessage, "<u>" + userMessage + "</u>"))
                             .collect(Collectors.joining("\n"))
-                            + "\n"
+                    + "\n"
             );
         }
         return null;

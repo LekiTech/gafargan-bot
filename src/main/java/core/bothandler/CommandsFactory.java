@@ -8,9 +8,11 @@ import core.database.service.SelectedDictionaryService;
 import core.dictionary.parser.DictionaryRepository;
 import core.utils.AlphabetBuilder;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import static core.commands.CommandsList.*;
 
+@Component
 public class CommandsFactory {
 
     public static ChatCommandProcessor createMessageProcessor(Message message,

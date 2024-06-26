@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import static core.commands.CommandsList.*;
 import static core.utils.OutputLineEditor.insertAuthorsName;
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
@@ -15,7 +16,12 @@ public class SearchByDefinition implements Searcher {
 
     @Override
     public Response searchResponse(String lang, DictionaryRepository dictionaries, String userMessage) {
-        lang = lang.equals("lez") ? "rus" : "lez";
+        /* This condition will need to be changed when the JSON format of other dictionaries is updated to version two. */
+        if (lang.equals(LEZ) || lang.equals(RUS)) {
+            lang = lang.equals(LEZ) ? RUS : LEZ;
+        } else {
+            return null;
+        }
         final Map<String, List<ExpressionDetails>> dictionary = dictionaries.getDictionaryByLang(lang);
         List<String> spellings = searchSpellings(dictionary, defValue -> defValue.equals(userMessage));
         if (!spellings.isEmpty()) {

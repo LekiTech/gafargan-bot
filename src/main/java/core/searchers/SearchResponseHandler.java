@@ -43,7 +43,7 @@ public class SearchResponseHandler {
         if (responseByDialectDict != null) {
             return responseByDialectDict;
         }
-        Response responseByExamples = new SearchByExample().searchResponse(null, dictionaries, userMessage);
+        Response responseByExamples = new SearchByExample().searchResponse(lang, dictionaries, userMessage);
         if (responseByExamples != null) {
             return responseByExamples;
         }
