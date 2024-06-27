@@ -44,8 +44,8 @@ public class CommandsFactory {
                     ABOUT_US:
                 return new DefaultCommandProcessor(message, bot, context);
             default:
-                SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
-                String lang = selectedDictionaryService.findSelectedDictionary(message.chat().id());
+                SelectedDictionaryService selectedDictionary = context.getBean(SelectedDictionaryService.class);
+                String lang = selectedDictionary.findSelectedDictionary(message.chat().id());
                 if (lang == null) {
                     return new DefaultCommandProcessor(message, bot, context);
                 }
