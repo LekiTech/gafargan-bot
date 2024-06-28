@@ -14,6 +14,17 @@ public class CommandsList {
     public static final String LEZGI_NUMBERS = "\uD83D\uDD22Лезги числительнияр";
     public static final String LEZGI_ALPHABET = "\uD83D\uDD20Лезги гьарфарган";
 
+    /* Inline keyboard commands */
+    public static final String SUGGESTION = "suggestion";
+    public static final String SEARCH_SUGGESTIONS = "searchSuggestions";
+    public static final String SEARCH_IN_EXAMPLES = "searchInExamples";
+    public static final String EXPRESSION_EXAMPLE = "expressionExample";
+    public static final String ALPHABET = "alphabet";
+    public static final String AUDIO_ALPHABET = "audioAlphabet";
+    public static final String AUDIO_NUMERAL = "audioNumeral";
+    public static final String FOUND_MISTAKE = "foundMistake";
+    public static final String EQUALS = "=";
+
     /* Old keypad commands */
     /* These commands are needed because there are users who still have the old
     version of Keypad (the front buttons for switching dictionaries). In order for

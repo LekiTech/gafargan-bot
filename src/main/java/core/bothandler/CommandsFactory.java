@@ -23,28 +23,16 @@ public class CommandsFactory {
         switch (userMessage) {
             case START:
                 return new StartCommandProcessor(message, bot, context);
-            case LEZGI_RUS:
-                return new LezgiRusDictionaryCommandProcessor(message, bot, context);
-            case RUS_LEZGI:
-                return new RusLezgiDictionaryCommandProcessor(message, bot, context);
-            case LEZGI_ENG:
-                return new LezgiEngDictionaryCommandProcessor(message, bot, context);
-            case LEZGI_DIALECT_DICT:
-                return new LezgiDialectDictionaryCommandProcessor(message, bot, context);
-            case LEZGI_NUMBERS:
-                return new NumberTranslationCommandProcessor(message, bot, context);
-            case LEZGI_ALPHABET:
-                return new AlphabetCommandProcessor(message, bot);
             case INFO:
                 return new InfoCommandProcessor(message, bot);
-            case LEZ_RUS_TAL,
-                    RUS_LEZ_GADZH,
-                    LEZ_RUS_BB,
-                    LEZGI_ALPHABET_OLD,
-                    ABOUT_US:
+            case LEZGI_ALPHABET:
+                return new AlphabetCommandProcessor(message, bot);
+            case LEZGI_RUS, LEZGI_ENG, RUS_LEZGI, LEZGI_NUMBERS, LEZGI_DIALECT_DICT:
+                return new SelectedDictionaryCommandProcessor(message, bot, context);
+            case LEZ_RUS_TAL, RUS_LEZ_GADZH, LEZ_RUS_BB, LEZGI_ALPHABET_OLD, ABOUT_US:
                 return new DefaultCommandProcessor(message, bot, context);
             default:
-                SelectedDictionaryService selectedDictionary = context.getBean(SelectedDictionaryService.class);
+                var selectedDictionary = context.getBean(SelectedDictionaryService.class);
                 String lang = selectedDictionary.findSelectedDictionary(message.chat().id());
                 if (lang == null) {
                     return new DefaultCommandProcessor(message, bot, context);
