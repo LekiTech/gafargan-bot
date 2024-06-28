@@ -51,7 +51,7 @@ public class SelectedDictionaryCommandProcessor implements ChatCommandProcessor 
     private String getOutputMessage(String dictionaryKey) {
         return switch (dictionaryKey) {
             case LEZGI_RUS, LEZGI_ENG -> "<b>✏️Лезги чIалал кхьихь</b>";
-            case RUS_LEZGI -> "<b>✏Урус чIалал кхьихь</b>️";
+            case RUS_LEZGI -> "<b>✏Урус чIалал кхьихь</b>";
             case LEZGI_DIALECT_DICT -> "<b>✏️Кхьихь са нугъатдин гаф</b>";
             case LEZGI_NUMBERS -> "<b>✏️Числительное кхьихь</b>";
             default -> "";

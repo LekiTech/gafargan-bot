@@ -6,7 +6,6 @@ import com.pengrad.telegrambot.model.Message;
 import core.commands.*;
 import core.database.service.SelectedDictionaryService;
 import core.dictionary.parser.DictionaryRepository;
-import core.utils.AlphabetBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +28,17 @@ public class CommandsFactory {
                 return new AlphabetCommandProcessor(message, bot);
             case LEZGI_RUS, LEZGI_ENG, RUS_LEZGI, LEZGI_NUMBERS, LEZGI_DIALECT_DICT:
                 return new SelectedDictionaryCommandProcessor(message, bot, context);
-            case LEZ_RUS_TAL, RUS_LEZ_GADZH, LEZ_RUS_BB, LEZGI_ALPHABET_OLD, ABOUT_US:
+            case OLD_LEZ_RUS_TAL,
+                    OLD_LEZ_RUS_BB,
+                    OLD_RUS_LEZ_GADZH,
+                    OLD_LEZGI_ALPHABET_OLD,
+                    OLD_ABOUT_US,
+                    OLD_LEZGI_RUS,
+                    OLD_RUS_LEZGI,
+                    OLD_LEZGI_ENG,
+                    OLD_LEZGI_DIALECT_DICT,
+                    OLD_LEZGI_NUMBERS,
+                    OLD_LEZGI_ALPHABET:
                 return new DefaultCommandProcessor(message, bot, context);
             default:
                 var selectedDictionary = context.getBean(SelectedDictionaryService.class);
