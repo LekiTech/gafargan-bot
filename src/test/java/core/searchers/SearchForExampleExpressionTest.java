@@ -25,7 +25,7 @@
 //        String inputMessage = "Руш";
 //        String expectedButtCallbackData = "руш=example";
 //        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
-//        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+//        assertThat(response.suggestions().get(0)).isEqualTo(expectedButtCallbackData);
 //        Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
 //        String expected = """
 //                <i>Руш</i> ⤵️️️
@@ -45,7 +45,7 @@
 //        String inputMessage = "КIвал";
 //        String expectedButtCallbackData = "кiвал=example";
 //        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
-//        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+//        assertThat(response.suggestions().get(0)).isEqualTo(expectedButtCallbackData);
 //        Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
 //        String expected = """
 //                <i>КIвал</i> ⤵️️️
@@ -76,7 +76,7 @@
 //        String inputMessage = "рикi";
 //        String expectedButtCallbackData = "рикi=example";
 //        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
-//        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+//        assertThat(response.suggestions().get(0)).isEqualTo(expectedButtCallbackData);
 //        Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
 //        String expected = """
 //                <i>Рикi</i> ⤵️️️
@@ -111,7 +111,7 @@
 //        String inputMessage = "раши";
 //        String expectedButtCallbackData = "раши=example";
 //        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, inputMessage);
-//        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+//        assertThat(response.suggestions().get(0)).isEqualTo(expectedButtCallbackData);
 //        Response response1 = new SearchForExampleExpression().sendExampleExpression("lez", dictionaries, inputMessage);
 //        String expected = """
 //                <i>Раши</i> ⤵️️️
@@ -128,7 +128,7 @@
 //        String inputMessage = "видеть";
 //        String expectedButtCallbackData = "видеть=example";
 //        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, inputMessage);
-//        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+//        assertThat(response.suggestions().get(0)).isEqualTo(expectedButtCallbackData);
 //        Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
 //        String expected = """
 //                <i>Видеть</i> ⤵️️️
@@ -144,7 +144,7 @@
 //        String inputMessage = "что";
 //        String expectedButtCallbackData = "что=example";
 //        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, inputMessage);
-//        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+//        assertThat(response.suggestions().get(0)).isEqualTo(expectedButtCallbackData);
 //        Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
 //        String expected = """
 //                <i>Что</i> ⤵️️️
@@ -171,7 +171,7 @@
 //        String inputMessage = "углубленный";
 //        String expectedButtCallbackData = "углубленный=example";
 //        Response response = new SearchBySpelling().searchResponse("rus", dictionaries, inputMessage);
-//        assertThat(response.exampleButton().get(0)).isEqualTo(expectedButtCallbackData);
+//        assertThat(response.suggestions().get(0)).isEqualTo(expectedButtCallbackData);
 //        Response response1 = new SearchForExampleExpression().sendExampleExpression("rus", dictionaries, inputMessage);
 //        String expected = """
 //                <i>Углубленный</i> ⤵️️️

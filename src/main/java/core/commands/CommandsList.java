@@ -7,8 +7,8 @@ public class CommandsList {
     public static final String INFO = "/info";
 
     /* Keypad commands and dictionary keys */
-    public static final String LEZGI_RUS = "\uD83D\uDCD7Лезги-урус гафарган";
-    public static final String RUS_LEZGI = "\uD83D\uDCD5Урус-лезги гафарган";
+    public static final String LEZGI_RUS = "\uD83D\uDCD7Лезги-урус";
+    public static final String RUS_LEZGI = "\uD83D\uDCD5Урус-лезги";
     public static final String LEZGI_ENG = "\uD83C\uDDEC\uD83C\uDDE7Лезги-инглис гафарган";
     public static final String LEZGI_DIALECT_DICT = "⛰Нугъатдин гафарган";
     public static final String LEZGI_NUMBERS = "\uD83D\uDD22Лезги числительнияр";

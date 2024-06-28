@@ -51,6 +51,6 @@ public class SearchByDefinition implements Searcher {
             outputMessage.append("<b>➡️ ").append(spelling).append("</b>\n\n");
         }
         outputMessage.append(insertAuthorsName(lang));
-        return new Response(outputMessage.toString(), List.of(userMessage + "=searchMore"));
+        return new Response(outputMessage.toString(), userMessage);
     }
 }

@@ -2,6 +2,7 @@ package core.bothandler;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import core.commands.ChatCommandProcessor;
 import core.config.Env;
 import core.database.entity.Search;
@@ -52,8 +53,10 @@ public class BotUpdates {
                                 var message = callbackQuery.message();
                                 saveSearchInDataBase(callbackQuery.data(), message.chat().id());
                                 ChatCommandProcessor commandProcessor =
-                                        CommandsFactory.createCallbackProcessor(message, dictionaryRepository, bot, callbackQuery, context);
+                                        CommandsFactory.createCallbackProcessor(message, dictionaryRepository, bot, callbackQuery);
+                                assert commandProcessor != null;
                                 commandProcessor.execute();
+                                bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
                             }
                         } catch (Exception e) {
                             System.err.println(e);

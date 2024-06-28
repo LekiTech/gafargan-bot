@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 import static core.utils.WordCapitalize.capitalizeFirstLetter;
 
-public class SearchForExampleExpression {
+public class SearchExpressionExample {
 
-    public Response sendExampleExpression(String lang, DictionaryRepository dictionaries, String spelling) {
+    public Response getExampleExpression(String lang, DictionaryRepository dictionaries, String spelling) {
         String[] spell = spelling.split("=");
         if (spell.length == 2) {
             spelling = spell[0];

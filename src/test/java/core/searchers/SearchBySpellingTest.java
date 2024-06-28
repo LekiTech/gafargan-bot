@@ -65,7 +65,7 @@
 //        String input = "рикI";
 //        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expected = """
 //                <i>РикI (-и, -е, -ери)</i> ⤵️️️
 //
@@ -99,7 +99,7 @@
 //        String input = "къвал";
 //        Response response = new SearchBySpelling().searchResponse("lez", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expected = """
 //                <i>1. Къвал (-а, -а, -ари)</i> ⤵️️️
 //

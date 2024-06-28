@@ -37,7 +37,7 @@
 //        String input = "рыш";
 //        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
 //        List<String> expectedVocabularyList = List.of("руш", "ериш", "аруш", "раши");
 //        assertThat(actualMessage).isEqualTo(expectedMessage);
@@ -49,7 +49,7 @@
 //        String input = "хъарнихъуз";
 //        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
 //        List<String> expectedVocabularyList = List.of("къарникъуз", "хъархъу", "хъарт-хъурт", "къарихдиз", "тарихсуз", "анихъун", "хъурхъуш");
 //        assertThat(actualMessage).isEqualTo(expectedMessage);
@@ -61,7 +61,7 @@
 //        String input = "ходитьь";
 //        Response response = new FuzzySearchBySpelling().searchResponse("rus", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
 //        List<String> expectedVocabularyList = List.of("ходить", "уходить", "водить", "родить", "сходить", "холить", "входить");
 //        assertThat(actualMessage).isEqualTo(expectedMessage);
@@ -73,7 +73,7 @@
 //        String input = "хъарнихъуз";
 //        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
 //        List<String> expectedVocabularyList = List.of(
 //                "къарникъуз",
@@ -92,7 +92,7 @@
 //        String input = "тумир";
 //        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
 //        List<String> expectedVocabularyList = List.of("турнир", "туьмер", "течир", "тир", "тум", "тур", "учир");
 //        assertThat(actualMessage).isEqualTo(expectedMessage);
@@ -104,7 +104,7 @@
 //        String input = "гиледалды";
 //        Response response = new FuzzySearchBySpelling().searchResponse("lez", dictionaries, input);
 //        String actualMessage = response.messageText();
-//        List<String> actualExampleButton = response.exampleButton();
+//        List<String> actualExampleButton = response.suggestions();
 //        String expectedMessage = "\uD83E\uDD14жагъай гаф авач, ибуруз килиг:\n";
 //        List<String> expectedVocabularyList = List.of("гьилледалди",
 //                "гилалди",

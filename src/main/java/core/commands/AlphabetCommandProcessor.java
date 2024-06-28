@@ -7,6 +7,8 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 
+import static core.commands.CommandsList.*;
+
 public class AlphabetCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
@@ -44,7 +46,8 @@ public class AlphabetCommandProcessor implements ChatCommandProcessor {
         InlineKeyboardButton[][] buttons = new InlineKeyboardButton[7][6];
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 6; j++) {
-                buttons[i][j] = new InlineKeyboardButton(alphabetMatrix[i][j]).callbackData(alphabetMatrix[i][j]);
+                buttons[i][j] = new InlineKeyboardButton(alphabetMatrix[i][j])
+                        .callbackData(ALPHABET + EQUALS + alphabetMatrix[i][j] + EQUALS + "lez");
             }
         }
         return new InlineKeyboardMarkup(buttons);

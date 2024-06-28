@@ -61,8 +61,8 @@ public class ResponseFromInlineButtonCommandProcessor implements ChatCommandProc
 
     private void sendResponseFromInlineButton(String lang, String userMessage, Long chatId) {
         if (userMessage.contains("=example")) {
-            SearchForExampleExpression searchForExampleExpression = new SearchForExampleExpression();
-            Response response = searchForExampleExpression.sendExampleExpression(lang, dictionaries, userMessage);
+            SearchExpressionExample searchExpressionExample = new SearchExpressionExample();
+            Response response = searchExpressionExample.getExampleExpression(lang, dictionaries, userMessage);
             bot.execute(new SendMessage(chatId, response.messageText()).parseMode(ParseMode.HTML));
             return;
         } else if (userMessage.contains("=searchMore")) {

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static core.commands.CommandsList.*;
 import static core.utils.OutputLineEditor.convertMarkupToHTML;
 import static core.utils.OutputLineEditor.insertAuthorsName;
 import static core.utils.WordCapitalize.*;
@@ -78,8 +79,7 @@ public class SearchBySpelling implements Searcher {
         }
         /* Выводим ответ с наличием общих примеров */
         if (expressionExample) {
-            return new Response(outputMessage.toString().replaceAll("ё", "е"),
-                    List.of(spelling.toLowerCase() + "=example"));
+            return new Response(outputMessage.toString(), spelling);
         } else {
             return new Response(outputMessage.toString());
         }

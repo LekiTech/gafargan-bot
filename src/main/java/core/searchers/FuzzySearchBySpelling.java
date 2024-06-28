@@ -27,6 +27,6 @@ public class FuzzySearchBySpelling implements Searcher {
         final List<String> supposedWords = wordList.stream()
                 .map(WordSim::supposedWord)
                 .toList();
-        return new Response("\uD83E\uDD14гаф жагъанач, ибуруз килиг:\n", supposedWords);
+        return new Response("\uD83E\uDD14и мукьва тир гафариз килиг:\n", supposedWords);
     }
 }

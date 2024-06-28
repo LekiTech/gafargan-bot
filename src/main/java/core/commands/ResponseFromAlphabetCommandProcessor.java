@@ -1,46 +1,56 @@
 package core.commands;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
-import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendVoice;
 import core.config.Env;
+import core.ui.InlineKeyboardCreator;
 import core.utils.AlphabetBuilder;
 
 import java.io.File;
 import java.net.URL;
 
+import static core.commands.CommandsList.*;
+
 public class ResponseFromAlphabetCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
     private final TelegramBot bot;
-    private final CallbackQuery callbackQuery;
+    private final String commandKey;
+    private final String letter;
 
-    public ResponseFromAlphabetCommandProcessor(Message message, TelegramBot bot, CallbackQuery callbackQuery) {
+    public ResponseFromAlphabetCommandProcessor(Message message,
+                                                TelegramBot bot,
+                                                String commandKey,
+                                                String letter) {
         this.message = message;
         this.bot = bot;
-        this.callbackQuery = callbackQuery;
+        this.commandKey = commandKey;
+        this.letter = letter;
     }
 
     @Override
     public void execute() {
         var chatId = message.chat().id();
-        var userMessage = callbackQuery.data();
         AlphabetBuilder alphabet = new AlphabetBuilder();
-        String outputMsg = "<b>" + userMessage + " — " + alphabet.get(userMessage) + "</b>";
-        if (userMessage.equals("Ь") || userMessage.equals("Ъ")) {
+        String outputMsg = "<b>" + letter + " — " + alphabet.get(letter) + "</b>";
+        if (letter.equals("Ь") || letter.equals("Ъ")) {
             bot.execute(new SendMessage(chatId, outputMsg).parseMode(ParseMode.HTML));
-            bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
             return;
         }
-        String audioFilePath = getAudioFilePath(userMessage);
-        File audioFile = new File(audioFilePath);
-        bot.execute(new SendMessage(chatId, outputMsg).parseMode(ParseMode.HTML));
-        bot.execute(new SendVoice(chatId, audioFile));
-        bot.execute(new AnswerCallbackQuery(callbackQuery.id()));
+        if (commandKey.equals(ALPHABET)) {
+            InlineKeyboardMarkup keyboard = InlineKeyboardCreator.createAlphabetAudioButton(letter);
+            bot.execute(new SendMessage(chatId, outputMsg)
+                    .parseMode(ParseMode.HTML)
+                    .replyMarkup(keyboard));
+        } else if (commandKey.equals(AUDIO_ALPHABET)) {
+            String audioFilePath = getAudioFilePath(letter);
+            File audioFile = new File(audioFilePath);
+            bot.execute(new SendVoice(chatId, audioFile));
+        }
     }
 
     private String getAudioFilePath(String userMessage) {

@@ -44,15 +44,24 @@ public class CommandsFactory {
     public static ChatCommandProcessor createCallbackProcessor(Message message,
                                                                DictionaryRepository dictionaries,
                                                                TelegramBot bot,
-                                                               CallbackQuery callbackQuery,
-                                                               ApplicationContext context) {
-        String userMessage = callbackQuery.data();
-        AlphabetBuilder alphabet = new AlphabetBuilder();
-        if (alphabet.containsKey(userMessage)) {
-            return new ResponseFromAlphabetCommandProcessor(message, bot, callbackQuery);
-        }
-        SelectedDictionaryService selectedDictionaryService = context.getBean(SelectedDictionaryService.class);
-        String lang = selectedDictionaryService.findSelectedDictionary(message.chat().id());
-        return new ResponseFromInlineButtonCommandProcessor(message, dictionaries, bot, callbackQuery, lang);
+                                                               CallbackQuery callbackQuery) {
+        String[] buttonCallbackData = callbackQuery.data().split(EQUALS);
+        String commandKey = buttonCallbackData[0];
+        String messageFromButton = buttonCallbackData[1];
+        String lang = buttonCallbackData[2];
+        return switch (commandKey) {
+            case ALPHABET, AUDIO_ALPHABET ->
+                    new ResponseFromAlphabetCommandProcessor(message, bot, commandKey, messageFromButton);
+            case SUGGESTION ->
+                    new ResponseFromSuggestionButtonCommandProcessor(message, dictionaries, bot, messageFromButton, lang);
+            case EXPRESSION_EXAMPLE ->
+                    new ResponseFromExpressionExampleButtonCommandProcessor(message, dictionaries, bot, messageFromButton, lang);
+            case SEARCH_IN_EXAMPLES ->
+                    new ResponseFromSearchInExamplesButtonCommandProcessor(message, dictionaries, bot, messageFromButton, lang);
+            case SEARCH_SUGGESTIONS ->
+                    new ResponseFromSearchSuggestionsButtonCommandProcessor(message, dictionaries, bot, messageFromButton, lang);
+            case AUDIO_NUMERAL -> new ResponseFromNumeralAudioButtonCommandProcessor(message, bot, messageFromButton);
+            default -> null;
+        };
     }
 }

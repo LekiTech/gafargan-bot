@@ -1,56 +1,65 @@
 package core.searchers;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import core.dictionary.parser.DictionaryRepository;
+import core.ui.InlineKeyboardCreator;
+import lombok.AllArgsConstructor;
 
-
-import static core.ui.InlineKeyboardCreator.createInlineKeyboard;
-
+@AllArgsConstructor
 public class SearchResponseHandler {
 
     private final TelegramBot bot;
 
-    public SearchResponseHandler(TelegramBot bot) {
-        this.bot = bot;
-    }
-
     public void sendResponse(String lang, DictionaryRepository dictionaries, String userMessage, Long chatId) {
-        Response response = getResponse(lang, dictionaries, userMessage);
-        if (response.exampleButton() == null || response.exampleButton().isEmpty()) {
-            bot.execute(new SendMessage(chatId, response.messageText())
-                    .parseMode(ParseMode.HTML));
-        } else {
-            InlineKeyboardMarkup inlineKeyboard = createInlineKeyboard(response.exampleButton());
-            bot.execute(new SendMessage(chatId, response.messageText())
-                    .parseMode(ParseMode.HTML)
-                    .replyMarkup(inlineKeyboard));
-        }
-    }
-
-    private Response getResponse(String lang, DictionaryRepository dictionaries, String userMessage) {
         Response responseBySpelling = new SearchBySpelling().searchResponse(lang, dictionaries, userMessage);
         if (responseBySpelling != null) {
-            return responseBySpelling;
+            if (responseBySpelling.buttonKey() != null) {
+                var keyboard
+                        = InlineKeyboardCreator.createExpressionExampleButton(responseBySpelling.buttonKey(), lang);
+                bot.execute(new SendMessage(chatId, responseBySpelling.messageText())
+                        .parseMode(ParseMode.HTML)
+                        .replyMarkup(keyboard)
+                );
+            } else {
+                bot.execute(new SendMessage(chatId, responseBySpelling.messageText())
+                        .parseMode(ParseMode.HTML));
+            }
+            return;
         }
         Response responseByDefinition = new SearchByDefinition().searchResponse(lang, dictionaries, userMessage);
         if (responseByDefinition != null) {
-            return responseByDefinition;
+            var keyboard
+                    = InlineKeyboardCreator.createSearchButtonFromDefinitionResponse(responseByDefinition.buttonKey(), lang);
+            bot.execute(new SendMessage(chatId, responseByDefinition.messageText())
+                    .parseMode(ParseMode.HTML)
+                    .replyMarkup(keyboard)
+            );
+            return;
         }
         Response responseByDialectDict = new SearchByDialectDict().searchResponse(lang, dictionaries, userMessage);
         if (responseByDialectDict != null) {
-            return responseByDialectDict;
+
+            return;
         }
         Response responseByExamples = new SearchByExample().searchResponse(lang, dictionaries, userMessage);
         if (responseByExamples != null) {
-            return responseByExamples;
+            var keyboard
+                    = InlineKeyboardCreator.createSearchSuggestionsButton(userMessage, lang);
+            bot.execute(new SendMessage(chatId, responseByExamples.messageText())
+                    .parseMode(ParseMode.HTML)
+                    .replyMarkup(keyboard)
+            );
+            return;
         }
         Response responseByFuzzySearch = new FuzzySearchBySpelling().searchResponse(lang, dictionaries, userMessage);
         if (responseByFuzzySearch != null) {
-            return responseByFuzzySearch;
+            var inlineKeyboard
+                    = InlineKeyboardCreator.createSuggestionButtons(responseByFuzzySearch.suggestions(), lang);
+            bot.execute(new SendMessage(chatId, responseByFuzzySearch.messageText())
+                    .parseMode(ParseMode.HTML)
+                    .replyMarkup(inlineKeyboard));
         }
-        return null;
     }
 }

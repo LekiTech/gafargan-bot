@@ -1,11 +1,13 @@
-package core.searchers;
+package core.commands;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.request.ParseMode;
-import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.SendVoice;
 import core.config.Env;
+import core.searchers.NumeralSearchResponseHandler;
 import io.lekitech.LezgiNumbers;
+import javassist.NotFoundException;
+import lombok.AllArgsConstructor;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -17,53 +19,23 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static core.utils.WordCapitalize.capitalizeFirstLetter;
 import static io.lekitech.LezgiNumbers.numToLezgiTTS;
 
-public class NumbersSearchResponseHandler {
+@AllArgsConstructor
+public class ResponseFromNumeralAudioButtonCommandProcessor implements ChatCommandProcessor {
 
+    private final Message message;
     private final TelegramBot bot;
+    private final String numeral;
 
-    public NumbersSearchResponseHandler(TelegramBot bot) {
-        this.bot = bot;
-    }
-
-    public void findResponse(String userMessage, Long chatId) {
-        if (isNumber(userMessage)) {
-            sendTextAndAudio(userMessage, chatId);
-        } else {
-            sendNumAndAudio(userMessage, chatId);
-        }
-    }
-
-    private void sendTextAndAudio(String userMessage, Long chatId) {
-        try {
-            String numToLezgi = LezgiNumbers.numToLezgi(new BigInteger(userMessage));
-            File audioFile = getAudio(userMessage);
-            String outputMessage = capitalizeFirstLetter(userMessage)
-                                   + "➡️ <code>" + numToLezgi + "</code>";
-            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
-            bot.execute(new SendVoice(chatId, audioFile));
-        } catch (Exception e) {
-            bot.execute(new SendMessage(chatId, "<b>❌Числительное жагъанач.</b>\n      <i>Дуьз кхьихь, месела: 10, -444, 2, ... ва икI мад</i>")
-                    .parseMode(ParseMode.HTML));
-        }
-    }
-
-    private void sendNumAndAudio(String userMessage, Long chatId) {
-        try {
-            String lezgiToNum = String.valueOf(LezgiNumbers.lezgiToNum(userMessage));
-            File audioFile = getAudio(lezgiToNum);
-            String outputMessage = capitalizeFirstLetter(userMessage)
-                                   + "➡️ <code>" + lezgiToNum + "</code>";
-            bot.execute(new SendMessage(chatId, outputMessage).parseMode(ParseMode.HTML));
-            bot.execute(new SendVoice(chatId, audioFile));
-        } catch (Exception e) {
-            bot.execute(new SendMessage(chatId, "<b>❌Числительное жагъанач.</b>\n      <i>Дуьз кхьихь, месела: вад вишни къанни пуд, ... ва икI мад</i>")
-                    .parseMode(ParseMode.HTML));
-        }
+    @Override
+    public void execute() throws NotFoundException {
+        final var chatId = message.chat().id();
+        File audioFile = getAudio(numeral);
+        bot.execute(new SendVoice(chatId, audioFile));
     }
 
     private File getAudio(String userMessage) {
@@ -106,7 +78,7 @@ public class NumbersSearchResponseHandler {
     private String getAudioFilePath(String sound) throws URISyntaxException {
         if (Env.isRunningFromJar()) {
             // Construct the full path assuming the audio directory is next to the JAR
-            File jarPath = new File(NumbersSearchResponseHandler.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            File jarPath = new File(NumeralSearchResponseHandler.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
             File audioFile = new File(jarPath.getParent(), sound);
             if (!audioFile.exists()) {
                 System.err.println("Audio file not found: " + audioFile);
@@ -114,13 +86,9 @@ public class NumbersSearchResponseHandler {
             }
             return audioFile.getAbsolutePath();
         } else {
-            URL resource = NumbersSearchResponseHandler.class.getResource(sound);
+            URL resource = NumeralSearchResponseHandler.class.getResource(sound);
             assert resource != null;
             return resource.toURI().getPath();
         }
-    }
-
-    private boolean isNumber(String message) {
-        return message.toLowerCase().equals(message.toUpperCase());
     }
 }
