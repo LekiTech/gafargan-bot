@@ -9,6 +9,8 @@ import core.dictionary.model.DialectDictionary;
 import core.dictionary.parser.DictionaryRepository;
 import core.searchers.NumeralSearchResponseHandler;
 import core.searchers.SearchResponseHandler;
+import core.ui.InlineKeyboardCreator;
+import lombok.AllArgsConstructor;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,22 +18,15 @@ import java.util.Map;
 
 import static core.commands.CommandsList.*;
 import static core.searchers.StringSimilarity.similarity;
-import static core.ui.InlineKeyboardCreator.createInlineKeyboard;
 import static core.utils.SearchStringNormalizer.normalizeString;
 
+@AllArgsConstructor
 public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
     private final DictionaryRepository dictionaries;
     private final TelegramBot bot;
     private final String lang;
-
-    public ResponseSearchCommandProcessor(Message message, DictionaryRepository dictionaries, TelegramBot bot, String lang) {
-        this.message = message;
-        this.dictionaries = dictionaries;
-        this.bot = bot;
-        this.lang = lang;
-    }
 
     @Override
     public void execute() {
@@ -90,12 +85,13 @@ public class ResponseSearchCommandProcessor implements ChatCommandProcessor {
                 if (wordList.isEmpty()) {
                     bot.execute(new SendMessage(chatId, "<b>❌Гаф жагъанач</b>\n" + "<i>⛰\"Нугъатдин гафарган\" Гайдаров Р.И.</i>")
                             .parseMode(ParseMode.HTML));
+                    return;
                 }
                 final List<String> supposedWords = wordList.stream()
                         .map(WordSim::supposedWord)
                         .toList();
-                InlineKeyboardMarkup inlineKeyboard = createInlineKeyboard(supposedWords);
-                bot.execute(new SendMessage(chatId, "\uD83E\uDD14гаф жагъанач, ибуруз килиг:\n")
+                InlineKeyboardMarkup inlineKeyboard = InlineKeyboardCreator.createSuggestionButtons(supposedWords, lang);
+                bot.execute(new SendMessage(chatId, "\uD83E\uDD14и мукьва тир гафариз килиг:\n")
                         .parseMode(ParseMode.HTML)
                         .replyMarkup(inlineKeyboard));
             } else {

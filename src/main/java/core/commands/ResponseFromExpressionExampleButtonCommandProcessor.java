@@ -8,26 +8,16 @@ import core.dictionary.parser.DictionaryRepository;
 import core.searchers.Response;
 import core.searchers.SearchExpressionExample;
 import javassist.NotFoundException;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class ResponseFromExpressionExampleButtonCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
-    private final TelegramBot bot;
     private final DictionaryRepository dictionaries;
+    private final TelegramBot bot;
     private final String word;
     private final String lang;
-
-    public ResponseFromExpressionExampleButtonCommandProcessor(Message message,
-                                                               DictionaryRepository dictionaries,
-                                                               TelegramBot bot,
-                                                               String word,
-                                                               String lang) {
-        this.message = message;
-        this.dictionaries = dictionaries;
-        this.bot = bot;
-        this.word = word;
-        this.lang = lang;
-    }
 
     @Override
     public void execute() throws NotFoundException {

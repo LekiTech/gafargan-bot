@@ -9,28 +9,20 @@ import com.pengrad.telegrambot.request.SendVoice;
 import core.config.Env;
 import core.ui.InlineKeyboardCreator;
 import core.utils.AlphabetBuilder;
+import lombok.AllArgsConstructor;
 
 import java.io.File;
 import java.net.URL;
 
 import static core.commands.CommandsList.*;
 
+@AllArgsConstructor
 public class ResponseFromAlphabetCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
     private final TelegramBot bot;
     private final String commandKey;
     private final String letter;
-
-    public ResponseFromAlphabetCommandProcessor(Message message,
-                                                TelegramBot bot,
-                                                String commandKey,
-                                                String letter) {
-        this.message = message;
-        this.bot = bot;
-        this.commandKey = commandKey;
-        this.letter = letter;
-    }
 
     @Override
     public void execute() {

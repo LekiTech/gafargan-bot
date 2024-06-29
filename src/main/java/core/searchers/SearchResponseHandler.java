@@ -65,11 +65,16 @@ public class SearchResponseHandler {
         }
         Response responseByFuzzySearch = new FuzzySearchBySpelling().searchResponse(lang, dictionaries, userMessage);
         if (responseByFuzzySearch != null) {
-            var inlineKeyboard
-                    = InlineKeyboardCreator.createSuggestionButtons(responseByFuzzySearch.suggestions(), lang);
-            bot.execute(new SendMessage(chatId, responseByFuzzySearch.messageText())
-                    .parseMode(ParseMode.HTML)
-                    .replyMarkup(inlineKeyboard));
+            if (responseByFuzzySearch.suggestions() != null) {
+                var inlineKeyboard
+                        = InlineKeyboardCreator.createSuggestionButtons(responseByFuzzySearch.suggestions(), lang);
+                bot.execute(new SendMessage(chatId, responseByFuzzySearch.messageText())
+                        .parseMode(ParseMode.HTML)
+                        .replyMarkup(inlineKeyboard));
+            } else {
+                bot.execute(new SendMessage(chatId, responseByFuzzySearch.messageText())
+                        .parseMode(ParseMode.HTML));
+            }
         }
     }
 }

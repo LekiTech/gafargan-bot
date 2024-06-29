@@ -6,16 +6,13 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class InfoCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
     private final TelegramBot bot;
-
-    public InfoCommandProcessor(Message message, TelegramBot bot) {
-        this.message = message;
-        this.bot = bot;
-    }
 
     @Override
     public void execute() {
@@ -29,6 +26,7 @@ public class InfoCommandProcessor implements ChatCommandProcessor {
                 <b>📗Лезги-урус гафарган:</b> Бабаханов М.Б.
                 <b>📕Урус-лезги гафарган:</b> Гаджиев М.М.
                 <b>🇬🇧Лезги-инглис гафарган:</b> Расим Расулов.
+                <b>⛰Нугъатдин гафарган:</b> Гайдаров Р.И.
                                 
                 <b>Чешме: <a href="https://github.com/LekiTech/data-sources">LekiTech</a></b>
                                 

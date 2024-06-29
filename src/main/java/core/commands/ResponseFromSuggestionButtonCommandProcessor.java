@@ -4,7 +4,11 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import core.dictionary.parser.DictionaryRepository;
 import core.searchers.SearchResponseHandler;
+import lombok.AllArgsConstructor;
 
+import static core.commands.CommandsList.*;
+
+@AllArgsConstructor
 public class ResponseFromSuggestionButtonCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
@@ -13,22 +17,16 @@ public class ResponseFromSuggestionButtonCommandProcessor implements ChatCommand
     private final String word;
     private final String lang;
 
-    public ResponseFromSuggestionButtonCommandProcessor(Message message,
-                                                        DictionaryRepository dictionaries,
-                                                        TelegramBot bot,
-                                                        String word,
-                                                        String lang) {
-        this.message = message;
-        this.dictionaries = dictionaries;
-        this.bot = bot;
-        this.word = word;
-        this.lang = lang;
-    }
-
     @Override
     public void execute() {
         var chatId = message.chat().id();
         SearchResponseHandler messageHandler = new SearchResponseHandler(bot);
-        messageHandler.sendResponse(lang, dictionaries, word, chatId);
+        var searchDialectWord = new ResponseSearchCommandProcessor(message, dictionaries, bot, lang);
+        switch (lang) {
+            case LEZGI_RUS, RUS_LEZGI, LEZGI_ENG -> messageHandler.sendResponse(lang, dictionaries, word, chatId);
+            case LEZGI_DIALECT_DICT -> searchDialectWord.sendResponseFromDialectDict(dictionaries, word, chatId);
+            default -> {
+            }
+        }
     }
 }

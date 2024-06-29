@@ -6,18 +6,15 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
+import lombok.AllArgsConstructor;
 
 import static core.commands.CommandsList.*;
 
+@AllArgsConstructor
 public class AlphabetCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
     private final TelegramBot bot;
-
-    public AlphabetCommandProcessor(Message message, TelegramBot bot) {
-        this.message = message;
-        this.bot = bot;
-    }
 
     @Override
     public void execute() {

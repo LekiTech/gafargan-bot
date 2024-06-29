@@ -7,9 +7,10 @@ import com.pengrad.telegrambot.request.SendMessage;
 import core.dictionary.parser.DictionaryRepository;
 import core.searchers.FuzzySearchBySpelling;
 import core.searchers.Response;
-import core.searchers.SearchByExample;
 import core.ui.InlineKeyboardCreator;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class ResponseFromSearchSuggestionsButtonCommandProcessor implements ChatCommandProcessor {
 
     private final Message message;
@@ -17,18 +18,6 @@ public class ResponseFromSearchSuggestionsButtonCommandProcessor implements Chat
     private final TelegramBot bot;
     private final String word;
     private final String lang;
-
-    public ResponseFromSearchSuggestionsButtonCommandProcessor(Message message,
-                                                              DictionaryRepository dictionaries,
-                                                              TelegramBot bot,
-                                                              String word,
-                                                              String lang) {
-        this.message = message;
-        this.dictionaries = dictionaries;
-        this.bot = bot;
-        this.word = word;
-        this.lang = lang;
-    }
 
     @Override
     public void execute() {
