@@ -17,6 +17,7 @@ public class SearchByDialectDict implements Searcher {
 
     @Override
     public Response searchResponse(String lang, DictionaryRepository dictionaries, String spelling) {
+        // todo Избавиться от дубликата кода (повторяется с методом SearchBySpelling().searchResponse())
         Map<String, List<DialectDictionary.Dialect>> dialectDictionary = dictionaries.getDialectDictionary();
         String literaryDialectWord = "";
         String dialectWord = "";
@@ -118,8 +119,7 @@ public class SearchByDialectDict implements Searcher {
         }
         /* Выводим ответ с наличием общих примеров */
         if (expressionExample) {
-            return new Response(outputMessage.toString().replaceAll("ё", "е"),
-                    List.of(spelling.toLowerCase() + "=example"));
+            return new Response(outputMessage.toString(), spelling);
         } else {
             return new Response(outputMessage.toString());
         }

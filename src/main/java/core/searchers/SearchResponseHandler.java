@@ -39,8 +39,18 @@ public class SearchResponseHandler {
             return;
         }
         Response responseByDialectDict = new SearchByDialectDict().searchResponse(lang, dictionaries, userMessage);
-        if (responseByDialectDict != null) {
-
+        if (responseByDialectDict != null) { //todo избавиться от дубликата кода
+            if (responseByDialectDict.buttonKey() != null) {
+                var keyboard
+                        = InlineKeyboardCreator.createExpressionExampleButton(responseByDialectDict.buttonKey(), lang);
+                bot.execute(new SendMessage(chatId, responseByDialectDict.messageText())
+                        .parseMode(ParseMode.HTML)
+                        .replyMarkup(keyboard)
+                );
+            } else {
+                bot.execute(new SendMessage(chatId, responseByDialectDict.messageText())
+                        .parseMode(ParseMode.HTML));
+            }
             return;
         }
         Response responseByExamples = new SearchByExample().searchResponse(lang, dictionaries, userMessage);
