@@ -12,15 +12,5 @@ public class Config {
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
-
-    @Bean
-    public TelegramBot telegramBot() {
-        var token = Env.instance().getTelegramApiToken();
-        if (token == null) {
-            System.err.println("Telegram token not found");
-            return null;
-        }
-        return new TelegramBot(token);
-    }
 }
 

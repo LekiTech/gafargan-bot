@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
+import com.pengrad.telegrambot.TelegramBot;
+import org.springframework.context.annotation.Bean;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,17 +23,20 @@ public class Main {
         // Use SpringApplicationBuilder to set the properties
         SpringApplicationBuilder builder = new SpringApplicationBuilder(Main.class);
         builder.properties(dbProperties);
-
         // Build and run the application
         ApplicationContext context = builder.run(args);
-
-//        var token = Env.instance().getTelegramApiToken();
-//        if (token == null) {
-//            System.err.println("Telegram token not found");
-//            return;
-//        }
         BotUpdates bot = context.getBean(BotUpdates.class);
         /* Start the bot updates processing */
         bot.start();
+    }
+
+    @Bean
+    public TelegramBot telegramBot() {
+        var token = Env.instance().getTelegramApiToken();
+        if (token == null) {
+            System.err.println("Telegram token not found");
+            return null;
+        }
+        return new TelegramBot(token);
     }
 }
